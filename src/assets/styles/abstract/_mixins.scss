@@ -1,0 +1,58 @@
+
+@use 'sass:map';
+@use 'sass:math';
+@use 'variables' as v;
+@use 'functions' as f;
+
+@mixin screen($bp, $type: map.get(v.$design, v.$type), $bp2: 0) {
+  $breakpoint: f.breakpoint($bp);
+
+  @if $type == max {
+    @media (#{$type}-width: #{$breakpoint}px) {
+      @content;
+    }
+  }
+
+  @else if $type == min {
+    @media (#{$type}-width: #{$breakpoint + 1}px) {
+      @content;
+    }
+  } @else if $type == between {
+    $breakpoint2: f.breakpoint($bp2);
+    @media (min-width: #{$breakpoint + 1}px) and (max-width: #{$breakpoint2}px) {
+      @content;
+    }
+  }
+}
+
+// support fallback
+@mixin support-ie() {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
+
+@mixin not-support ($condition) {
+  @supports not (#{$condition}) {
+    @content;
+  }
+
+  @include support-ie {
+    @content;
+  }
+}
+
+@mixin text-overflow($line: 1) {
+  @if $line > 1 {
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @else {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,19 @@
+@forward './base/reset';
+@forward './animation/v-transition';
+@use './base/font-face';
+
+body {
+  min-width: 360px;
+  max-width: 1920px;
+  margin: 0 auto;
+  font-family: Roboto, Arial, 'Microsoft JhengHei Modify', 'Microsoft JhengHei', PingFangTC, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+input,
+label,
+select,
+button {
+  cursor: pointer;
+}

@@ -1,0 +1,17 @@
+
+.animate-fade-up-from,
+.animate-fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.animate-fade-up-enter-to,
+.animate-fade-up-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-fade-up-enter-active,
+.animate-fade-up-leave-active {
+  transition: transform .3s ease, opacity .15s linear;
+}
