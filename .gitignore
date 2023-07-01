@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+logs/
+alembic.ini
+.DS_Store
+.vscode/
+*.egg-info
+
+
+# jetbrain PyCharm
+/.idea/
+
+# static file
+# api_config.py
+# /api/static/
+
+# check code style and test coverage
+# check.sh
+.pytest_cache/
+.coverage
