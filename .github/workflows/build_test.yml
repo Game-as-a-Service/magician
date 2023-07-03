@@ -2,9 +2,9 @@ name: Python Package build test
 
 on: 
   push:
-    branches: ["backend"]
+    branches: ["backend*"]
   pull_request:
-    branches: ["backend"]
+    branches: ["backend*"]
 
 jobs:
   build-linux:
