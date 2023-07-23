@@ -1,0 +1,160 @@
+openapi: 3.0.0
+info:
+  title: "出包魔法師 API"
+  version: "0.0.1"
+servers:
+  - url: http://localhost:8080/
+# 定義獨立的schema
+components:
+  schemas:
+    GameCreateRequest:
+      type: "object"
+      properties:
+        playerIDs:
+          type: "array"
+          items:
+            type: "string"
+      required:
+        - playerIDs
+      example:
+        playerIDs: ["Teds", "Tux", "Yock", "Momo", "Leave3310"]
+
+    GameCreateResponse:
+      type: "object"
+      properties:
+        msg:
+          type: "string"
+        gameRoomID:
+          type: "string"
+      required:
+        - msg
+
+    GameJoinRequest:
+      type: "object"
+      properties:
+        gameRoomID:
+          type: "string"
+      required:
+        - gameRoomID
+
+    SpellingRequest:
+      type: "object"
+      properties:
+        playerID:
+          type: "string"
+        stoneID:
+          type: "string"
+      required:
+        - playerID
+        - stoneID
+
+paths:
+  "/player":
+    post:
+      summary: "開始遊戲"
+      operationId: "GameCreate"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GameCreateRequest"
+      responses:
+        "201":
+          description: "成功，回傳gameRoomID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameCreateResponse"
+              examples:
+                ExamplePlayersEnough:
+                  value:
+                    msg: "start game"
+                    gameRoomID: "room1"
+        "400":
+          description: "請求失敗，請檢查輸入參數"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameCreateResponse"
+              examples:
+                ExamplePlayersNotEnough:
+                  value:
+                    msg: "players is not enough"
+        
+                ExamplePlayersOver5:
+                  value:
+                    msg: "players is over 5"
+  
+  "/player/{playerID}/join":
+    put:
+      summary: "進入遊戲"
+      operationId: "GameJoin"
+      parameters:
+        - name: "playerID"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GameJoinRequest"
+      responses:
+        "200":
+          description: "成功，回傳game資訊"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  game:
+                    type: "string"
+        "404":
+          description: "遊戲房間不存在"
+  
+  "/stone":
+    patch:
+      summary: "施法"
+      operationId: "Spelling"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SpellingRequest"
+      responses:
+        "200":
+          description: "成功，回傳spellResult"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  spellResult:
+                    type: "string"
+        "400":
+          description: "請求失敗，請檢查輸入參數"
+  
+  "/player/{playerID}/spellstop":
+    patch:
+      summary: "決定不再施法"
+      operationId: "SpellStop"
+      parameters:
+        - name: "playerID"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "成功，回傳Player資訊"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  Player:
+                    type: "string"
