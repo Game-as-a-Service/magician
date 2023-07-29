@@ -24,3 +24,9 @@ def api_GameCreate():
             return {"msg": result}, 400
         case _:
             return {"msg": "Unknow error"}, 500
+
+
+@app.route("/player/<playerID>/join", methods=["PUT"])
+def api_game_join(playerID):
+    # print("Player ID is %s" % playerID)
+    return {"msg": playerID}, 200

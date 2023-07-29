@@ -1,9 +1,16 @@
+import time
+
 
 def game_create(players):
-
-    if len(players['playerIDs']) <= 3:
-        return 'players is not enough'
-    elif len(players['playerIDs']) >= 6 :
-        return 'players is over 5'
+    if len(players["playerIDs"]) <= 3:
+        return "players is not enough"
+    elif len(players["playerIDs"]) >= 6:
+        return "players is over 5"
     else:
-        return 'start game'
+        create_room_id(players["playerIDs"][0])
+        return "start game"
+
+
+def create_room_id(first_player):
+    game_room_id = first_player + str(time.time_ns())
+    return game_room_id

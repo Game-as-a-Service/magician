@@ -2,9 +2,9 @@ import json
 
 
 def test_hello(app, client):
-    res = client.get('/hello')
+    res = client.get("/hello")
     assert res.status_code == 200
-    expected = {'msg': 'hello world'}
+    expected = {"msg": "hello world"}
     assert expected == json.loads(res.get_data(as_text=True))
 
 
@@ -19,21 +19,29 @@ def test_game_create_success(app, client):
     # {"id":"Momo"},
     # {"id":"Leave3310"},
     # ]}
-    res = client.post('/gameCreate', json=expected)
+    res = client.post("/gameCreate", json=expected)
     assert res.status_code == 201
 
 
 def test_game_create_is_less_than_4_players(app, client):
     expected = {"playerIDs": ["Teds", "Tux", "Yock"]}
-    res = client.post('/gameCreate', json=expected)
+    res = client.post("/gameCreate", json=expected)
     assert res.status_code == 400
 
 
 def test_game_create_more_than_5_players(app, client):
-    expected = {"playerIDs": ["Teds", "Tux", "Yock", "Momo", "Leave3310","dn"]}
-    res = client.post('/gameCreate', json=expected)
+    expected = {"playerIDs": ["Teds", "Tux", "Yock", "Momo", "Leave3310", "dn"]}
+    res = client.post("/gameCreate", json=expected)
     assert res.status_code == 400
 
+
+def test_gameroom_create(app, client):
+    expected = {"playerIDs": ["Teds", "Tux", "Yock", "Momo", "Leave3310", "dn"]}
+    client.post("/gameCreate", json=expected)
+    res = client.put("/player/Teds/join")
+    assert res.status_code == 200
+
+
 # def test_GameJoin_Success():
-#     res = client.put('/player/<playerID>/join')    
+#     res = client.put('/player/<playerID>/join')
 #     assert res.status_code == 200
