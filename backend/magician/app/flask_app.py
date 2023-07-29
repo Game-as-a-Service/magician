@@ -6,19 +6,21 @@ from magician.service.game_create import game_create
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/hello', methods=['GET'])
+
+@app.route("/hello", methods=["GET"])
 def api_hello():
     return {"msg": print_hello()}, 200
 
-@app.route('/gameCreate', methods=['POST'])
+
+@app.route("/gameCreate", methods=["POST"])
 def api_GameCreate():
     player = request.get_json()
+    result = game_create(player)
 
-    match game_create(player):
-        case 'start game':
-            return {"msg": game_create(player)}, 201
-        case 'players is not enough':
-        case 'players is over 5':
-            return {"msg": game_create(player)}, 400
-    
-        
+    match result:
+        case "start game":
+            return {"msg": result}, 201
+        case "players is not enough" | "players is over 5":
+            return {"msg": result}, 400
+        case _:
+            return {"msg": "Unknow error"}, 500

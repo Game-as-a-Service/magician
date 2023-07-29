@@ -1,6 +1,7 @@
 #app
 flask == 2.3.2
-Flask-Cors 
+Flask-Cors == 4.0.0
+black == 23.7.0
 
 #test
 flake8 == 6.0.0

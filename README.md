@@ -22,3 +22,14 @@
 - OOA
 
 ## 環境建置
+1. 安裝相關套件
+
+`pip install -r requirements.txt`
+
+2. 切入backend目錄裡
+
+`cd backend`
+  
+3. 安裝magician為可變動模組 
+
+`pip install -e .`
