@@ -36,12 +36,8 @@ def test_game_create_more_than_5_players(app, client):
 
 
 def test_gameroom_create(app, client):
-    expected = {"playerIDs": ["Teds", "Tux", "Yock", "Momo", "Leave3310", "dn"]}
-    client.post("/gameCreate", json=expected)
+    expected = {"playerIDs": ["Teds", "Tux", "Yock", "Momo", "Leave3310"]}
+    res = client.post("/gameCreate", json=expected)
+    assert res.status_code == 201
     res = client.put("/player/Teds/join")
     assert res.status_code == 200
-
-
-# def test_GameJoin_Success():
-#     res = client.put('/player/<playerID>/join')
-#     assert res.status_code == 200

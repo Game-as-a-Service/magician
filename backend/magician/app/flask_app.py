@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 from magician.service.print_hello import print_hello
 from magician.service.game_create import game_create
+from magician.service.spelling import spelling
 
 app = Flask(__name__)
 CORS(app)
@@ -30,3 +31,9 @@ def api_GameCreate():
 def api_game_join(playerID):
     # print("Player ID is %s" % playerID)
     return {"msg": playerID}, 200
+
+
+@app.route("/stone", methods=["PATCH"])
+def api_spelling():
+    # spelling()
+    return {"msg": "magic3"}, 200

@@ -1,0 +1,2 @@
+def spelling():
+    return null
