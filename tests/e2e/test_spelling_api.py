@@ -17,7 +17,5 @@ def test_spelling_not_exist_magic9(app, client):
     }
     res = client.patch("/stone", json=params)
 
-    # Todo: 尚未實作
-    # assert res.status_code == 400
-
-    # assert res.json["msg"] == "magic dosen't exist"
+    assert res.status_code == 400
+    assert res.json["msg"] == "magic doesn't exist"

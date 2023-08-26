@@ -35,5 +35,13 @@ def api_game_join(playerID):
 
 @app.route("/stone", methods=["PATCH"])
 def api_spelling():
-    # spelling()
-    return {"msg": "magic3"}, 200
+    spell = request.get_json()
+    result = spelling(spell)
+
+    match result:
+        case "magic exist":
+            return {"msg": spell["stoneID"]}, 200
+        case "magic doesn't exist":
+            return {"msg": result}, 400
+        case _:
+            return {"msg": "Unknow error"}, 501
