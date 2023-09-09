@@ -1,11 +1,16 @@
+# import pymongo
 from flask import Flask, request
 from flask_cors import CORS
 from magician.service.print_hello import print_hello
 from magician.service.game_create import game_create
 from magician.service.spelling import spelling
 
+# global db
 app = Flask(__name__)
 CORS(app)
+
+# client = pymongo.MongoClient("localhost", 27017)
+# db = client["magician"]
 
 
 @app.route("/hello", methods=["GET"])
