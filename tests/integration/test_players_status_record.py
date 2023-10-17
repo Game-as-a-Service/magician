@@ -4,7 +4,7 @@ from magician.repository.playerclass import Player_repository
 def test_players_status_record():
     except_input = ["yock", "Teds", "Tux", "Leave3310", "Momo"]
     # except_input_seat = ["A", "B", "C", "D", "E"]
-    # seat = ['A','B','C','D','E']
+    # seat = [0,1,2,3,4]
 
     for player in except_input:
         player_some = Player_repository(player, except_input)
