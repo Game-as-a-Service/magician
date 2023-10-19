@@ -17,6 +17,7 @@ export default {
         white: '#F7F7F7',
         grey: '#8C8C8C',
         grey50: '#8C8C8C',
+        grey70: 'rgba(87, 87, 87, 0.7)',
         skin: '#FFFFFF',
         'white20%': 'rgba(255, 255, 255, 0.20)',
         oldBook: '#C8B59F',
