@@ -1,6 +1,8 @@
 <template>
   <div>
-    <LadderBoard></LadderBoard>
+    <WarehouseUnknown></WarehouseUnknown>
+    <WarehouseSecret></WarehouseSecret>
+
     <HintBar
       :hint-text="'輪到你了！ 請選擇魔法！'"
       :change-color="'bg-purple text-white'"
@@ -15,8 +17,10 @@
 </template>
 
 <script setup>
-import HintBar from '@/components/common/HintBar.vue'
-import LadderBoard from '@/components/LadderBoard.vue'
+// import HintBar from '@/components/common/HintBar.vue'
+// import LadderBoard from '@/components/LadderBoard.vue'
+import WarehouseUnknown from '@/components/WarehouseUnknown.vue'
+import WarehouseSecret from '@/components/WarehouseSecret.vue'
 </script>
 
 <style>
