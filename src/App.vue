@@ -1,7 +1,7 @@
 <template>
   <div>
-    <WarehouseUnknown></WarehouseUnknown>
     <WarehouseSecret></WarehouseSecret>
+    <WarehouseUnknown></WarehouseUnknown>
 
     <HintBar
       :hint-text="'輪到你了！ 請選擇魔法！'"
