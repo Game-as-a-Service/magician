@@ -11,32 +11,37 @@ def game_create(players):
         return "players is over 5"
     else:
         except_input_seat = list(range(players_number))
-        except_input_HP = [6]*5
-        except_input_score = [0]*5
-        
-        for player in players["playerIDs"]:
-            player_name = Player_repository(player,players["playerIDs"])
-            player_name.set_player_name()        
+        except_input_HP = [6] * players_number
+        except_input_score = [0] * players_number
 
-        for player,seat in zip(players["playerIDs"],except_input_seat):
-            player_seat = Player_repository(player)
-            player_seat.set_players_seat(seat)        
+        for player_name in players["playerIDs"]:
+            player = Player_repository(player_name, players["playerIDs"])
+            player.set_player_name()
+            assert player.get_player_name() == player_name
+            assert player.get_group_names() == players["playerIDs"]
 
-        for player,hp in zip(players["playerIDs"],except_input_HP):
-            player_hp = Player_repository(player)
-            player_hp.set_players_hp(hp)        
+        for player_name, seat in zip(players["playerIDs"], except_input_seat):
+            player = Player_repository(player_name)
+            player.set_player_seat(seat)
+            assert player.get_player_seat() == seat
 
-        for player,score in zip(players["playerIDs"],except_input_score):
-            player_score = Player_repository(player)
-            player_score.set_players_score(score)    
-            
-        assert player_name.get_player_names() == players["playerIDs"]
-        assert player_seat.get_players_seat(players["playerIDs"]) == except_input_seat
-        assert player_hp.get_players_hp(players["playerIDs"]) == except_input_HP
-        assert player_score.get_players_score(players["playerIDs"]) == except_input_score
-        
+        for player_name, hp in zip(players["playerIDs"], except_input_HP):
+            player = Player_repository(player_name)
+            player.set_player_hp(hp)
+            assert player.get_player_hp() == hp
+
+        for player_name, score in zip(players["playerIDs"], except_input_score):
+            player = Player_repository(player_name)
+            player.set_player_score(score)
+            assert player.get_player_score() == score
+
+        player = Player_repository()
+        assert player.get_all_players_seat(players["playerIDs"]) == except_input_seat
+        assert player.get_all_players_hp(players["playerIDs"]) == except_input_HP
+        assert player.get_all_players_score(players["playerIDs"]) == except_input_score
+
         create_room_id(players["playerIDs"][0])
-        #round_start()
+        # round_start()
         return "start game"
 
 
