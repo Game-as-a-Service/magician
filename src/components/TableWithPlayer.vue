@@ -68,42 +68,52 @@ const players = [
   top: 295px;
   left: 60px;
 }
+
 .player-orange {
   top: 190px;
   left: 360px;
 }
+
 .player-red {
   top: 30px;
   left: 225px;
 }
+
 .player-yellow {
   top: 100px;
   left: 45px;
 }
+
 .player-blue {
   top: 345px;
   left: 245px;
 }
+
 .hp-player-green {
   top: calc(var(--center-y) + var(--length) * sin(72deg * 1 + var(--deg-angle)));
   left: calc(var(--center-x) + var(--length) * cos(72deg * 1 + var(--deg-angle)));
 }
+
 .hp-player-yellow {
   top: calc(var(--center-y) + var(--length) * sin(72deg * 2 + var(--deg-angle)));
   left: calc(var(--center-x) + var(--length) * cos(72deg * 2 + var(--deg-angle)));
 }
+
 .hp-player-red {
   top: calc(var(--center-y) + var(--length) * sin(72deg * 3 + var(--deg-angle)));
   left: calc(var(--center-x) + var(--length) * cos(72deg * 3 + var(--deg-angle)));
 }
+
 .hp-player-orange {
   top: calc(var(--center-y) + var(--length) * sin(72deg * 4 + var(--deg-angle)));
   left: calc(var(--center-x) + var(--length) * cos(72deg * 4 + var(--deg-angle)));
 }
+
 .hp-player-blue {
   top: calc(var(--center-y) + var(--length) * sin(72deg * 0 + var(--deg-angle)));
   left: calc(var(--center-x) + var(--length) * cos(72deg * 0 + var(--deg-angle)));
 }
+
 :root {
   --deg-angle: 69deg;
   --length: 90px;
