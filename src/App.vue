@@ -1,7 +1,8 @@
 <template>
   <div>
-    <WarehouseSecret></WarehouseSecret>
-    <WarehouseUnknown></WarehouseUnknown>
+    <!-- <WarehouseSecret></WarehouseSecret>
+    <WarehouseUnknown></WarehouseUnknown> -->
+    <TableWithPlayer></TableWithPlayer>
 
     <HintBar
       :hint-text="'輪到你了！ 請選擇魔法！'"
@@ -19,8 +20,9 @@
 <script setup>
 // import HintBar from '@/components/common/HintBar.vue'
 // import LadderBoard from '@/components/LadderBoard.vue'
-import WarehouseUnknown from '@/components/WarehouseUnknown.vue'
-import WarehouseSecret from '@/components/WarehouseSecret.vue'
+// import WarehouseUnknown from '@/components/WarehouseUnknown.vue'
+// import WarehouseSecret from '@/components/WarehouseSecret.vue'
+import TableWithPlayer from '@/components/TableWithPlayer.vue'
 </script>
 
 <style>
