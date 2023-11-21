@@ -6,6 +6,8 @@ info:
 servers:
   - url: http://localhost:5000
     description: Development server
+  - url: https://gaas-magician.azurewebsites.net/
+    description: Public Test server
 # 定義獨立的schema
 components:
   schemas:
