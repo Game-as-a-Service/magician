@@ -1,9 +1,11 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
-  title: "出包魔法師 API"
-  version: "0.0.1"
+  title: 出包魔法師 API
+  version: 1.0.0
+  
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:5000
+    description: Development server
 # 定義獨立的schema
 components:
   schemas:
@@ -40,16 +42,19 @@ components:
     SpellingRequest:
       type: "object"
       properties:
+        gameRoomID:
+          type: string
         playerID:
-          type: "string"
-        stoneID:
-          type: "string"
+          type: string
+        spellName:
+          type: string
       required:
+        - gameRoomID
         - playerID
-        - stoneID
+        - spellName
 
 paths:
-  "/player":
+  "/gameCreate":
     post:
       summary: "開始遊戲"
       operationId: "GameCreate"
@@ -69,8 +74,8 @@ paths:
               examples:
                 ExamplePlayersEnough:
                   value:
-                    msg: "start game"
-                    gameRoomID: "room1"
+                    msg: "Game created"
+                    gameRoomID: "655564039448700eff367956"
         "400":
           description: "請求失敗，請檢查輸入參數"
           content:
@@ -80,11 +85,11 @@ paths:
               examples:
                 ExamplePlayersNotEnough:
                   value:
-                    msg: "players is not enough"
+                    msg: "Number of players must be greater than 3"
         
                 ExamplePlayersOver5:
                   value:
-                    msg: "players is over 5"
+                    msg: "Number of players cannot exceed 5"
   
   "/player/{playerID}/join":
     put:
@@ -104,16 +109,20 @@ paths:
               $ref: "#/components/schemas/GameJoinRequest"
       responses:
         "200":
-          description: "成功，回傳game資訊"
+          description: "成功"
           content:
             application/json:
               schema:
                 type: "object"
                 properties:
-                  game:
+                  message:
                     type: "string"
+                  gameRoomID:
+                    type: "string"
+        "400":
+          description: "Unable to join game"
         "404":
-          description: "遊戲房間不存在"
+          description: "Player ID required"
   
   "/stone":
     patch:
@@ -127,7 +136,7 @@ paths:
               $ref: "#/components/schemas/SpellingRequest"
       responses:
         "200":
-          description: "成功，回傳spellResult"
+          description: "施法成功"
           content:
             application/json:
               schema:
@@ -136,7 +145,7 @@ paths:
                   spellResult:
                     type: "string"
         "400":
-          description: "請求失敗，請檢查輸入參數"
+          description: "施法失敗"
   
   "/player/{playerID}/spellstop":
     patch:
@@ -148,13 +157,27 @@ paths:
           required: true
           schema:
             type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - gameRoomID
+              properties:
+                gameRoomID:
+                  type: string
       responses:
-        "200":
-          description: "成功，回傳Player資訊"
+        200:
+          description: Player turn ended
           content:
             application/json:
               schema:
-                type: "object"
+                type: object
                 properties:
-                  Player:
-                    type: "string"
+                  message:
+                    type: string
+        400:
+          description: Player turn failed
+        404:
+          description: Player ID is required
