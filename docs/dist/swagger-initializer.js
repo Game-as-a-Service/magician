@@ -3,7 +3,7 @@ window.onload = function() {
 
   // the following lines will be replaced by docker/configurator, when it runs in a docker-container
   window.ui = SwaggerUIBundle({
-    url: "https://raw.githubusercontent.com/Game-as-a-Service/magician/backend_teds/docs/openapi.yaml",
+    url: "openapi.yaml",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
