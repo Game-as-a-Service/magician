@@ -1,13 +1,18 @@
 from bson.objectid import ObjectId
-from app.extensions import mongo_client
+from .database import mongo_client
 from app.config import DevelopmentConfig
 from domain.game import Game
 
 
 class GameRepository:
-    def __init__(self, db_name=DevelopmentConfig.MONGODB_SETTINGS["db"]):
+    def __init__(self, db_name=None):
         # 讀取 config 中的設定
-        self.collection = mongo_client[db_name]["games"]
+        if db_name is None:
+            self.collection = mongo_client[DevelopmentConfig.MONGODB_SETTINGS["db"]][
+                "games"
+            ]
+        else:
+            self.collection = mongo_client[db_name]["games"]
 
     def create_game(self, game):
         """將Game class新增到資料庫"""

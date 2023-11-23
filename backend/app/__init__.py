@@ -1,10 +1,15 @@
+import os
 from flask import Flask, request, jsonify
 from .services import GameService
-from .config import DevelopmentConfig
+from .config import DevelopmentConfig, ProductionConfig
 
 app = Flask(__name__)
+
 if app.config is None:
-    app.config.from_object(DevelopmentConfig)
+    if os.environ.get("MONGO_DB_NAME") is None:
+        app.config.from_object(DevelopmentConfig)
+    else:
+        app.config.from_object(ProductionConfig)
 
 
 @app.route("/gameCreate", methods=["POST"])

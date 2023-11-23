@@ -1,14 +1,17 @@
-from app.extensions import mongo_client
+from .database import mongo_client
 from app.config import DevelopmentConfig
 from domain.player import Player
 
 
 class PlayerRepository:
-    def __init__(self, db_name=DevelopmentConfig.MONGODB_SETTINGS["db"]):
+    def __init__(self, db_name=None):
         # 讀取 config 中的設定
         collection_name = "players"
+        if db_name is None:
+            db = mongo_client[DevelopmentConfig.MONGODB_SETTINGS["db"]]["games"]
+        else:
+            db = mongo_client[db_name]["games"]
 
-        db = mongo_client[db_name]
         self.collection = db[collection_name]
 
     def create_player(self, player):
