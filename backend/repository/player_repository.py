@@ -8,9 +8,9 @@ class PlayerRepository:
         # 讀取 config 中的設定
         collection_name = "players"
         if db_name is None:
-            db = mongo_client[DevelopmentConfig.MONGODB_SETTINGS["db"]]["games"]
+            db = mongo_client[DevelopmentConfig.MONGODB_SETTINGS["db"]]
         else:
-            db = mongo_client[db_name]["games"]
+            db = mongo_client[db_name]
 
         self.collection = db[collection_name]
 
