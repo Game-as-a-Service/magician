@@ -47,10 +47,11 @@ const handStoneCount = ref(5)
 <style scoped>
 .stone-img {
   border-radius: 5px;
-  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.30) inset, 4px 4px 4px 0px rgba(0, 0, 0, 0.25), -3px -3px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, .3) inset, 4px 4px 4px 0px rgba(0, 0, 0, .25), -3px -3px 4px 0px rgba(0, 0, 0, .25) inset;
 }
+
 .stone-back {
   border-radius: 5px;
-  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.60) inset, 4px 4px 4px 0px rgba(0, 0, 0, 0.6), -3px -3px 4px 0px rgba(0, 0, 0, 0.6) inset;
+  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, .6) inset, 4px 4px 4px 0px rgba(0, 0, 0, .6), -3px -3px 4px 0px rgba(0, 0, 0, .6) inset;
 }
 </style>
