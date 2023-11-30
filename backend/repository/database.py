@@ -16,7 +16,7 @@ class MongoDB:
         uri = f"mongodb://{self.config.MONGODB_SETTINGS['host']}:{self.config.MONGODB_SETTINGS['port']}/?retryWrites=true&w=majority"
 
         if username and password:
-            uri = f"mongodb://{username}:{password}@{self.config.MONGODB_SETTINGS['host']}:{self.config.MONGODB_SETTINGS['port']}/"
+            uri = f"mongodb+srv://{username}:{password}@{self.config.MONGODB_SETTINGS['host']}/"
             uri += "?retryWrites=true&w=majority"
 
         self.uri = uri

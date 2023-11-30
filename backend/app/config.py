@@ -13,6 +13,12 @@ class Config:
         "port": 27017,
     }
 
+    REDIS_HOST = "localhost"
+    REDIS_PORT = 6379
+    REDIS_DB = 0
+    REDIS_PASSWORD = None
+    REDIS_PROTOCOL = "redis"
+
 
 class DevelopmentConfig(Config):
     """開發環境專用配置"""
@@ -39,3 +45,9 @@ class ProductionConfig(Config):
         "username": os.environ.get("MONGO_USERNAME"),
         "password": os.environ.get("MONGO_PASSWORD"),
     }
+
+    REDIS_HOST = os.environ.get("REDIS_HOST") or "localhost"
+    REDIS_PORT = os.environ.get("REDIS_PORT") or 6379
+    REDIS_DB = os.environ.get("REDIS_DB") or 0
+    REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD") or None
+    REDIS_PROTOCOL = os.environ.get("REDIS_PROTOCOL") or "redis"

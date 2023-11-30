@@ -5,7 +5,7 @@ from domain.game import Game
 
 
 class GameRepository:
-    def __init__(self, db_name=None):
+    def __init__(self, db_name=None, emitter=None):
         # 讀取 config 中的設定
         if db_name is None:
             self.collection = mongo_client[DevelopmentConfig.MONGODB_SETTINGS["db"]][
@@ -13,6 +13,11 @@ class GameRepository:
             ]
         else:
             self.collection = mongo_client[db_name]["games"]
+
+        if emitter:
+            self.emitter = emitter
+        else:
+            self.emitter = None
 
     def create_game(self, game):
         """將Game class新增到資料庫"""
@@ -39,6 +44,8 @@ class GameRepository:
                 {"$set": game.to_dict()},
                 session=session,
             )
+        if self.emitter:
+            self.emitter.emit("game_updated", game.game_id)
         return result.modified_count > 0
 
     def delete_game(self, game_id):

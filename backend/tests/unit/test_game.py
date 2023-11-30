@@ -53,6 +53,47 @@ def test_get_adjacent_players(game):
     assert game.get_right_player(game.players[4]) == game.players[3]
 
 
+def test_real_game_can_see(game):
+    game.players[0].spells = ["Magic 3", "Magic 3", "Magic 5", "Magic 7", "Magic 8"]
+    game.players[1].spells = ["Magic 5", "Magic 5", "Magic 7", "Magic 8", "Magic 8"]
+    game.players[2].spells = ["Magic 4", "Magic 5", "Magic 5", "Magic 6", "Magic 8"]
+    game.players[3].spells = ["Magic 4", "Magic 6", "Magic 6", "Magic 7", "Magic 8"]
+    game.players[4].spells = ["Magic 2", "Magic 6", "Magic 7", "Magic 7", "Magic 8"]
+
+    game.secret_warehouse = ["Magic 2", "Magic 3", "Magic 7", "Magic 8"]
+    game.warehouse = [
+        "Magic 4",
+        "Magic 8",
+        "Magic 6",
+        "Magic 1",
+        "Magic 6",
+        "Magic 7",
+        "Magic 4",
+    ]
+
+    player_view = game.real_game_can_see(1)
+
+    # 檢查所有玩家應該可正常檢視部份
+    assert player_view.players[0].name == "Yock"
+    assert player_view.players[1].name == "Teds"
+
+    assert player_view.players[0].score == 0
+    assert player_view.players[1].score == 0
+
+    # 檢查針對玩家編號1隱藏部份
+    assert player_view.players[0].spells == ["Magic Stone"] * len(
+        game.players[0].spells
+    )
+    assert player_view.secret_warehouse == ["Magic Stone"] * len(game.secret_warehouse)
+    assert player_view.warehouse == ["Magic Stone"] * len(game.warehouse)
+
+    # 檢查針對玩家編號1顯示部份
+    assert len(player_view.players[1].spells) == len(game.players[1].spells)
+    assert len(player_view.players[2].spells) == len(game.players[2].spells)
+    assert len(player_view.players[3].spells) == len(game.players[3].spells)
+    assert len(player_view.players[4].spells) == len(game.players[4].spells)
+
+
 def test_to_dict(game):
     data = game.to_dict()
 

@@ -1,3 +1,4 @@
+import copy
 from random import shuffle
 from dataclasses import dataclass
 from .player import Player
@@ -84,6 +85,25 @@ class Game:
         """取得玩家右側的Player class"""
         index = self.players.index(player)
         return self.players[(index - 1) % len(self.players)]
+
+    def real_game_can_see(self, player_id):
+        """玩家視角下看到的遊戲"""
+        hidden_stone = ["Magic Stone"]
+        game_copy = copy.deepcopy(self)
+        for player in game_copy.players:
+            if player.player_id != player_id:
+                num_secrets = len(player.secret_spells)
+                player.secret_spells = hidden_stone * num_secrets
+            else:
+                num_secrets = len(player.spells)
+                player.spells = hidden_stone * num_secrets
+        if game_copy.warehouse:
+            num_secrets = len(game_copy.warehouse)
+            game_copy.warehouse = hidden_stone * num_secrets
+        if game_copy.secret_warehouse:
+            num_secrets = len(game_copy.secret_warehouse)
+            game_copy.secret_warehouse = hidden_stone * num_secrets
+        return game_copy
 
     def to_dict(self):
         data = {
