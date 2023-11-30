@@ -2,7 +2,7 @@
   <div>
     <!-- <WarehouseSecret></WarehouseSecret>
     <WarehouseUnknown></WarehouseUnknown> -->
-    <TableWithPlayer></TableWithPlayer>
+    <!-- <TableWithPlayer></TableWithPlayer> -->
 
     <HintBar
       :hint-text="'輪到你了！ 請選擇魔法！'"
@@ -13,7 +13,7 @@
       :hint-text="'遊戲開始'"
       :change-color="'bg-skin'"
     ></HintBar>
-    <router-view></router-view>
+    <BoardcastArea></BoardcastArea>
   </div>
 </template>
 
@@ -22,7 +22,8 @@
 // import LadderBoard from '@/components/LadderBoard.vue'
 // import WarehouseUnknown from '@/components/WarehouseUnknown.vue'
 // import WarehouseSecret from '@/components/WarehouseSecret.vue'
-import TableWithPlayer from '@/components/TableWithPlayer.vue'
+// import TableWithPlayer from '@/components/TableWithPlayer.vue'
+import BoardcastArea from '@/components/BoardcastArea.vue'
 </script>
 
 <style>
