@@ -1,17 +1,15 @@
-( * : 為團隊需自行修改部分 )
 # 出包魔法師 
 
 # Intro your game
 
 
-# My Practice Stack
-- 描述一下你們使用的軟體方法論 :
-   1. *...
 
 ### 技術框架
 - 前端: Vue
-- 後端: Python(FlaskAPI)
-- 
+- 後端: Python(Flask)
+- 即時雙向溝通: Socket.IO
+- 資料庫： Mongodb
+- 發布/訂閱系統： Redis
 
 ### Practice Stack
 - 用 event storming，找出遊戲的功能與流程
@@ -22,14 +20,16 @@
 - OOA
 
 ## 環境建置
-1. 安裝相關套件
+1. 安裝好Python環境
 
-`pip install -r requirements.txt`
+專案實測可於Python 3.10 運行
 
-2. 切入backend目錄裡
+2. 切入backend/socketio_server目錄裡
 
 `cd backend`
-  
-3. 安裝magician為可變動模組 
+或
+`cd socketio_server`
 
-`pip install -e .`
+3. 安裝相關套件
+
+`pip install -r requirements.txt`
