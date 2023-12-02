@@ -4,10 +4,12 @@ info:
   version: 1.0.0
   
 servers:
+  - url: https://gaas-magician-backend.azurewebsites.net/
+    description: 後端伺服器(自動遊戲狀態推播)
   - url: http://localhost:5000
-    description: Development server
+    description: 本地開發伺服器
   - url: https://gaas-magician.azurewebsites.net/
-    description: Public Test server
+    description: 後端伺服器(無自動遊戲狀態推播)
 # 定義獨立的schema
 components:
   schemas:
