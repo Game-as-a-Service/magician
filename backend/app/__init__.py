@@ -1,9 +1,11 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from .services import GameService
 from .config import DevelopmentConfig, ProductionConfig
 
 app = Flask(__name__)
+CORS(app)
 
 if app.config is None:
     if os.environ.get("MONGO_DB_NAME") is None:
