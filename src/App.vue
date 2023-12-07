@@ -13,7 +13,7 @@
       :hint-text="'遊戲開始'"
       :change-color="'bg-skin'"
     ></HintBar>
-    <BoardcastArea></BoardcastArea>
+    <MyState></MyState>
   </div>
 </template>
 
@@ -23,7 +23,8 @@
 // import WarehouseUnknown from '@/components/WarehouseUnknown.vue'
 // import WarehouseSecret from '@/components/WarehouseSecret.vue'
 // import TableWithPlayer from '@/components/TableWithPlayer.vue'
-import BoardcastArea from '@/components/BoardcastArea.vue'
+// import BoardcastArea from '@/components/BoardcastArea.vue'
+import MyState from '@/components/MyState.vue'
 </script>
 
 <style>
