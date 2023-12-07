@@ -8,7 +8,7 @@ function getMagicStoneUrl (magicStone) {
   const url = `/src/assets/images/stone/${ magicStone }.png`
   return new URL(url, import.meta.url)
 }
-const spell = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！', 'Give me magic!' ]
+const spell = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！', 'Give me magic!', '霹靂卡霹靂拉拉' ]
 
 const opponent = [
   {
@@ -28,6 +28,7 @@ const opponent = [
     secretStone: 0,
   },
   {
+    spell: spell[4],
     avatar: 'avatar_red',
     stone: [ 'magic6', 'magic6', 'magic6', 'magic6' ],
     secretStone: 0,
@@ -36,16 +37,16 @@ const opponent = [
 </script>
 
 <template>
-  <div>
+  <div class="pt-2">
     <div
       v-for="item of opponent"
       :key="item.avatar"
-      class="flex items-center"
+      class="flex items-center mb-9"
     >
       <div class="w-[225px] mr-2.5 flex items-center justify-end">
         <span
           v-show="item.spell"
-          class="rounded-t-full rounded-l-full bg-oldBook p-2.5 h-[60px] text-[28px] font-medium"
+          class="rounded-t-full rounded-l-full bg-oldBook p-2.5 h-[60px] text-[28px]"
         >
           {{ item.spell }}
         </span>
@@ -55,7 +56,7 @@ const opponent = [
         <img :src="getAvatarImgUrl(item.avatar)">
       </div>
       <div
-        class="text-center pt-4 bg-[url('@/assets/images/sundries/pocket.png')] mr-2 w-[60px] h-[60px] text-grey text-[28px]"
+        class="text-center pt-4 bg-[url('@/assets/images/sundries/pocket.png')] mr-2 w-[60px] h-[60px] text-gray-700 text-[28px]"
       >
         {{ item.secretStone }}
       </div>
