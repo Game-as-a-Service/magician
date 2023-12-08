@@ -7,6 +7,7 @@ import TableWithPlayer from '@/components/TableWithPlayer.vue'
 import BoardcastArea from '@/components/BoardcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
+import LeaveBtn from './LeaveBtn.vue'
 </script>
 
 <template>
@@ -33,6 +34,9 @@ import MyState from '@/components/MyState.vue'
       <div class="w-[100px] mr-2">
         <img src="/src/assets/images/book/book1.png">
       </div>
+    </div>
+    <div class="absolute bottom-8  left-[730px]">
+      <LeaveBtn></LeaveBtn>
     </div>
   </div>
 </template>
