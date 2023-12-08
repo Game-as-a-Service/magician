@@ -8,25 +8,25 @@ function getImageUrl (name) {
 const players = [
   {
     name: 'Leave3310',
-    hp: 1,
+    hp: 6,
     imgSrc: getImageUrl('avatar_green'),
     playerClass: 'player-green',
   },
   {
     name: 'Yock',
-    hp: 2,
+    hp: 6,
     imgSrc: getImageUrl('avatar_yellow'),
     playerClass: 'player-yellow',
   },
   {
     name: 'Teds',
-    hp: 3,
+    hp: 6,
     imgSrc: getImageUrl('avatar_red'),
     playerClass: 'player-red',
   },
   {
     name: 'Cmomo',
-    hp: 4,
+    hp: 6,
     imgSrc: getImageUrl('avatar_orange'),
     playerClass: 'player-orange',
   },
