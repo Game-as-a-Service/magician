@@ -20,7 +20,7 @@ export default {
         grey70: 'rgba(87, 87, 87, 0.7)',
         'grey-deep': '#575757',
         skin: '#FFFFFF',
-        'white20%': 'rgba(255, 255, 255, 0.20)',
+        white20: 'rgba(255, 255, 255, 0.20)',
         oldBook: '#C8B59F',
       },
     },

@@ -28,7 +28,7 @@ const opponent = [
     secretStone: 0,
   },
   {
-    spell: spell[4],
+    // spell: spell[4],
     avatar: 'avatar_red',
     stone: [ 'magic6', 'magic6', 'magic6', 'magic6' ],
     secretStone: 0,
