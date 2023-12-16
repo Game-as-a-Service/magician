@@ -49,6 +49,8 @@ class GameService:
         if not (game and game.is_active()):
             # 從資料庫確認game_id存在，並且遊戲進行中
             return False, 400
+        if game.current_player is None:
+            return False, 400
         # player_id為目前正在行動玩家
         current_player_id = game.players[game.current_player].player_id
         if player_id != current_player_id:
@@ -125,6 +127,9 @@ class GameService:
 
         if not (game and game.is_active()):
             # 從資料庫確認game_id存在，並且遊戲進行中
+            return False
+
+        if game.current_player is None:
             return False
 
         current_player_id = game.players[game.current_player].player_id
