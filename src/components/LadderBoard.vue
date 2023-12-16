@@ -1,7 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import {
+  computed 
+} from 'vue'
 import LadderStep from '@/components/LadderStep.vue'
-const usedMagic = ref([ 0, 0, 2, 0, 1, 2, 3, 7 ])
+import { useGameStore } from '@/stores/game'
+const gameStore = useGameStore()
+const usedMagic = computed(() => {
+  return [ 1, 2, 3, 4, 5, 6, 7, 8 ].map(number => {
+    if (!gameStore.gameStatus.ladder) return 0
+    return gameStore.gameStatus.ladder.filter(stock => stock === `Magic ${ number }`).length
+  })
+})
+// const usedMagic = ref([ 0, 0, 2, 0, 1, 2, 3, 7 ])
 </script>
 
 <template>

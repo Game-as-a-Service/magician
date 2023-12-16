@@ -9,12 +9,11 @@
       :hint-text="'遊戲開始'"
       :change-color="'bg-skin'"
     ></HintBar> -->
-    <MainLayout></MainLayout>
+    <router-view></router-view>
   </div>
 </template>
 
 <script setup>
-import MainLayout from '@/components/MainLayout.vue'
 </script>
 
 <style>
