@@ -8,6 +8,7 @@ import BoardcastArea from '@/components/BoardcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
 import LeaveBtn from './LeaveBtn.vue'
+import OpenedBook from './OpenedBook.vue'
 </script>
 
 <template>
@@ -37,6 +38,9 @@ import LeaveBtn from './LeaveBtn.vue'
     </div>
     <div class="absolute bottom-8  left-[730px]">
       <LeaveBtn></LeaveBtn>
+    </div>
+    <div>
+      <OpenedBook></OpenedBook>
     </div>
   </div>
 </template>

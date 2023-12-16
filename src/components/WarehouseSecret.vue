@@ -1,5 +1,5 @@
 <template>
-  <div class="ScoreBoard bg-grey50 w-[150px] h-[150px] px-[6px] pt-[6px] ">
+  <div class=" bg-grey50 w-[150px] h-[150px] px-[6px] pt-[6px] ">
     <div
       class=" w-[138px] h-[116px] bg-[url('/src/assets/images/stone/stone-secret.png')] bg-contain bg-center bg-no-repeat
                     flex justify-center items-center"

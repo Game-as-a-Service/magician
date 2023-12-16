@@ -1,5 +1,5 @@
 <template>
-  <div class="ScoreBoard bg-grey50 w-[450px] h-[160px] px-[25px] pt-[10px] relative">
+  <div class=" bg-grey50 w-[450px] h-[160px] px-[25px] pt-[10px] relative">
     <p
       v-for="item of messages"
       :key="item"
