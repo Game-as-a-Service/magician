@@ -49,7 +49,7 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 </script>
 
 <template>
-  <div class="ScoreBoard bg-grey50 p-[12px] inline-block">
+  <div class=" bg-grey50 p-[12px] inline-block">
     <div
       v-for="item of players"
       :key="item.name"

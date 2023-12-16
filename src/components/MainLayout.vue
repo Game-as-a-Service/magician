@@ -7,7 +7,8 @@ import TableWithPlayer from '@/components/TableWithPlayer.vue'
 import BoardcastArea from '@/components/BoardcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
-// import LeaveBtn from './LeaveBtn.vue'
+import LeaveBtn from './LeaveBtn.vue'
+import OpenedBook from './OpenedBook.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import {
@@ -112,6 +113,9 @@ const joinGame = () => {
           </button>
         </div>
       </div>
+    </div>
+    <div>
+      <OpenedBook></OpenedBook>
     </div>
   </div>
 </template>
