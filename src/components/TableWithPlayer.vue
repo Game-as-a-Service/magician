@@ -104,7 +104,6 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 }
 
 .player-yellow {
-
   top: 190px;
   left: 360px;
 }
