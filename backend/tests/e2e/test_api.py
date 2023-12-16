@@ -30,8 +30,8 @@ def test_player_join_game(client):
     game_id = resp.json["gameRoomID"]
 
     # Player join game
-    data = {"gameRoomID": game_id}
-    resp = client.put(f"/player/p1/join", json=data)
+    game_id_data = {"gameRoomID": game_id}
+    resp = client.put(f"/player/{data['playerIDs'][0]}/join", json=game_id_data)
     assert resp.status_code == 200
 
     # Verify player joined

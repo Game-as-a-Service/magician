@@ -16,6 +16,9 @@ class GameService:
 
     def player_join_game(self, game_id, player_id):
         game = self.game_repository.get_game_by_id(game_id)
+        if not (game and game.is_active()):
+            # 從資料庫確認game_id存在，並且遊戲進行中
+            return False
         player_joined_stat = False
         if game:
             player = next((p for p in game.players if p.player_id == player_id), None)
@@ -119,6 +122,10 @@ class GameService:
     def end_turn(self, game_id, player_id):
         """結束目前回合，並且保存遊戲狀態至資料庫"""
         game = self.game_repository.get_game_by_id(game_id)
+
+        if not (game and game.is_active()):
+            # 從資料庫確認game_id存在，並且遊戲進行中
+            return False
 
         current_player_id = game.players[game.current_player].player_id
         if player_id != current_player_id:
