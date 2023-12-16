@@ -63,11 +63,11 @@ def cast_spell():
     if not player_id or not spell_name:
         return jsonify({"message": "Player ID and spell name are required"}), 400
 
-    result = GameService.cast_spell(gameRoomID, player_id, spell_name)
+    result, status_code = GameService.cast_spell(gameRoomID, player_id, spell_name)
     if result:
-        return jsonify({"message": "Spell cast successfully"}), 200
+        return jsonify({"message": "Spell cast successfully"}), status_code
     else:
-        return jsonify({"message": "Spell cast failed"}), 400
+        return jsonify({"message": "Spell cast failed"}), status_code
 
 
 @app.route("/player/<player_id>/spellstop", methods=["PATCH"])

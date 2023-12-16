@@ -80,9 +80,10 @@ def test_player_cast_spell(game_service, five_player_game):
     # 偷看手牌第一張魔法石為何
     spell_name = player.spells[0]
     # 玩家施法-用剛剛的魔法石
-    result = game_service.cast_spell(game_id, player.player_id, spell_name)
+    result, status_code = game_service.cast_spell(game_id, player.player_id, spell_name)
     # 施法必定成功
     assert result is True
+    assert status_code == 200
 
 
 def test_spell_fire_dragon(five_player_game, players, monkeypatch):

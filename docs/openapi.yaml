@@ -140,16 +140,44 @@ paths:
               $ref: "#/components/schemas/SpellingRequest"
       responses:
         "200":
-          description: "施法成功"
+          description: "施法結果"
           content:
             application/json:
               schema:
                 type: "object"
                 properties:
-                  spellResult:
+                  message:
                     type: "string"
+              examples:
+                ExampleSpellSuccessfully:
+                  value:
+                    message: "Spell cast successfully"
+        
+                ExampleSpellFailed:
+                  value:
+                    message: "Spell cast failed"
         "400":
-          description: "施法失敗"
+          description: "施法操作不合法"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+              examples:
+                ExampleNoGameRoomID:
+                  value:
+                    message: "gameRoomID is required"
+                ExampleNoPlayerID:
+                  value:
+                    message: "Player ID and spell name are required"
+                ExampleNoSpellName:
+                  value:
+                    message: "Player ID and spell name are required"
+                ExampleInvalidSpellOperate:
+                  value:
+                    message: "Spell cast failed"
   
   "/player/{playerID}/spellstop":
     patch:

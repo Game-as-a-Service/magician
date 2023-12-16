@@ -45,22 +45,22 @@ class GameService:
         game = self.game_repository.get_game_by_id(game_id)
         if not (game and game.is_active()):
             # 從資料庫確認game_id存在，並且遊戲進行中
-            return None
+            return False, 400
         # player_id為目前正在行動玩家
         current_player_id = game.players[game.current_player].player_id
         if player_id != current_player_id:
-            return False
+            return False, 400
 
         # 確認法術存在
         player = game.find_player_by_id(player_id)
         spell = Spell(spell_name)
         if not spell.valid_spell_name():
-            return False
+            return False, 400
 
         if player.prev_spell:
             spell_prve = Spell(player.prev_spell)
             if spell.get_value() < spell_prve.get_value():
-                return False
+                return False, 400
 
         player.prev_spell = spell_name
         if spell_name not in player.spells:
@@ -80,7 +80,7 @@ class GameService:
             # 本回合結束
             self.end_turn(game_id, player_id)
 
-            return False
+            return False, 200
 
         # 施法成功
 
@@ -96,7 +96,7 @@ class GameService:
             # 不執行施放魔法石效果
             # 避免觸發造成其他玩家血量歸0條件
             # 這樣會造成重複加分超過3分
-            return True
+            return True, 200
 
         # 執行魔法石效果
         spell.cast(game, player)
@@ -114,7 +114,7 @@ class GameService:
                 # 結束這一局，結算分數
                 self.end_round(game_id, game.players[game.current_player].player_id)
 
-        return True
+        return True, 200
 
     def end_turn(self, game_id, player_id):
         """結束目前回合，並且保存遊戲狀態至資料庫"""

@@ -57,32 +57,35 @@ def test_player_cast_spell(client):
         "gameRoomID": game_id,
         "playerID": data["playerIDs"][0],
         # 這邊的測試魔法石要選數量多的
-        # 不然隨機到祕密魔法石就尷尬了
         "spellName": "Magic 6",
     }
     resp = client.patch("/stone", json=cast_spell_data)
-    # 不是施法成功(回傳200)就是失敗(回傳400)
-    assert resp.status_code in [200, 400]
+    resp_data = resp.json
+    assert "message" in resp_data
 
     player_idx = 0
-    # 如果回傳是400，代表施法失敗，輪到下一位玩家施法
-    if resp.status_code == 400:
+    # 如果回傳是"Spell cast failed"，代表施法失敗，輪到下一位玩家施法
+    if resp.status_code == 200 and resp_data["message"] == "Spell cast failed":
         # 換下一位玩家(第二個玩家)施法
         player_idx = 1
-        cast_spell_data["playerID"] = data["playerIDs"][1]
+        cast_spell_data["playerID"] = data["playerIDs"][player_idx]
         resp = client.patch("/stone", json=cast_spell_data)
-
+        resp_data = resp.json
         # 繼續輪流施法，直到成功為止
-        while resp.status_code == 400:
+        while not (
+            resp.status_code == 200
+            and resp_data["message"] == "Spell cast successfully"
+        ):
             next_player_idx = (
                 data["playerIDs"].index(cast_spell_data["playerID"]) + 1
             ) % len(data["playerIDs"])
             cast_spell_data["playerID"] = data["playerIDs"][next_player_idx]
             resp = client.patch("/stone", json=cast_spell_data)
+            resp_data = resp.json
             player_idx = next_player_idx
 
     # 施法成功,進行[停止施法]測試
-    assert resp.status_code == 200
+    assert resp_data["message"] == "Spell cast successfully"
 
     end_turn_data = {"gameRoomID": game_id, "playerID": data["playerIDs"][player_idx]}
 
