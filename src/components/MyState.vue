@@ -10,7 +10,7 @@ const handStoneCount = ref(5)
 </script>
 
 <template>
-  <div class="ScoreBoard bg-grey50 w-[450px] h-[322px] pt-[10px] px-[33px]">
+  <div class=" bg-grey50 w-[450px] h-[322px] pt-[10px] px-[33px]">
     <p class="text-left w-full mt-1 mb-3 text-white font-medium"> 
       我的口袋
     </p>
