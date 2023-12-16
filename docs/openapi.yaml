@@ -28,12 +28,12 @@ components:
     GameCreateResponse:
       type: "object"
       properties:
-        msg:
+        message:
           type: "string"
         gameRoomID:
           type: "string"
       required:
-        - msg
+        - message
 
     GameJoinRequest:
       type: "object"
@@ -78,7 +78,7 @@ paths:
               examples:
                 ExamplePlayersEnough:
                   value:
-                    msg: "Game created"
+                    message: "Game created"
                     gameRoomID: "655564039448700eff367956"
         "400":
           description: "請求失敗，請檢查輸入參數"
@@ -89,11 +89,11 @@ paths:
               examples:
                 ExamplePlayersNotEnough:
                   value:
-                    msg: "Number of players must be greater than 3"
+                    message: "Number of players must be greater than 3"
         
                 ExamplePlayersOver5:
                   value:
-                    msg: "Number of players cannot exceed 5"
+                    message: "Number of players cannot exceed 5"
   
   "/player/{playerID}/join":
     put:
@@ -127,7 +127,7 @@ paths:
           description: "Unable to join game"
         "404":
           description: "Player ID required"
-  
+
   "/stone":
     patch:
       summary: "施法"
