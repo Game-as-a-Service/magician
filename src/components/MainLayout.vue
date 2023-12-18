@@ -8,21 +8,20 @@ import BoardcastArea from '@/components/BoardcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
 import LeaveBtn from './LeaveBtn.vue'
-// import OpenedBook from './OpenedBook.vue'
+import OpenedBook from './OpenedBook.vue'
+import HintBar from '@/components/common/HintBar.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import {
-  onMounted, ref, computed
+  ref, computed, watch
 } from 'vue'
 const gameStore = useGameStore()
 const socket = ref(null)
 const playingId = computed(() => gameStore.playingId)
 const playerId = ref('Leave3310')
 const playerIds = [ 'Leave3310', 'Momo', 'Yock', 'Tux', 'Teds' ]
-
-onMounted(() => {
-
-})
+const showBook = ref(false)
+const showHint = ref(false)
 const handleConnect = () => {
   socket.value = io('https://gaas-magician-socketio.azurewebsites.net/', {
     transports: [ 'websocket', 'polling' ],
@@ -46,6 +45,17 @@ const joinGame = () => {
     gameStore.playingId = playerId.value
   })
 }
+watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    if (newVal === undefined) return
+    if (playerIds[newVal] === playingId.value) {
+      showHint.value = true
+      setTimeout(() => {
+        showHint.value = false
+      }, 1000)
+    }
+  }
+})
 </script>
 
 <template>
@@ -69,7 +79,10 @@ const joinGame = () => {
       <div class="absolute top-[330px] left-[370px]">
         <TableWithPlayer></TableWithPlayer>
       </div>
-      <div class="absolute top-[750px] left-[830px]">
+      <div
+        class="absolute top-[750px] left-[830px] cursor-pointer"
+        @click="showBook = true"
+      >
         <div class="w-[100px] mr-2">
           <img src="/src/assets/images/book/book1.png">
         </div>
@@ -77,9 +90,15 @@ const joinGame = () => {
       <div class="absolute bottom-8  left-[730px]">
         <LeaveBtn></LeaveBtn>
       </div>
-      <div>
-        <!-- <OpenedBook></OpenedBook> -->
+      <div v-if="showBook">
+        <OpenedBook @close="showBook=false"></OpenedBook>
       </div>
+      <HintBar
+        v-if="showHint"
+        :hint-text="'輪到你了！ 請選擇魔法！'"
+        :change-color="'bg-purple text-white'"
+      >
+      </HintBar>
     </div>
     <div>
       <div
@@ -92,7 +111,7 @@ const joinGame = () => {
         <label
           for="countries"
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >妳是誰？</label>
+        >你是誰？</label>
         <div class="flex gap-2">
           <select
             id="countries"

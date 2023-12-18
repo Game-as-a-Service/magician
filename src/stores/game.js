@@ -13,13 +13,12 @@ export const useGameStore = defineStore('useGameStore', () => {
       'player_id': 'Tux', 'name': null, 'joined': false, 'score': 0, 'HP': 6, 'prev_spell': null, 'spells': [], 'secret_spells': [] 
     }, {
       'player_id': 'Teds', 'name': null, 'joined': false, 'score': 0, 'HP': 6, 'prev_spell': null, 'spells': [], 'secret_spells': [] 
-    } ], 'active': false, 'current_player': 0, 'round': 0, 'turn': 0, 'secret_warehouse': [], 'warehouse': [], 'ladder': [] 
+    } ], 'active': false, 'current_player': undefined, 'round': 0, 'turn': 0, 'secret_warehouse': [], 'warehouse': [], 'ladder': [] 
   })
   const playingId = ref('')
   const setGameStatus = (status) => {
     gameStatus.value = status
   }
-  
   return {
     gameStatus,
     playingId,
