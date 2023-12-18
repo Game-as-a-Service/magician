@@ -60,13 +60,6 @@ defineEmits([ 'close' ])
         src="/src/assets/images/book/magicBookOpen.png"
       > 
     </div>
-    
-    <!-- <p
-      v-for="item of messages"
-      :key="item"
-      class="text-left w-full text-white font-medium mb-1"
-    > 
-      {{ item }}
-    </p> -->
+  
   </div>
 </template>
