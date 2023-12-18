@@ -1,3 +1,8 @@
+<script setup>
+import { defineEmits } from 'vue'
+defineEmits([ 'close' ])
+</script>
+
 <template>
   <div class="bg-grey50 w-full h-full top-0 left-0 absolute backdrop-blur-sm">
     <div class="bg-cover w-[1000px] h-[700px] bottom-0 left-0  absolute pt-[120px] pb-[140px] px-[80px] flex ">
@@ -41,7 +46,10 @@
           </li>
         </ul>
       </div>
-      <div class=" w-[80px] h-[80px] right-[15px] top-[70px] absolute z-40 bg-contain ">
+      <div
+        class=" w-[80px] h-[80px] right-[15px] top-[70px] absolute z-40 bg-contain cursor-pointer"
+        @click="$emit('close')"
+      >
         <img
           class="absolute "
           src="/src/assets/images/book/close.png"
@@ -52,17 +60,6 @@
         src="/src/assets/images/book/magicBookOpen.png"
       > 
     </div>
-    
-    <!-- <p
-      v-for="item of messages"
-      :key="item"
-      class="text-left w-full text-white font-medium mb-1"
-    > 
-      {{ item }}
-    </p> -->
+  
   </div>
 </template>
-
-<script setup>
-
-</script>

@@ -12,6 +12,6 @@
 </template>
 
 <script setup>
-const messages = [ '遊戲開始', 'Leave3310的回合', 'Leave3310選擇施放7號魔法火球', '施放成功', 'Tux扣1HP' ]
+const messages = [ '遊戲開始', 'Leave3310的回合', 'Leave3310選擇施放7號魔法火焰彈', '施放成功', 'Teds扣1HP' ]
 
 </script>

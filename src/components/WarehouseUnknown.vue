@@ -1,3 +1,13 @@
+<script setup>
+import { computed } from 'vue'
+import { useGameStore } from '@/stores/game'
+const gameStore = useGameStore()
+const unKnownNumber = computed(() => {
+  if (!gameStore.gameStatus.warehouse) return 0
+  return gameStore.gameStatus.warehouse.length
+})
+</script>
+
 <template>
   <div class=" bg-grey50 w-[150px] h-[150px] px-[6px] pt-[6px] ">
     <div
@@ -5,7 +15,7 @@
                     flex justify-center items-center"
     >
       <div class=" w-[33px] h-[33px] border-solid border rounded-full border-inherit flex justify-center items-center text-white bg-grey70 ">
-        7
+        {{ unKnownNumber }}
       </div>
     </div>
     <h6 class="text-center w-full text-white"> 

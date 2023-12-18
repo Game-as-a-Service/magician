@@ -1,12 +1,46 @@
 <script setup>
-import { ref } from 'vue'
-
+import {
+  computed 
+} from 'vue'
+import { useGameStore } from '@/stores/game'
+const gameStore = useGameStore()
+const me = computed(() => gameStore.gameStatus.players.find((player) => player.player_id === gameStore.playingId))
 function getImageUrl (number) {
   const url = `/src/assets/images/stone/magic${ number }.png`
   return new URL(url, import.meta.url)
 }
-const secretStones = [ 5, 6, 7, 8 ]
-const handStoneCount = ref(5)
+const secretStones = computed(() => {
+  if (!me.value) return []
+
+  return me.value.secret_spells.map((spell) => {
+    switch (spell) {
+    case 'Magic 1':
+      return 1
+    case 'Magic 2':
+      return 2
+    case 'Magic 3':
+      return 3
+    case 'Magic 4':
+      return 4
+    case 'Magic 5':
+      return 5
+    case 'Magic 6':
+      return 6
+    case 'Magic 7':
+      return 7
+    case 'Magic 8':
+      return 8
+    default:
+      return 0
+    }
+  }).sort((a, b) => a - b)
+})
+// const secretStones = [ 5, 6, 7, 8 ]
+const handStoneCount = computed(() => {
+  if (!me.value) return 0
+  return me.value.spells.length
+})
+// const handStoneCount = ref(5)
 </script>
 
 <template>

@@ -9,7 +9,8 @@
     "eslint.validate": [
         "javascript",
         "javascriptreact",
-        "vue"
+        "vue",
+        "typescript",
     ],
     "vetur.validation.template": false,
     "stylelint.useLocal": true,
