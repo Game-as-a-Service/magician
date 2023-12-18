@@ -10,7 +10,39 @@ const api = axios.create({
   },
 })
 const playerIds = [ 'Leave3310', 'Momo', 'Yock', 'Tux', 'Teds' ]
-const stoneNames = [ 'Magic 1', 'Magic 2', 'Magic 3', 'Magic 4', 'Magic 5', 'Magic 6', 'Magic 7', 'Magic 8' ]
+const stones = [ {
+  name: 'Magic 1',
+  label: '火爆的龍(1)'
+},
+{
+  name: 'Magic 2',
+  label: '黑暗幽靈(2)'
+},
+{
+  name: 'Magic 3',
+  label: '甜蜜夢境(3)'
+},
+{
+  name: 'Magic 4',
+  label: '智慧鳥(4)'
+},
+{
+  name: 'Magic 5',
+  label: '暴風雨(5)'
+},
+{
+  name: 'Magic 6',
+  label: '暴雪(6)'
+},
+{
+  name: 'Magic 7',
+  label: '火焰彈(7)'
+},
+{
+  name: 'Magic 8',
+  label: '魔藥水(8)'
+}
+]
 const gameId = ref('')
 const messages = ref([])
 const reversedMessages = computed(() => messages.value.slice().reverse())
@@ -97,24 +129,24 @@ const getTimeString = () => {
       </div>
       <div class="p-4">
         <div>選擇魔法</div>
-        <div class="flex">
-          <template v-for="(stone, i) in stoneNames">
+        <div class="flex flex-wrap">
+          <template v-for="(stone, i) in stones">
             <button
-              v-if="stone === selectedStone"
-              :key="stone"
+              v-if="stone.name === selectedStone"
+              :key="stone.name"
               type="button"
               class="mb-2 me-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800"
             >
-              {{ stone }}
+              {{ stone.label }}
             </button>
             <button
               v-else
               :key="i"
               type="button"
               class="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900"
-              @click="selectedStone = stone"
+              @click="selectedStone = stone.name"
             >
-              {{ stone }}
+              {{ stone.label }}
             </button>
           </template>
         </div>
