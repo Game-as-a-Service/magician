@@ -6,9 +6,7 @@ from domain.game import Game
 
 
 class GameRepository:
-    def __init__(
-        self, db_name: Optional[str] = None, emitter: Optional["EventEmitter"] = None
-    ):
+    def __init__(self, db_name: Optional[str] = None, emitter=None):
         # 讀取 config 中的設定
         if db_name is None:
             self.collection = mongo_client[DevelopmentConfig.MONGODB_SETTINGS["db"]][

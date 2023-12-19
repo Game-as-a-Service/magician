@@ -1,13 +1,11 @@
-from typing import Optional
-
 from .redis_repository import RedisRepository
 
 
 class DataLoader:
     def __init__(
         self,
-        emitter: Optional["EventEmitter"] = None,
-        repo: Optional["GameRepository"] = None,
+        emitter=None,
+        repo=None,
     ):
         if emitter:
             self.emitter = emitter
