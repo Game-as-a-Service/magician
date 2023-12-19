@@ -1,23 +1,23 @@
 import random
 
 
-def roll_dice():
+def roll_dice() -> int:
     """模擬擲骰子的動作，回傳一個隨機數字，介於1~3之間"""
     return random.randint(1, 3)
 
 
 class Spell:
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name  # 魔法石名稱
 
-    def __get_method_name(self):
+    def __get_method_name(self) -> str:
         return f'cast_{self.name.replace(" ", "_").lower()}'
 
-    def get_value(self):
+    def get_value(self) -> int:
         """取得施法編號"""
         return int(self.name.split(" ")[1])
 
-    def valid_spell_name(self):
+    def valid_spell_name(self) -> bool:
         """驗證魔法石名稱是否有效"""
         if self.name == "unknown":
             return False
@@ -29,7 +29,7 @@ class Spell:
         else:
             return False
 
-    def cast(self, game, player):
+    def cast(self, game, player) -> tuple:
         """
         通用施法函數
 
@@ -41,7 +41,7 @@ class Spell:
         cast_method = getattr(self, method_name, self.cast_unknown)
         return cast_method(game, player)
 
-    def cast_unknown(self, game, player):
+    def cast_unknown(self, game, player) -> tuple:
         """
         保留(當魔法石名稱無效時)
 
@@ -51,7 +51,7 @@ class Spell:
         print(f"{player.name} tries to cast an unknown spell: {self.name}!")
         return "unknown spell", None
 
-    def cast_magic_1(self, game, player):
+    def cast_magic_1(self, game, player) -> tuple:
         """
         火龍
         其他所有玩家扣除擲一次骰子點數的血量
@@ -66,7 +66,7 @@ class Spell:
                 p.update_HP(-damage)
         return "fire_dragon", damage
 
-    def cast_magic_2(self, game, player):
+    def cast_magic_2(self, game, player) -> tuple:
         """
         暗黑幽靈
         其他所有玩家失去1點血量,自己回復1點血量
@@ -80,7 +80,7 @@ class Spell:
         player.update_HP(1)
         return "dark_ghost", 1
 
-    def cast_magic_3(self, game, player):
+    def cast_magic_3(self, game, player) -> tuple:
         """
         甜蜜的夢
         回復擲一次骰子點數的血量
@@ -92,7 +92,7 @@ class Spell:
         player.update_HP(healing)
         return "sweet_dream", healing
 
-    def cast_magic_4(self, game, player):
+    def cast_magic_4(self, game, player) -> tuple:
         """
         貓頭鷹
         從祕密倉庫取得一張魔法石，並且放入玩家的祕密魔法石列表
@@ -115,7 +115,7 @@ class Spell:
 
         return "owl", secret_spell
 
-    def cast_magic_5(self, game, player):
+    def cast_magic_5(self, game, player) -> tuple:
         """
         閃電暴風雨
         左右手邊玩家失去1點血量
@@ -130,7 +130,7 @@ class Spell:
         right_player.update_HP(-1)
         return "lightning_storm", 1
 
-    def cast_magic_6(self, game, player):
+    def cast_magic_6(self, game, player) -> tuple:
         """
         暴風雪
         左手邊玩家失去1點血量
@@ -142,7 +142,7 @@ class Spell:
         left_player.update_HP(-1)
         return "blizzard", 1
 
-    def cast_magic_7(self, game, player):
+    def cast_magic_7(self, game, player) -> tuple:
         """
         火球
         右手邊玩家失去1點血量
@@ -154,7 +154,7 @@ class Spell:
         right_player.update_HP(-1)
         return "fireball", 1
 
-    def cast_magic_8(self, game, player):
+    def cast_magic_8(self, game, player) -> tuple:
         """
         魔法藥水
         回復1點血量

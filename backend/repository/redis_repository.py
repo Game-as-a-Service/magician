@@ -1,6 +1,6 @@
 import json
 from bson.objectid import ObjectId
-from typing import Any
+from typing import Any, Dict
 from .redis_manager import external_sio
 
 
@@ -8,7 +8,7 @@ class RedisRepository:
     def __init__(self):
         self.external_sio = external_sio
 
-    def publish(self, channel: str, room_id: str, data: Any):
+    def publish(self, channel: str, room_id: str, data: Dict[str, Any]) -> None:
         def convert_object_id(data):
             if isinstance(data, dict):
                 for k, v in data.items():

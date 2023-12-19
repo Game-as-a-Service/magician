@@ -1,10 +1,11 @@
+from typing import Optional
 from .database import mongo_client
 from app.config import DevelopmentConfig
 from domain.player import Player
 
 
 class PlayerRepository:
-    def __init__(self, db_name=None):
+    def __init__(self, db_name: Optional[str] = None):
         # 讀取 config 中的設定
         collection_name = "players"
         if db_name is None:
@@ -14,13 +15,13 @@ class PlayerRepository:
 
         self.collection = db[collection_name]
 
-    def create_player(self, player):
+    def create_player(self, player: Player):
         """將玩家class新增到資料庫"""
         player_dict = player.to_dict()
         result = self.collection.insert_one(player_dict)
         return result.inserted_id
 
-    def get_player_by_id(self, player_id):
+    def get_player_by_id(self, player_id: str) -> Optional[Player]:
         """根據玩家ID 從資料庫取得Player class"""
         player_data = self.collection.find_one({"player_id": player_id})
         if player_data:

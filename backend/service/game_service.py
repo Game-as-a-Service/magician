@@ -1,3 +1,4 @@
+from typing import Tuple
 from repository.game_repository import GameRepository
 from domain.game import Game
 from domain.spell import Spell, roll_dice
@@ -7,14 +8,14 @@ class GameService:
     def __init__(self, game_repository: GameRepository):
         self.game_repository = game_repository
 
-    def create_game(self, player_ids):
+    def create_game(self, player_ids: list[str]) -> Game:
         game = Game(game_id=None, players=player_ids)
         game_id = self.game_repository.create_game(game)
         game.game_id = game_id  # 從資料取得的game_id
         self.game_repository.update_game(game)
         return game
 
-    def player_join_game(self, game_id, player_id):
+    def player_join_game(self, game_id: str, player_id: str) -> bool:
         game = self.game_repository.get_game_by_id(game_id)
         if not (game and game.is_active()):
             # 從資料庫確認game_id存在，並且遊戲進行中
@@ -35,7 +36,7 @@ class GameService:
 
         return player_joined_stat
 
-    def start_game(self, game):
+    def start_game(self, game: Game) -> Game:
         game = game.init_game_state(game)
 
         game.round = 1
@@ -43,7 +44,9 @@ class GameService:
 
         return game
 
-    def cast_spell(self, game_id, player_id, spell_name):
+    def cast_spell(
+        self, game_id: str, player_id: str, spell_name: str
+    ) -> Tuple[bool, int]:
         """玩家施法邏輯"""
         game = self.game_repository.get_game_by_id(game_id)
         if not (game and game.is_active()):
@@ -121,7 +124,7 @@ class GameService:
 
         return True, 200
 
-    def end_turn(self, game_id, player_id):
+    def end_turn(self, game_id: str, player_id: str) -> bool:
         """結束目前回合，並且保存遊戲狀態至資料庫"""
         game = self.game_repository.get_game_by_id(game_id)
 
@@ -164,7 +167,7 @@ class GameService:
 
         return True
 
-    def end_round(self, game_id, player_id):
+    def end_round(self, game_id: str, player_id: str) -> None:
         # 局結束
         game = self.game_repository.get_game_by_id(game_id)
         player = game.find_player_by_id(player_id)
@@ -192,7 +195,7 @@ class GameService:
         self.game_repository.update_game(game)
         self.start_new_round(game_id)
 
-    def start_new_round(self, game_id):
+    def start_new_round(self, game_id: str) -> None:
         game = self.game_repository.get_game_by_id(game_id)
 
         game = game.init_game_state(game)

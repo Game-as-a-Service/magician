@@ -1,8 +1,14 @@
+from typing import Optional
+
 from .redis_repository import RedisRepository
 
 
 class DataLoader:
-    def __init__(self, emitter=None, repo=None):
+    def __init__(
+        self,
+        emitter: Optional["EventEmitter"] = None,
+        repo: Optional["GameRepository"] = None,
+    ):
         if emitter:
             self.emitter = emitter
         else:
@@ -15,7 +21,7 @@ class DataLoader:
         if self.emitter:
             self.emitter.on("game_updated", self.handle_game_updated)
 
-    def handle_game_updated(self, game_id):
+    def handle_game_updated(self, game_id: str) -> None:
         game = self.repo.get_game_by_id(game_id)
         for player in game.players:
             real_game = game.real_game_can_see(player.player_id)

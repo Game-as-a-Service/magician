@@ -1,6 +1,7 @@
 import os
 import socketio
 from flask import Flask
+from typing import Dict, Any
 
 app = Flask(__name__)
 
@@ -21,16 +22,16 @@ app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app)
 
 
 @sio.event
-def connect(sid, environ):
+def connect(sid: str, environ: Dict[str, Any]):
     print("connect ", sid)
 
 
-active_players = {}
+active_players: Dict[str, Dict[str, str]] = {}
 
 
 @sio.on("player_joined")
-def player_joined(sid, data):
-    player_id = data.get("player_id")
+def player_joined(sid: str, data: Dict[str, str]):
+    player_id: str = data.get("player_id")
     active_players[sid] = {"player_id": player_id}
     sio.enter_room(sid, player_id)
     sio.emit("player_joined", {"player_id": player_id}, room=player_id)
