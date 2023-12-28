@@ -60,6 +60,5 @@ defineEmits([ 'close' ])
         src="/src/assets/images/book/magicBookOpen.png"
       > 
     </div>
-  
   </div>
 </template>

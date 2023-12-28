@@ -9,6 +9,7 @@ import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
 import LeaveBtn from './LeaveBtn.vue'
 import OpenedBook from './OpenedBook.vue'
+import MagicBoard from './MagicBoard.vue'
 import HintBar from '@/components/common/HintBar.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
@@ -76,7 +77,7 @@ watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
         <BoardcastArea></BoardcastArea>
         <MyState class="mt-6"></MyState>
       </div>
-      <div class="absolute top-[330px] left-[370px]">
+      <div class="absolute z-50 top-[330px] left-[370px]">
         <TableWithPlayer></TableWithPlayer>
       </div>
       <div
@@ -92,6 +93,9 @@ watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
       </div>
       <div v-if="showBook">
         <OpenedBook @close="showBook=false"></OpenedBook>
+      </div>
+      <div class="bg-grey50 top-0 left-0 w-full h-full backdrop-blur-sm absolute">
+        <MagicBoard></MagicBoard>
       </div>
       <HintBar
         v-if="showHint"
