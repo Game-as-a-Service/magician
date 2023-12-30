@@ -21,12 +21,12 @@ def test_happy_path_round3(game_service, five_player_game, monkeypatch):
 
     game = game_service.game_repository.get_game_by_id(game_id)
 
-    # 洗牌 O列
+    # 洗牌 X列
     assert game.turn == 1
     game.round = 3
     game.players[0].score = 0
     game.players[1].score = 4
-    game.players[2].score = 2
+    game.players[2].score = 3
     game.players[3].score = 1
     game.players[4].score = 1
     game.players[0].spells = ["Magic 2", "Magic 5", "Magic 6", "Magic 8", "Magic 8"]
@@ -48,7 +48,7 @@ def test_happy_path_round3(game_service, five_player_game, monkeypatch):
 
     game_service.game_repository.update_game(game)
 
-    # A施法1 X列
+    # A施法1 Y列
     assert game.round == 3
     assert game.turn == 1
     assert game.current_player == 0
@@ -56,7 +56,7 @@ def test_happy_path_round3(game_service, five_player_game, monkeypatch):
     game = game_service.game_repository.get_game_by_id(game_id)
     assert game.find_player_by_id("A").get_HP() == 3
 
-    # B施法7 Y列
+    # B施法7 X列
     assert game.turn == 2
     assert game.current_player == 1
     game_service.cast_spell(game_id, "B", "Magic 7")
@@ -65,7 +65,7 @@ def test_happy_path_round3(game_service, five_player_game, monkeypatch):
     assert len(game.find_player_by_id("B").spells) == 4
     assert len(game.ladder) == 1
 
-    # B施法7 Z列
+    # B施法7 AA列
     assert game.turn == 2
     assert game.current_player == 1
     game_service.cast_spell(game_id, "B", "Magic 7")
@@ -74,7 +74,7 @@ def test_happy_path_round3(game_service, five_player_game, monkeypatch):
     assert len(game.find_player_by_id("B").spells) == 3
     assert len(game.ladder) == 2
 
-    # B補充手牌 AA列
+    # B補充手牌 AB列
     assert game.current_player == 1
     assert game_service.end_turn(game_id, "B")
     game = game_service.game_repository.get_game_by_id(game_id)
@@ -82,27 +82,27 @@ def test_happy_path_round3(game_service, five_player_game, monkeypatch):
     assert game.find_player_by_id("B").spells[4] == "Magic 8"
     assert len(game.warehouse) == 5
 
-    # C施法4 AB列
+    # C施法4 AC列
     assert game.turn == 3
     assert game.current_player == 2
     game_service.cast_spell(game_id, "C", "Magic 4")
     game = game_service.game_repository.get_game_by_id(game_id)
     assert game.find_player_by_id("C").get_HP() == 5
 
-    # D施法5 AC列
+    # D施法5 AD列
     assert game.turn == 4
     assert game.current_player == 3
     game_service.cast_spell(game_id, "D", "Magic 5")
     game = game_service.game_repository.get_game_by_id(game_id)
     assert game.find_player_by_id("D").get_HP() == 5
 
-    # E施法5,殺死玩家A, 系統自動結算 AD列
+    # E施法5,殺死玩家A, 系統自動結算 AE列
     assert game.turn == 5
     assert game.current_player == 4
     game_service.cast_spell(game_id, "E", "Magic 5")
     game = game_service.game_repository.get_game_by_id(game_id)
     assert game.find_player_by_id("A").score == 0
     assert game.find_player_by_id("B").score == 5
-    assert game.find_player_by_id("C").score == 3
+    assert game.find_player_by_id("C").score == 4
     assert game.find_player_by_id("D").score == 2
     assert game.find_player_by_id("E").score == 4

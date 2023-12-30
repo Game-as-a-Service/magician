@@ -189,8 +189,8 @@ class GameService:
         for p in game.players:
             if p.get_HP() > 0:
                 if len(p.secret_spells) > 0:
-                    # 持有秘密魔法石，在額外加1分
-                    p.update_score(1)
+                    # 持有秘密魔法石，有幾個加幾分
+                    p.update_score(len(p.secret_spells))
 
         self.game_repository.update_game(game)
         self.start_new_round(game_id)

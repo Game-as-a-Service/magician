@@ -31,8 +31,8 @@ def test_happy_path_round1(game_service, five_player_game, monkeypatch):
     # 洗牌 B列
     game.players[0].spells = ["Magic 3", "Magic 3", "Magic 5", "Magic 7", "Magic 8"]
     game.players[1].spells = ["Magic 5", "Magic 5", "Magic 7", "Magic 8", "Magic 8"]
-    game.players[2].spells = ["Magic 4", "Magic 5", "Magic 5", "Magic 6", "Magic 8"]
-    game.players[3].spells = ["Magic 4", "Magic 6", "Magic 6", "Magic 7", "Magic 8"]
+    game.players[2].spells = ["Magic 4", "Magic 4", "Magic 5", "Magic 6", "Magic 8"]
+    game.players[3].spells = ["Magic 5", "Magic 6", "Magic 6", "Magic 7", "Magic 8"]
     game.players[4].spells = ["Magic 2", "Magic 6", "Magic 7", "Magic 7", "Magic 8"]
 
     game.secret_warehouse = ["Magic 2", "Magic 3", "Magic 7", "Magic 8"]
@@ -102,28 +102,39 @@ def test_happy_path_round1(game_service, five_player_game, monkeypatch):
     assert len(game.secret_warehouse) == 3
     assert len(game.ladder) == 4
 
-    # C補充手牌5 J列
+    # C施法4 J列
+    assert game.current_player == 2
+    assert game.turn == 3
+    game_service.cast_spell(game_id, "C", "Magic 4")
+    game = game_service.game_repository.get_game_by_id(game_id)
+    assert len(game.find_player_by_id("C").spells) == 3
+    assert game.find_player_by_id("C").secret_spells[1] == "Magic 7"
+    assert len(game.secret_warehouse) == 2
+    assert len(game.ladder) == 5
+
+    # C補充手牌5 K列
     assert game.current_player == 2
     assert game_service.end_turn(game_id, "C")
     game = game_service.game_repository.get_game_by_id(game_id)
-    assert game.find_player_by_id("C").spells[4] == "Magic 1"
-    assert len(game.warehouse) == 3
+    assert game.find_player_by_id("C").spells[3] == "Magic 1"
+    assert game.find_player_by_id("C").spells[4] == "Magic 6"
+    assert len(game.warehouse) == 2
 
-    # D施法5 K列
+    # D施法5 L列
     assert game.current_player == 3
     assert game.turn == 4
-    game_service.cast_spell(game_id, "D", "Magic 5")
+    game_service.cast_spell(game_id, "D", "Magic 3")
     game = game_service.game_repository.get_game_by_id(game_id)
     assert game.find_player_by_id("D").get_HP() == 5
 
-    # E施法5 L列
+    # E施法5 M列
     assert game.current_player == 4
     assert game.turn == 5
     game_service.cast_spell(game_id, "E", "Magic 5")
     game = game_service.game_repository.get_game_by_id(game_id)
     assert game.find_player_by_id("E").get_HP() == 4
 
-    # A施法1, 因為玩家A自殺, 自動進入結算 M列
+    # A施法1, 因為玩家A自殺, 自動進入結算 N列
     assert game.current_player == 0
     assert game.turn == 6
     game_service.cast_spell(game_id, "A", "Magic 1")
@@ -132,6 +143,6 @@ def test_happy_path_round1(game_service, five_player_game, monkeypatch):
         assert player.get_HP() == 6
     assert game.find_player_by_id("A").score == 0
     assert game.find_player_by_id("B").score == 1
-    assert game.find_player_by_id("C").score == 2
+    assert game.find_player_by_id("C").score == 3
     assert game.find_player_by_id("D").score == 1
     assert game.find_player_by_id("E").score == 1

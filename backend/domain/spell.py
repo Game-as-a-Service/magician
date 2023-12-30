@@ -59,10 +59,10 @@ class Spell:
         :param game: 目前遊戲狀態，從資料庫取出
         :param player: 施法玩家
         """
+        damage = roll_dice()
 
         for p in game.players:
             if p != player:
-                damage = roll_dice()
                 p.update_HP(-damage)
         return "fire_dragon", damage
 

@@ -87,7 +87,7 @@ def test_player_cast_spell(game_service, five_player_game):
 
 
 def test_spell_fire_dragon(five_player_game, players, monkeypatch):
-    dice_results = [2, 3, 1, 3]
+    dice_results = [2]
     dice_results_iter = iter(dice_results)
     monkeypatch.setattr("domain.spell.roll_dice", lambda: next(dice_results_iter))
     player1 = players[0]
@@ -107,9 +107,9 @@ def test_spell_fire_dragon(five_player_game, players, monkeypatch):
 
     assert player1.get_HP() == init_HP1
     assert player2.get_HP() == init_HP2 - dice_results[0]
-    assert player3.get_HP() == init_HP3 - dice_results[1]
-    assert player4.get_HP() == init_HP4 - dice_results[2]
-    assert player5.get_HP() == init_HP5 - dice_results[3]
+    assert player3.get_HP() == init_HP3 - dice_results[0]
+    assert player4.get_HP() == init_HP4 - dice_results[0]
+    assert player5.get_HP() == init_HP5 - dice_results[0]
 
 
 def test_spell_dark_ghost(five_player_game, players):
