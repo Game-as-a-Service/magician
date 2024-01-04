@@ -23,7 +23,28 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
   score: player.score,
   imgSrc: imgSrcs[i],
   playerClass: playerClasses[i],
+  attackable: attackable(i, gameStore.hoverMagic, gameStore.playingIndex),
+  healable: healable(i, gameStore.hoverMagic, gameStore.playingIndex),
 })))
+const attackable = (playerIndex, magicNumber, playingIndex) => {
+  if (magicNumber === 1 || magicNumber === 2) {
+    return playerIndex !== playingIndex
+  }
+  if (magicNumber === 5) {
+    return playerIndex == (4 + playingIndex) % 5 || playerIndex == (6 + playingIndex) % 5
+  }
+  if (magicNumber === 6) {
+    return playerIndex == (6 + playingIndex) % 5
+  }
+  if (magicNumber === 7) {
+    return playerIndex == (4 + playingIndex) % 5
+  }
+}
+const healable = (playerIndex, magicNumber, playingIndex) => {
+  if (magicNumber === 2 || magicNumber === 3 || magicNumber === 8) {
+    return playerIndex == playingIndex
+  } 
+}
 // function getImageUrl (name) {
 //   const url = `/src/assets/images/avatar/${ name }.png`
 //   return new URL(url, import.meta.url)
@@ -68,10 +89,17 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
     <div
       v-for="item of players"
       :key="item.name"
-      class="w-[100px] h-[100px] absolute"
+      class="w-[100px] h-[100px] absolute "
       :class="item.playerClass"
     >
       <img :src="item.imgSrc">
+      <!-- /      <div class="healable "></div> -->
+      <!-- <div v-if="item.attackable" class="attackable "></div> -->
+      <div 
+        class="transition duration-500 ease-linear"
+        :class="{ 'healable': item.healable, 
+                  'attackable': item.attackable }"
+      ></div>
     </div>
     <div
       v-for="item of players"
@@ -88,6 +116,31 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 </template>
 
 <style>
+
+.attackable{
+  border-radius:100%;
+  border:13px solid red;
+  filter: blur(5px);
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100px;
+  transform: scale(1.2);
+}
+
+.healable{
+  border-radius:100%;
+  border:10px solid white;
+  filter: blur(5px);
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100px;
+  transform: scale(1.1);
+}
+
 .player-green {
   top: 295px;
   left: 60px;
