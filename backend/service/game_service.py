@@ -203,6 +203,8 @@ class GameService:
         game.round += 1
         game.turn = 1
 
+        game.shuffle_player()
+
         self.game_repository.update_game(game)
 
         for player in game.players:

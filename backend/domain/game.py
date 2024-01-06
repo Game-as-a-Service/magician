@@ -110,6 +110,9 @@ class Game:
             game_copy.secret_warehouse = hidden_stone * num_secrets
         return game_copy
 
+    def shuffle_player(self):
+        shuffle(self.players)
+
     def to_dict(self) -> dict:
         data = {
             "game_id": self.game_id,
