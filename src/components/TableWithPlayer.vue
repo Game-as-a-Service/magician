@@ -17,13 +17,39 @@ const playerClasses = [
   'player-yellow',
   'player-blue',
 ]
-const players = computed(() => gameStore.gameStatus.players.map((player, i) => ({
-  name: player.player_id,
-  hp: player.HP,
-  score: player.score,
-  imgSrc: imgSrcs[i],
-  playerClass: playerClasses[i],
-})))
+const players = computed(() =>
+  gameStore.gameStatus.players.map((player, i) => ({
+    name: player.player_id,
+    hp: player.HP,
+    score: player.score,
+    imgSrc: imgSrcs[i],
+    playerClass: playerClasses[i],
+    attackable: attackable(i, gameStore.hoverMagic, gameStore.playingIndex),
+    healable: healable(i, gameStore.hoverMagic, gameStore.playingIndex),
+  }))
+)
+const attackable = (playerIndex, magicNumber, playingIndex) => {
+  if (magicNumber === 1 || magicNumber === 2) {
+    return playerIndex !== playingIndex
+  }
+  if (magicNumber === 5) {
+    return (
+      playerIndex == (4 + playingIndex) % 5 ||
+      playerIndex == (6 + playingIndex) % 5
+    )
+  }
+  if (magicNumber === 6) {
+    return playerIndex == (6 + playingIndex) % 5
+  }
+  if (magicNumber === 7) {
+    return playerIndex == (4 + playingIndex) % 5
+  }
+}
+const healable = (playerIndex, magicNumber, playingIndex) => {
+  if (magicNumber === 2 || magicNumber === 3 || magicNumber === 8) {
+    return playerIndex == playingIndex
+  }
+}
 // function getImageUrl (name) {
 //   const url = `/src/assets/images/avatar/${ name }.png`
 //   return new URL(url, import.meta.url)
@@ -64,7 +90,7 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 </script>
 
 <template>
-  <div class="w-[480px] h-[480px] relative flex justify-center items-center ">
+  <div class="w-[480px] h-[480px] relative flex justify-center items-center">
     <div
       v-for="item of players"
       :key="item.name"
@@ -72,6 +98,13 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
       :class="item.playerClass"
     >
       <img :src="item.imgSrc">
+      <!-- /      <div class="healable "></div> -->
+      <!-- <div v-if="item.attackable" class="attackable "></div> -->
+      <div
+        class="transition duration-500 ease-linear"
+        :class="{ healable: item.healable,
+                  attackable: item.attackable }"
+      ></div>
     </div>
     <div
       v-for="item of players"
@@ -88,6 +121,32 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 </template>
 
 <style>
+.attackable {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  filter: blur(5px);
+  border: 13px solid #ff0000;
+  border-radius: 100%;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.healable {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  filter: blur(5px);
+  border: 10px solid #fff;
+  border-radius: 100%;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
 .player-green {
   top: 295px;
   left: 60px;
@@ -114,28 +173,48 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 }
 
 .hp-player-green {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 1 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 1 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 1 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 1 + var(--deg-angle))
+  );
 }
 
 .hp-player-orange {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 2 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 2 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 2 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 2 + var(--deg-angle))
+  );
 }
 
 .hp-player-red {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 3 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 3 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 3 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 3 + var(--deg-angle))
+  );
 }
 
 .hp-player-yellow {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 4 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 4 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 4 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 4 + var(--deg-angle))
+  );
 }
 
 .hp-player-blue {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 0 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 0 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 0 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 0 + var(--deg-angle))
+  );
 }
 
 :root {
@@ -144,5 +223,4 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
   --center-x: 227px;
   --center-y: 215px;
 }
-
 </style>

@@ -14,7 +14,7 @@ import HintBar from '@/components/common/HintBar.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import {
-  ref, computed, watch
+  ref, computed, watch 
 } from 'vue'
 const gameStore = useGameStore()
 const socket = ref(null)
@@ -46,26 +46,34 @@ const joinGame = () => {
     gameStore.playingId = playerId.value
   })
 }
-watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    if (newVal === undefined) return
-    if (playerIds[newVal] === playingId.value) {
-      showHint.value = true
-      setTimeout(() => {
-        showHint.value = false
-      }, 1000)
+const showWarehouse = computed(() => {
+  return gameStore.hoverMagic === 4
+})
+watch(
+  () => gameStore.gameStatus.current_player,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      if (newVal === undefined) return
+      if (playerIds[newVal] === playingId.value) {
+        showHint.value = true
+        setTimeout(() => {
+          showHint.value = false
+        }, 1000)
+      }
     }
   }
-})
+)
 </script>
 
 <template>
   <div>
-    <div class=" bg-gray-700 w-[1440px] h-[1024px] p-8 relative">
+    <div class="bg-gray-700 w-[1440px] h-[1024px] p-8 relative">
       <div class="flex gap-11">
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>
-        <WarehouseSecret></WarehouseSecret>
+        <WarehouseSecret
+          :class="{ 'show-warehouse': showWarehouse }"
+        ></WarehouseSecret>
       </div>
       <div class="absolute top-8 right-8">
         <OpponentTable></OpponentTable>
@@ -88,13 +96,15 @@ watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
           <img src="/src/assets/images/book/book1.png">
         </div>
       </div>
-      <div class="absolute bottom-8  left-[730px]">
+      <div class="absolute bottom-8 left-[730px]">
         <LeaveBtn></LeaveBtn>
       </div>
       <div v-if="showBook">
-        <OpenedBook @close="showBook=false"></OpenedBook>
+        <OpenedBook @close="showBook = false"></OpenedBook>
       </div>
-      <div class="bg-grey50 top-0 left-0 w-full h-full backdrop-blur-sm absolute">
+      <div
+        class="bg-grey50 top-0 left-0 w-full h-full backdrop-blur-sm absolute"
+      >
         <MagicBoard></MagicBoard>
       </div>
       <HintBar
@@ -132,7 +142,7 @@ watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
           </select>
           <button
             type="button"
-            class="focus:outline-none  text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             @click="handleConnect"
           >
             連線
@@ -142,3 +152,12 @@ watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
     </div>
   </div>
 </template>
+
+<style scope>
+.show-warehouse {
+  z-index: 50;
+  border: 5px solid #fff;
+  border-style: outset;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .3) 0;
+}
+</style>

@@ -46,9 +46,9 @@ const opponents = computed(() => gameStore.gameStatus.players.map((player, i) =>
 
 function getMagicStoneUrl (magicStone) {
   const url = `/src/assets/images/stone/${ magicStone }.png`
-  return new URL(url, import.meta.url)
+  return new URL(url, import.meta.url) 
 }
-const spells = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！', 'Give me magic!', '霹靂卡霹靂拉拉' ]
+const spells = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！', 'Give me magic!', '霹靂卡霹靂拉拉', '快龍就是魯魯米', '你還是太年輕6', '讓我想一下', '去去爬爬走' ]
 
 // const opponent = [
 //   {

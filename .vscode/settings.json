@@ -1,9 +1,9 @@
 {
     "files.insertFinalNewline": false,
     "editor.codeActionsOnSave": {
-        "source.fixAll": false,
-        "source.fixAll.eslint": true,
-        "source.fixAll.stylelint": true
+      "source.fixAll": true,
+      "source.fixAll.eslint": true,
+      "source.fixAll.stylelint": true
     },
     "eslint.format.enable": true,
     "eslint.validate": [
@@ -35,5 +35,8 @@
     },
     "blueprint.templatesPath": [
       ".vscode/blueprint-templates"
-    ]
+    ],
+    "editor.wordWrapColumn": 60,
+    "editor.accessibilityPageSize": 80,
+    "editor.formatOnSave": true,
 }
