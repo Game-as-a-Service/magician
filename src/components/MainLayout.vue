@@ -46,6 +46,9 @@ const joinGame = () => {
     gameStore.playingId = playerId.value
   })
 }
+const showWarehouse = computed(() => {
+  return gameStore.hoverMagic === 4
+})
 watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
   if (newVal !== oldVal) {
     if (newVal === undefined) return
@@ -65,7 +68,7 @@ watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
       <div class="flex gap-11">
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>
-        <WarehouseSecret></WarehouseSecret>
+        <WarehouseSecret :class="{ 'show-warehouse': showWarehouse }"></WarehouseSecret>
       </div>
       <div class="absolute top-8 right-8">
         <OpponentTable></OpponentTable>
@@ -142,3 +145,12 @@ watch(() => gameStore.gameStatus.current_player, (newVal, oldVal) => {
     </div>
   </div>
 </template>
+
+<style scope>
+.show-warehouse {
+  z-index: 50;
+  border:5px solid white;
+  border-style: outset;
+  box-shadow: 5px 5px 5px rgba(0,0,0,.3);
+}
+</style>

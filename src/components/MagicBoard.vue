@@ -1,13 +1,16 @@
 <script setup>
 import { useGameStore } from '@/stores/game'
 import {
-  defineEmits, ref, computed
+  defineEmits, ref, computed 
 } from 'vue'
 defineEmits([ 'close' ])
 function getImageUrl (number) {
   const url = `/src/assets/images/stone/magic${ number }.png`
   return new URL(url, import.meta.url)
 }
+// 上一次出牌
+const lastMagic = ref(0)
+
 import CountDown from './common/CountDown.vue'
 const gameStore = useGameStore()
 // const hoverItem = ref(0)
@@ -16,23 +19,27 @@ const focusMagic = computed(() => {
 })
 const magicDesc = [
   {
-    title: '', content: '',
+    title: '',
+    content: '',
   },
   {
     title: 'Magic1-火爆的龍,共1張',
-    content: '所有玩家將扣除等同於擲骰點數的生命值,不要怕！如果喊出但手牌中沒有此魔法,將遭到反噬,所以也必須擲骰子,骰出多少點數失去多生命值。'
+    content:
+      '所有玩家將扣除等同於擲骰點數的生命值,不要怕！如果喊出但手牌中沒有此魔法,將遭到反噬,所以也必須擲骰子,骰出多少點數失去多生命值。',
   },
   {
     title: 'Magic2-黑暗幽靈,共2張',
-    content: '其他玩家將失去1點生命值,而你卻神秘地回復了1點生命值！'
+    content: '其他玩家將失去1點生命值,而你卻神秘地回復了1點生命值！',
   },
   {
     title: 'Magic3-甜蜜夢境,共3張',
-    content: '你將回復擲骰點數所代表的生命值,最高回復上限是6點,享受治癒的魔力吧！',
+    content:
+      '你將回復擲骰點數所代表的生命值,最高回復上限是6點,享受治癒的魔力吧！',
   },
   {
     title: 'Magic4-智慧鳥,共4張',
-    content: '你可以暗中查看1個秘密魔法石,蓋在自己面前。在這一輪結束時,每多蓋著1個魔法石,就能額外加1分,智慧鳥賦予你智慧和洞察力。'
+    content:
+      '你可以暗中查看1個秘密魔法石,蓋在自己面前。在這一輪結束時,每多蓋著1個魔法石,就能額外加1分,智慧鳥賦予你智慧和洞察力。',
   },
   {
     title: 'Magic5-暴風雨,共5張',
@@ -40,17 +47,18 @@ const magicDesc = [
   },
   {
     title: 'Magic6-暴雪,共6張',
-    content: '你的左手邊玩家將遭受暴雪的襲擊,失去1點生命值!'
+    content: '你的左手邊玩家將遭受暴雪的襲擊,失去1點生命值!',
   },
   {
     title: 'Magic7-火焰彈,共7張,',
-    content: '你的右手邊玩家要小心了,他們將被你的火焰彈命中,損失1點生命值,將他們燃燒成灰燼!',
+    content:
+      '你的右手邊玩家要小心了,他們將被你的火焰彈命中,損失1點生命值,將他們燃燒成灰燼!',
   },
   {
     title: 'Magic8-魔藥水,共8張,',
-    content: '喝下一瓶魔藥水,恢復1點生命值,這瓶神奇的魔法藥水將帶來治癒與重生的力量!'
+    content:
+      '喝下一瓶魔藥水,恢復1點生命值,這瓶神奇的魔法藥水將帶來治癒與重生的力量!',
   },
-
 ]
 const setHoverMagic = (magicNumber) => {
   gameStore.setHoverMagic(magicNumber)
@@ -59,17 +67,24 @@ const setHoverMagic = (magicNumber) => {
 
 <template>
   <div class="relative">
-    <div class="w-[870px] h-[920px] grid grid-cols-3 absolute top-[190px] left-[270px]">
+    <div
+      class="w-[870px] h-[920px] grid grid-cols-3 absolute top-[190px] left-[270px]"
+    >
       <div
         v-for="i in 4"
         :key="i"
         class="border border-grey70 w-[120px] h-[143px] flex justify-center items-center"
       >
         <img
+          v-if="lastMagic <= i"
           class="cursor-pointer"
           :src="getImageUrl(i)"
           @mouseenter="setHoverMagic(i)"
           @mouseleave="setHoverMagic(0)"
+        >
+        <img
+          v-else
+          src="/src/assets/images/stone/stone.png"
         >
       </div>
       <div></div>
@@ -79,10 +94,15 @@ const setHoverMagic = (magicNumber) => {
         class="border border-grey70 w-[120px] h-[143px] flex justify-center items-center"
       >
         <img
+          v-if="lastMagic <= i + 4"
           class="cursor-pointer"
-          :src="getImageUrl(i+4)"
-          @mouseenter="setHoverMagic(i+4)"
+          :src="getImageUrl(i + 4)"
+          @mouseenter="setHoverMagic(i + 4)"
           @mouseleave="setHoverMagic(0)"
+        >
+        <img
+          v-else
+          src="/src/assets/images/stone/stone.png"
         >
       </div>
     </div>
@@ -113,7 +133,7 @@ const setHoverMagic = (magicNumber) => {
 }
 
 .parallelogram::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -10px;

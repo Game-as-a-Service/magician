@@ -96,7 +96,7 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
       <!-- /      <div class="healable "></div> -->
       <!-- <div v-if="item.attackable" class="attackable "></div> -->
       <div 
-        class="transition duration-500 ease-linear"
+        class="transition duration-500 ease-linear "
         :class="{ 'healable': item.healable, 
                   'attackable': item.attackable }"
       ></div>
@@ -127,6 +127,7 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
   width: 100px;
   height: 100px;
   transform: scale(1.2);
+  opacity: 1 ;
 }
 
 .healable{
@@ -139,6 +140,7 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
   width: 100px;
   height: 100px;
   transform: scale(1.1);
+  opacity: 1;
 }
 
 .player-green {
