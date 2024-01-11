@@ -1,22 +1,22 @@
 <script setup>
-import { computed } from "vue";
-import TableDesk from "@/components/TableDesk.vue";
-import { useGameStore } from "@/stores/game";
-const gameStore = useGameStore();
+import { computed } from 'vue'
+import TableDesk from '@/components/TableDesk.vue'
+import { useGameStore } from '@/stores/game'
+const gameStore = useGameStore()
 const imgSrcs = [
-  "/src/assets/images/avatar/avatar_green.png",
-  "/src/assets/images/avatar/avatar_orange.png",
-  "/src/assets/images/avatar/avatar_red.png",
-  "/src/assets/images/avatar/avatar_yellow.png",
-  "/src/assets/images/avatar/avatar_blue.png",
-];
+  '/src/assets/images/avatar/avatar_green.png',
+  '/src/assets/images/avatar/avatar_orange.png',
+  '/src/assets/images/avatar/avatar_red.png',
+  '/src/assets/images/avatar/avatar_yellow.png',
+  '/src/assets/images/avatar/avatar_blue.png',
+]
 const playerClasses = [
-  "player-green",
-  "player-orange",
-  "player-red",
-  "player-yellow",
-  "player-blue",
-];
+  'player-green',
+  'player-orange',
+  'player-red',
+  'player-yellow',
+  'player-blue',
+]
 const players = computed(() =>
   gameStore.gameStatus.players.map((player, i) => ({
     name: player.player_id,
@@ -27,29 +27,29 @@ const players = computed(() =>
     attackable: attackable(i, gameStore.hoverMagic, gameStore.playingIndex),
     healable: healable(i, gameStore.hoverMagic, gameStore.playingIndex),
   }))
-);
+)
 const attackable = (playerIndex, magicNumber, playingIndex) => {
   if (magicNumber === 1 || magicNumber === 2) {
-    return playerIndex !== playingIndex;
+    return playerIndex !== playingIndex
   }
   if (magicNumber === 5) {
     return (
       playerIndex == (4 + playingIndex) % 5 ||
       playerIndex == (6 + playingIndex) % 5
-    );
+    )
   }
   if (magicNumber === 6) {
-    return playerIndex == (6 + playingIndex) % 5;
+    return playerIndex == (6 + playingIndex) % 5
   }
   if (magicNumber === 7) {
-    return playerIndex == (4 + playingIndex) % 5;
+    return playerIndex == (4 + playingIndex) % 5
   }
-};
+}
 const healable = (playerIndex, magicNumber, playingIndex) => {
   if (magicNumber === 2 || magicNumber === 3 || magicNumber === 8) {
-    return playerIndex == playingIndex;
+    return playerIndex == playingIndex
   }
-};
+}
 // function getImageUrl (name) {
 //   const url = `/src/assets/images/avatar/${ name }.png`
 //   return new URL(url, import.meta.url)
@@ -97,12 +97,13 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
       class="w-[100px] h-[100px] absolute"
       :class="item.playerClass"
     >
-      <img :src="item.imgSrc" />
+      <img :src="item.imgSrc">
       <!-- /      <div class="healable "></div> -->
       <!-- <div v-if="item.attackable" class="attackable "></div> -->
       <div
         class="transition duration-500 ease-linear"
-        :class="{ healable: item.healable, attackable: item.attackable }"
+        :class="{ healable: item.healable,
+                  attackable: item.attackable }"
       ></div>
     </div>
     <div
