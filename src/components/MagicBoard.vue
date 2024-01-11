@@ -8,6 +8,7 @@ function getImageUrl (number) {
   const url = `/src/assets/images/stone/magic${ number }.png`
   return new URL(url, import.meta.url)
 }
+
 // 上一次出牌
 const lastMagic = ref(0)
 
@@ -133,7 +134,7 @@ const setHoverMagic = (magicNumber) => {
 }
 
 .parallelogram::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: -10px;
