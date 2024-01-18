@@ -137,7 +137,7 @@ const setHoverMagic = (magicNumber) => {
 }
 
 .parallelogram::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: -10px;

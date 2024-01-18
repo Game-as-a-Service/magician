@@ -5,10 +5,10 @@ import {
 } from 'vue'
 import CountDown from './common/CountDown.vue'
 defineEmits([ 'close' ])
-function getImageUrl (number) {
-  const url = `/src/assets/images/stone/magic${ number }.png`
-  return new URL(url, import.meta.url)
-}
+// function getImageUrl (number) {
+//   const url = `/src/assets/images/stone/magic${ number }.png`
+//   return new URL(url, import.meta.url)
+// }
 const gameStore = useGameStore()
 const secretNumber = computed(() => {
   if (!gameStore.gameStatus.secret_warehouse) return 0
@@ -36,7 +36,7 @@ const secretNumber = computed(() => {
 </template>
 
 <style scoped>
-.secrect-table{
-  background: linear-gradient(7deg, rgba(104,17,64,1) 9%, rgba(244,202,152,1) 100%);
+.secrect-table {
+  background: linear-gradient(7deg, rgba(104, 17, 64, 1) 9%, rgba(244, 202, 152, 1) 100%);
 }
 </style>

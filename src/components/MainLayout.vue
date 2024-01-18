@@ -9,8 +9,8 @@ import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
 import LeaveBtn from './LeaveBtn.vue'
 import OpenedBook from './OpenedBook.vue'
-import SpellMagicBoard from './SpellMagicBoard.vue'
-import SecretSelectTable from './SecretSelectTable.vue'
+// import SpellMagicBoard from './SpellMagicBoard.vue'
+// import SecretSelectTable from './SecretSelectTable.vue'
 import HintBar from '@/components/common/HintBar.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
@@ -164,10 +164,10 @@ watch(
   z-index: 50;
   border: 5px solid #fff;
   border-style: outset;
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3) 0;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .3) 0;
 }
 
-.backgroundBlur{
+.backgroundBlur {
   backdrop-filter: blur(2px);
 }
 </style>
