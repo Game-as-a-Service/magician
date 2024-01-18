@@ -1,42 +1,42 @@
 {
-    "files.insertFinalNewline": false,
-    "editor.codeActionsOnSave": {
-      "source.fixAll": true,
-      "source.fixAll.eslint": true,
-      "source.fixAll.stylelint": true
-    },
-    "eslint.format.enable": true,
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        "vue",
-        "typescript",
-    ],
-    "vetur.validation.template": false,
-    "stylelint.useLocal": true,
-    "stylelint.autoFixOnSave": true,
-    "stylelint.validate": [
-        "css",
-        "scss"
-      ],
-    "css.validate": false,
-    "scss.validate": false,
-    "cSpell.ignorePaths": [
-      "**/package.json",
-      "**/package-lock.json",
-      "**/node_modules/**",
-      "**/vscode-extension/**",
-      "**/.git/**",
-      ".vscode"
-    ],
-    "path-intellisense.mappings": {
-      "@": "${workspaceRoot}/src",
-      "~": "${workspaceRoot}/src"
-    },
-    "blueprint.templatesPath": [
-      ".vscode/blueprint-templates"
-    ],
-    "editor.wordWrapColumn": 60,
-    "editor.accessibilityPageSize": 80,
-    "editor.formatOnSave": true,
+  "files.insertFinalNewline": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "eslint.format.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue",
+    "typescript",
+  ],
+  "vetur.validation.template": false,
+  "stylelint.useLocal": true,
+  "stylelint.autoFixOnSave": true,
+  "stylelint.validate": [
+    "css",
+    "scss"
+  ],
+  "css.validate": false,
+  "scss.validate": false,
+  "cSpell.ignorePaths": [
+    "**/package.json",
+    "**/package-lock.json",
+    "**/node_modules/**",
+    "**/vscode-extension/**",
+    "**/.git/**",
+    ".vscode"
+  ],
+  "path-intellisense.mappings": {
+    "@": "${workspaceRoot}/src",
+    "~": "${workspaceRoot}/src"
+  },
+  "blueprint.templatesPath": [
+    ".vscode/blueprint-templates"
+  ],
+  "editor.wordWrapColumn": 60,
+  "editor.accessibilityPageSize": 80,
+  // "editor.formatOnSave": false,
 }

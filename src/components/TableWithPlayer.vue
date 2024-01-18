@@ -26,6 +26,7 @@ const players = computed(() =>
     playerClass: playerClasses[i],
     attackable: attackable(i, gameStore.hoverMagic, gameStore.playingIndex),
     healable: healable(i, gameStore.hoverMagic, gameStore.playingIndex),
+    isPlaying: i === gameStore.playingIndex
   }))
 )
 const attackable = (playerIndex, magicNumber, playingIndex) => {
@@ -92,19 +93,25 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
 <template>
   <div class="w-[480px] h-[480px] relative flex justify-center items-center">
     <div
-      v-for="item of players"
-      :key="item.name"
+      v-for="player of players"
+      :key="player.name"
       class="w-[100px] h-[100px] absolute"
-      :class="item.playerClass"
+      :class="player.playerClass"
     >
-      <img :src="item.imgSrc">
+      <img :src="player.imgSrc">
       <!-- /      <div class="healable "></div> -->
-      <!-- <div v-if="item.attackable" class="attackable "></div> -->
+      <!-- <div v-if="player.attackable" class="attackable "></div> -->
       <div
         class="transition duration-500 ease-linear"
-        :class="{ healable: item.healable,
-                  attackable: item.attackable }"
+        :class="{ healable: player.healable,
+                  attackable: player.attackable }"
       ></div>
+      <div
+        v-if="player.isPlaying"
+        class="w-[80px] h-[100px] absolute top-3 -left-8 -rotate-[18deg] "
+      >
+        <img src="/src/assets/images/table/magicWand.svg">
+      </div>
     </div>
     <div
       v-for="item of players"

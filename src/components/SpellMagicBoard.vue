@@ -116,6 +116,9 @@ const setHoverMagic = (magicNumber) => {
     <div class="absolute top-[666px] left-[1233px]">
       <CountDown></CountDown>
     </div>
+    <div class="absolute top-[775px] rounded-lg left-[1233px] bg-white text-[#730000] text-3xl px-3 py-2">
+      不施法
+    </div>
   </div>
 </template>
 
@@ -146,4 +149,5 @@ const setHoverMagic = (magicNumber) => {
   border-radius: 5px;
   transform: skew(-10deg);
 }
+
 </style>
