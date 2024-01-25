@@ -22,6 +22,7 @@ const players = computed(() =>
     name: player.player_id,
     hp: player.HP,
     score: player.score,
+    holdStones: player.spells.length,
     imgSrc: imgSrcs[i],
     playerClass: playerClasses[i],
     attackable: attackable(i, gameStore.hoverMagic, gameStore.playingIndex),
@@ -95,7 +96,7 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
     <div
       v-for="player of players"
       :key="player.name"
-      class="w-[100px] h-[100px] absolute"
+      class="w-[100px] h-[100px] absolute hover-player"
       :class="player.playerClass"
     >
       <img :src="player.imgSrc">
@@ -111,6 +112,15 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
         class="w-[80px] h-[100px] absolute top-3 -left-8 -rotate-[18deg] "
       >
         <img src="/src/assets/images/table/magicWand.svg">
+      </div>
+      <div
+        class="bg-white hidden info-box absolute"
+      >
+        <div>
+          玩家：{{ player.name }}
+        </div>
+        <div>手牌數：{{ player.holdStones }}</div>
+        <div>分數：{{ player.score }}</div>
       </div>
     </div>
     <div
@@ -222,6 +232,30 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
   left: calc(
     var(--center-x) + var(--length) * cos(72deg * 0 + var(--deg-angle))
   );
+}
+
+.hover-player:hover .info-box {
+      z-index: 200;
+      display: block;
+      border-radius: 5px;
+      padding: 5px 10px;
+      min-width: max-content;
+      width: 145px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+      top: -80px;
+      opacity: 0.9;
+}
+
+.info-box::after{
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    left: 20%;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-top: 15px solid rgb(247,247,247);
+    opacity: 0.9;
 }
 
 :root {
