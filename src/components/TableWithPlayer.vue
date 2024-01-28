@@ -114,13 +114,17 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
         <img src="/src/assets/images/table/magicWand.svg">
       </div>
       <div
-        class="bg-white hidden info-box absolute"
+        class=" info-box absolute "
       >
-        <div>
-          玩家：{{ player.name }}
+        <div class="bg-white info">
+          <div class="block whitespace-nowrap">
+            玩家：{{ player.name }}
+          </div>
+          <div>手牌數：{{ player.holdStones }}</div>
+          <div>分數：{{ player.score }}</div>
         </div>
-        <div>手牌數：{{ player.holdStones }}</div>
-        <div>分數：{{ player.score }}</div>
+        <div class="info-box-triangle-left  inline-block w-[30px] h-[20px] "></div>
+        <div class="info-box-triangle-right  inline-block w-[30px] h-[20px] "></div>
       </div>
     </div>
     <div
@@ -234,28 +238,51 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
   );
 }
 
-.hover-player:hover .info-box {
-      z-index: 200;
-      display: block;
-      border-radius: 5px;
-      padding: 5px 10px;
-      min-width: max-content;
-      width: 145px;
-      box-shadow: 2px 2px 5px rgba(0,0,0,.3);
-      top: -80px;
-      opacity: 0.9;
+.info-box {
+  top: 0px;
+  z-index: 200;
+  display: block;
+  padding: 5px 10px;
+  opacity: 0;
+  transition: all .3s;
 }
 
-.info-box::after{
-    position: absolute;
-    content: '';
-    width: 0;
-    height: 0;
-    left: 20%;
-    border-left: 30px solid transparent;
-    border-right: 30px solid transparent;
-    border-top: 15px solid rgb(247,247,247);
-    opacity: 0.9;
+.hover-player:hover .info-box {
+  top: -100px;
+  z-index: 200;
+  display: block;
+  opacity: .9;
+}
+
+.info {
+  min-width: 140px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, .3);
+}
+
+.info-box-triangle-left,
+.info-box-triangle-right {
+  overflow: hidden;
+}
+
+.info-box-triangle-left::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 20px -10px 0px #fbfbfb;
+  transform: translateX(-50%);
+}
+
+.info-box-triangle-right::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: -20px -10px 0px #fbfbfb;
 }
 
 :root {
