@@ -1,5 +1,17 @@
 export default {
   content: [ './index.html', './src/**/*.{vue,js,ts,jsx,tsx}' ],
+  safelist: [
+    `bg-[url('@/assets/images/background/00.webp')]`,
+    `bg-[url('@/assets/images/background/01.webp')]`,
+    `bg-[url('@/assets/images/background/02.webp')]`, 
+    `bg-[url('@/assets/images/background/03.webp')]`, 
+    `bg-[url('@/assets/images/background/04.webp')]`, 
+    `bg-[url('@/assets/images/background/05.webp')]`, 
+    `bg-[url('@/assets/images/background/06.webp')]`, 
+    `bg-[url('@/assets/images/background/07.webp')]`, 
+    `bg-[url('@/assets/images/background/08.webp')]`, 
+    `bg-[url('@/assets/images/background/09.webp')]`, 
+  ],
   theme: {
     extend: {
       colors: {
