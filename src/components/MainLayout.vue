@@ -70,7 +70,7 @@ watch(
   <div>
     <div 
       :class="`bg-[url('@/assets/images/background/bg0`+Math.floor(Math.random() * 10)+`.webp')]`"
-      class=" backgroundBlur10 bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
+      class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
     >
       <div class="flex gap-11">
         <ScoreBoard></ScoreBoard>
