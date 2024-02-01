@@ -4,7 +4,7 @@ defineEmits([ 'close' ])
 </script>
 
 <template>
-  <div class="bg-grey50 w-full h-full top-0 left-0 absolute backdrop-blur-sm">
+  <div class="bg-grey50 z-50 w-full h-full top-0 left-0 absolute backdrop-blur-sm">
     <div class="bg-cover w-[1000px] h-[700px] bottom-0 left-0  absolute pt-[120px] pb-[140px] px-[80px] flex ">
       <div class=" w-1/2 h-full  z-20 relative">
         <ul class="h-full px-8 list-disc flex flex-col justify-evenly">

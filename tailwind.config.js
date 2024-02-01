@@ -1,16 +1,16 @@
 export default {
   content: [ './index.html', './src/**/*.{vue,js,ts,jsx,tsx}' ],
   safelist: [
-    `bg-[url('@/assets/images/background/00.webp')]`,
-    `bg-[url('@/assets/images/background/01.webp')]`,
-    `bg-[url('@/assets/images/background/02.webp')]`, 
-    `bg-[url('@/assets/images/background/03.webp')]`, 
-    `bg-[url('@/assets/images/background/04.webp')]`, 
-    `bg-[url('@/assets/images/background/05.webp')]`, 
-    `bg-[url('@/assets/images/background/06.webp')]`, 
-    `bg-[url('@/assets/images/background/07.webp')]`, 
-    `bg-[url('@/assets/images/background/08.webp')]`, 
-    `bg-[url('@/assets/images/background/09.webp')]`, 
+    `bg-[url('@/assets/images/background/bg00.webp')]`,
+    `bg-[url('@/assets/images/background/bg01.webp')]`,
+    `bg-[url('@/assets/images/background/bg02.webp')]`, 
+    `bg-[url('@/assets/images/background/bg03.webp')]`, 
+    `bg-[url('@/assets/images/background/bg04.webp')]`, 
+    `bg-[url('@/assets/images/background/bg05.webp')]`, 
+    `bg-[url('@/assets/images/background/bg06.webp')]`, 
+    `bg-[url('@/assets/images/background/bg07.webp')]`, 
+    `bg-[url('@/assets/images/background/bg08.webp')]`, 
+    `bg-[url('@/assets/images/background/bg09.webp')]`, 
   ],
   theme: {
     extend: {
