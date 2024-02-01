@@ -235,27 +235,27 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
 }
 
 .hover-player:hover .info-box {
-      z-index: 200;
-      display: block;
-      border-radius: 5px;
-      padding: 5px 10px;
-      min-width: max-content;
-      width: 145px;
-      box-shadow: 2px 2px 5px rgba(0,0,0,.3);
-      top: -80px;
-      opacity: 0.9;
+  top: -80px;
+  z-index: 200;
+  display: block;
+  width: 145px;
+  min-width: max-content;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, .3);
+  opacity: .9;
 }
 
-.info-box::after{
-    position: absolute;
-    content: '';
-    width: 0;
-    height: 0;
-    left: 20%;
-    border-left: 30px solid transparent;
-    border-right: 30px solid transparent;
-    border-top: 15px solid rgb(247,247,247);
-    opacity: 0.9;
+.info-box::after {
+  content: '';
+  position: absolute;
+  left: 20%;
+  width: 0;
+  height: 0;
+  border-top: 15px solid rgb(247, 247, 247);
+  border-right: 30px solid transparent;
+  border-left: 30px solid transparent;
+  opacity: .9;
 }
 
 :root {
