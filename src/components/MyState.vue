@@ -1,0 +1,91 @@
+<script setup>
+import {
+  computed 
+} from 'vue'
+import { useGameStore } from '@/stores/game'
+const gameStore = useGameStore()
+const me = computed(() => gameStore.gameStatus.players.find((player) => player.player_id === gameStore.playingId))
+function getImageUrl (number) {
+  const url = `/src/assets/images/stone/magic${ number }.png`
+  return new URL(url, import.meta.url)
+}
+const secretStones = computed(() => {
+  if (!me.value) return []
+
+  return me.value.secret_spells.map((spell) => {
+    switch (spell) {
+    case 'Magic 1':
+      return 1
+    case 'Magic 2':
+      return 2
+    case 'Magic 3':
+      return 3
+    case 'Magic 4':
+      return 4
+    case 'Magic 5':
+      return 5
+    case 'Magic 6':
+      return 6
+    case 'Magic 7':
+      return 7
+    case 'Magic 8':
+      return 8
+    default:
+      return 0
+    }
+  }).sort((a, b) => a - b)
+})
+// const secretStones = [ 5, 6, 7, 8 ]
+const handStoneCount = computed(() => {
+  if (!me.value) return 0
+  return me.value.spells.length
+})
+// const handStoneCount = ref(5)
+</script>
+
+<template>
+  <div class=" bg-grey50 w-[450px] h-[322px] pt-[10px] px-[33px]">
+    <p class="text-left w-full mt-1 mb-3 text-white font-medium"> 
+      我的口袋
+    </p>
+    <div class="flex ml-4 gap-2">
+      <div
+        v-for="(stone, index) in secretStones"
+        :key="index"
+        class="w-[66px] h-[88px]"
+      >
+        <img
+          class="stone-img"
+          :src="getImageUrl(stone)"
+        >  
+      </div>
+    </div>
+    <p class="text-left w-full mt-8 mb-3 text-white font-medium"> 
+      我的手牌
+    </p>
+    <div class="flex ml-4 gap-2">
+      <div
+        v-for="item in handStoneCount"
+        :key="item"
+        class="w-[66px] h-[88px]"
+      >
+        <img
+          class="stone-back"
+          :src="`/src/assets/images/stone/stone.png`"
+        >  
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.stone-img {
+  border-radius: 5px;
+  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, .3) inset, 4px 4px 4px 0px rgba(0, 0, 0, .25), -3px -3px 4px 0px rgba(0, 0, 0, .25) inset;
+}
+
+.stone-back {
+  border-radius: 5px;
+  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, .6) inset, 4px 4px 4px 0px rgba(0, 0, 0, .6), -3px -3px 4px 0px rgba(0, 0, 0, .6) inset;
+}
+</style>

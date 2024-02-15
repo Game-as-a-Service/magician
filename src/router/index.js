@@ -2,6 +2,7 @@ import {
   createRouter, createWebHashHistory 
 } from 'vue-router'
 import Home from '@/views/HomeView.vue'
+import apiPanel from '@/views/apiPanel.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -10,6 +11,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/panel',
+      name: 'panel',
+      component: apiPanel
     },
     {
       path: '/:pathMatch(.*)*', redirect: { name: 'home' } 

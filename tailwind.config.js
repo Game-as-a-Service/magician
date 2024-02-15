@@ -1,5 +1,17 @@
 export default {
   content: [ './index.html', './src/**/*.{vue,js,ts,jsx,tsx}' ],
+  safelist: [
+    `bg-[url('@/assets/images/background/bg00.webp')]`,
+    `bg-[url('@/assets/images/background/bg01.webp')]`,
+    `bg-[url('@/assets/images/background/bg02.webp')]`, 
+    `bg-[url('@/assets/images/background/bg03.webp')]`, 
+    `bg-[url('@/assets/images/background/bg04.webp')]`, 
+    `bg-[url('@/assets/images/background/bg05.webp')]`, 
+    `bg-[url('@/assets/images/background/bg06.webp')]`, 
+    `bg-[url('@/assets/images/background/bg07.webp')]`, 
+    `bg-[url('@/assets/images/background/bg08.webp')]`, 
+    `bg-[url('@/assets/images/background/bg09.webp')]`, 
+  ],
   theme: {
     extend: {
       colors: {
@@ -16,9 +28,11 @@ export default {
         orange: '#FF8D4D',
         white: '#F7F7F7',
         grey: '#8C8C8C',
-        grey50: '#8C8C8C',
+        grey50: 'rgba(140, 140, 140, 0.5)',
+        grey70: 'rgba(140, 140, 140, 0.7)',
+        'grey-deep': '#575757',
         skin: '#FFFFFF',
-        'white20%': 'rgba(255, 255, 255, 0.20)',
+        white20: 'rgba(255, 255, 255, 0.20)',
         oldBook: '#C8B59F',
       },
     },

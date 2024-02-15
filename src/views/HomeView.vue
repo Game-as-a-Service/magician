@@ -1,10 +1,7 @@
 <script setup>
-import HelloWorld from '@/components/HelloWorld.vue'
+import MainLayout from '@/components/MainLayout.vue'
 </script>
 
 <template>
-  <div class="HomeView">
-    Hello
-    <HelloWorld></HelloWorld>
-  </div>
+  <MainLayout></MainLayout>
 </template>
