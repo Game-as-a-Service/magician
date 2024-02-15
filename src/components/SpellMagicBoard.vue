@@ -85,7 +85,7 @@ const playStone = async (i) => {
 }
 const spellStop = async () => {
   const playerId = gameStore.playingId
-  const res = await api.patch(`/player/${ playerId }/spellstop`, {
+  await api.patch(`/player/${ playerId }/spellstop`, {
     gameRoomID: gameStore.gameStatus.game_id,
   })
   lastMagic.value = 0
