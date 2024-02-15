@@ -1,5 +1,12 @@
 <script setup>
 import { useGameStore } from '@/stores/game'
+import axios from 'axios'
+const api = axios.create({
+  baseURL: 'https://gaas-magician-backend.azurewebsites.net/',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
 import {
   defineEmits, ref, computed 
 } from 'vue'
@@ -64,6 +71,25 @@ const magicDesc = [
 const setHoverMagic = (magicNumber) => {
   gameStore.setHoverMagic(magicNumber)
 }
+const playStone = async (i) => {
+  const res = await api.patch('/stone', {
+    gameRoomID: gameStore.gameStatus.game_id,
+    playerID: gameStore.playingId,
+    spellName: `Magic ${ i }`,
+  })
+  if (res.data.message === 'Spell cast successfully') {
+    lastMagic.value = i
+  } else {
+    lastMagic.value = 0
+  }
+}
+const spellStop = async () => {
+  const playerId = gameStore.playingId
+  const res = await api.patch(`/player/${ playerId }/spellstop`, {
+    gameRoomID: gameStore.gameStatus.game_id,
+  })
+  lastMagic.value = 0
+}
 </script>
 
 <template>
@@ -82,6 +108,7 @@ const setHoverMagic = (magicNumber) => {
           :src="getImageUrl(i)"
           @mouseenter="setHoverMagic(i)"
           @mouseleave="setHoverMagic(0)"
+          @click="playStone(i)"
         >
         <img
           v-else
@@ -100,6 +127,7 @@ const setHoverMagic = (magicNumber) => {
           :src="getImageUrl(i + 4)"
           @mouseenter="setHoverMagic(i + 4)"
           @mouseleave="setHoverMagic(0)"
+          @click="playStone(i + 4)"
         >
         <img
           v-else
@@ -116,7 +144,11 @@ const setHoverMagic = (magicNumber) => {
     <div class="absolute top-[666px] left-[1233px]">
       <CountDown></CountDown>
     </div>
-    <div class="absolute top-[775px] rounded-lg left-[1233px] bg-white text-[#730000] text-3xl px-3 py-2">
+    <div
+      v-if="lastMagic !== 0"
+      class="absolute top-[775px] rounded-lg left-[1233px] bg-white text-[#730000] text-3xl px-3 py-2 cursor-pointer"
+      @click="spellStop"
+    >
       不施法
     </div>
   </div>

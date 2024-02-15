@@ -9,7 +9,7 @@ import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
 import LeaveBtn from './LeaveBtn.vue'
 import OpenedBook from './OpenedBook.vue'
-// import SpellMagicBoard from './SpellMagicBoard.vue'
+import SpellMagicBoard from './SpellMagicBoard.vue'
 // import SecretSelectTable from './SecretSelectTable.vue'
 import HintBar from '@/components/common/HintBar.vue'
 import io from 'socket.io-client'
@@ -20,6 +20,7 @@ import {
 const gameStore = useGameStore()
 const socket = ref(null)
 const playingId = computed(() => gameStore.playingId)
+const myTurn = computed(() => gameStore.myTurn)
 const playerId = ref('Leave3310')
 const playerIds = [ 'Leave3310', 'Momo', 'Yock', 'Tux', 'Teds' ]
 const showBook = ref(false)
@@ -106,11 +107,12 @@ watch(
       <div v-if="showBook">
         <OpenedBook @close="showBook = false"></OpenedBook>
       </div>
-      <!-- <div
+      <div
+        v-if="myTurn"
         class="bg-grey50 top-0 left-0 w-full h-full backgroundBlur absolute"
       >
         <SpellMagicBoard></SpellMagicBoard>
-      </div> -->
+      </div>
       <!-- <div
         class="flex justify-center items-center bg-grey50 top-0 z-50 left-0 w-full h-full backgroundBlur absolute"
       >
