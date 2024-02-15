@@ -48,7 +48,7 @@ function getMagicStoneUrl (magicStone) {
   const url = `/src/assets/images/stone/${ magicStone }.png`
   return new URL(url, import.meta.url) 
 }
-const spells = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！', 'Give me magic!', '霹靂卡霹靂拉拉', '快龍就是魯魯米', '你還是太年輕6', '讓我想一下', '去去爬爬走' ]
+const spells = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！', 'Give me magic!', '霹靂卡霹靂拉拉', '快龍就是魯魯米', '你還是太年輕6', '讓我想一下', '去去爬爬走', '左欺敵右欺敵', '鄰兵火力掩護我', '吃雞大吉大利', '地球防衛軍' ]
 
 // const opponent = [
 //   {
@@ -96,7 +96,8 @@ const spells = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！',
         <img :src="opponent.avatar">
       </div>
       <div
-        class="text-center pt-4 bg-[url('@/assets/images/sundries/pocket.png')] mr-2 w-[60px] h-[60px] text-gray-700 text-[28px]"
+        :class="opponent.secretStone !== 0 ? `bg-[url('@/assets/images/sundries/pocket-pink.png')]` : `bg-[url('@/assets/images/sundries/pocket.png')] `"
+        class="text-center pt-4 mr-2 w-[60px] h-[60px] text-gray-700 text-[28px]"
       >
         {{ opponent.secretStone }}
       </div>

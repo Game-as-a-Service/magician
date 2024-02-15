@@ -68,7 +68,10 @@ watch(
 
 <template>
   <div>
-    <div class="bg-gray-700 w-[1440px] h-[1024px] p-8 relative">
+    <div 
+      :class="`bg-[url('@/assets/images/background/bg0`+Math.floor(Math.random() * 10)+`.webp')]`"
+      class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
+    >
       <div class="flex gap-11">
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>
@@ -169,5 +172,9 @@ watch(
 
 .backgroundBlur {
   backdrop-filter: blur(2px);
+}
+
+.backgroundBlur10 {
+  backdrop-filter: blur(10px);
 }
 </style>
