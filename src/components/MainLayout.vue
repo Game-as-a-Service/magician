@@ -24,7 +24,9 @@ const myTurn = computed(() => gameStore.myTurn)
 const playerId = ref('Leave3310')
 const playerIds = [ 'Leave3310', 'Momo', 'Yock', 'Tux', 'Teds' ]
 const showBook = ref(false)
-const showHint = ref(false)
+const showHint1 = ref(false)
+const showHintStart = ref(false)
+
 const handleConnect = () => {
   socket.value = io('https://gaas-magician-socketio.azurewebsites.net/', {
     transports: [ 'websocket', 'polling' ],
@@ -57,20 +59,34 @@ watch(
     if (newVal !== oldVal) {
       if (newVal === undefined) return
       if (playerIds[newVal] === playingId.value) {
-        showHint.value = true
+        showHint1.value = true
         setTimeout(() => {
-          showHint.value = false
+          showHint1.value = false
         }, 1000)
       }
     }
   }
 )
+watch(
+  () => gameStore.gameStatus.current_player,(newCp,oldCp)=>{
+      if (oldCp === undefined) {
+        showHintStart.value = true
+        setTimeout(() => {
+          showHintStart.value = false
+        }, 1000)
+      }
+    
+  }
+)
+
+const bgNumber=ref(Math.floor(Math.random() * 10))
+
 </script>
 
 <template>
   <div>
     <div 
-      :class="`bg-[url('@/assets/images/background/bg0`+Math.floor(Math.random() * 10)+`.webp')]`"
+      :class="`bg-[url('@/assets/images/background/bg0`+bgNumber+`.webp')]`"
       class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
     >
       <div class="flex gap-11">
@@ -119,9 +135,17 @@ watch(
         <SecretSelectTable></SecretSelectTable>
       </div> -->
       <HintBar
-        v-if="showHint"
+        v-if="showHint1"
         :hint-text="'輪到你了！ 請選擇魔法！'"
         :change-color="'bg-purple text-white'"
+        class="z-50"
+      >
+      </HintBar>
+      <HintBar
+        v-if="showHintStart"
+        :hint-text="'遊戲開始！'"
+        :change-color="'bg-purple text-white'"
+        class="z-50"
       >
       </HintBar>
     </div>

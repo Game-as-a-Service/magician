@@ -81,6 +81,7 @@ const playStone = async (i) => {
     lastMagic.value = i
   } else {
     lastMagic.value = 0
+    gameStore.setHoverMagic(0)
   }
 }
 const spellStop = async () => {

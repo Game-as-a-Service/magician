@@ -27,7 +27,7 @@ const players = computed(() =>
     playerClass: playerClasses[i],
     attackable: attackable(i, gameStore.hoverMagic, gameStore.playingIndex),
     healable: healable(i, gameStore.hoverMagic, gameStore.playingIndex),
-    isPlaying: i === gameStore.playingIndex
+    isPlaying: i === gameStore.gameStatus.current_player
   }))
 )
 const attackable = (playerIndex, magicNumber, playingIndex) => {
