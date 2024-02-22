@@ -10,50 +10,76 @@ const api = axios.create({
   },
 })
 const playerIds = [ 'Leave3310', 'Momo', 'Yock', 'Tux', 'Teds' ]
-const stones = [ {
-  name: 'Magic 1',
-  label: '火爆的龍(1)'
-},
-{
-  name: 'Magic 2',
-  label: '黑暗幽靈(2)'
-},
-{
-  name: 'Magic 3',
-  label: '甜蜜夢境(3)'
-},
-{
-  name: 'Magic 4',
-  label: '智慧鳥(4)'
-},
-{
-  name: 'Magic 5',
-  label: '暴風雨(5)'
-},
-{
-  name: 'Magic 6',
-  label: '暴雪(6)'
-},
-{
-  name: 'Magic 7',
-  label: '火焰彈(7)'
-},
-{
-  name: 'Magic 8',
-  label: '魔藥水(8)'
-}
+const stones = [
+  {
+    name: 'Magic 1',
+    label: '火爆的龍(1)',
+  },
+  {
+    name: 'Magic 2',
+    label: '黑暗幽靈(2)',
+  },
+  {
+    name: 'Magic 3',
+    label: '甜蜜夢境(3)',
+  },
+  {
+    name: 'Magic 4',
+    label: '智慧鳥(4)',
+  },
+  {
+    name: 'Magic 5',
+    label: '暴風雨(5)',
+  },
+  {
+    name: 'Magic 6',
+    label: '暴雪(6)',
+  },
+  {
+    name: 'Magic 7',
+    label: '火焰彈(7)',
+  },
+  {
+    name: 'Magic 8',
+    label: '魔藥水(8)',
+  },
 ]
 const gameId = ref('')
 const messages = ref([])
 const reversedMessages = computed(() => messages.value.slice().reverse())
 const selectedPlayer = ref('Leave3310')
 const selectedStone = ref('Magic 1')
+const autoJoinCompletedText = ref('')
+const autoJoinTimer = ref(10)
+const setAutoJoinTimer = (value) => {
+  autoJoinTimer.value = value
+}
+const cancelAutoJoin = () => {
+  setAutoJoinTimer(0)
+  autoJoinCompletedText.value = '取消自動加入房間'
+}
+const autoJoin = async () => {
+  while (autoJoinTimer.value > 0) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    setAutoJoinTimer(autoJoinTimer.value - 1)
+  }
+  autoJoinCompletedText.value = '自動加入房間中...'
+  for (let playerId of playerIds) {
+    const res = await api.put(`/player/${ playerId }/join`, {
+      gameRoomID: gameId.value,
+    })
+    messages.value.push(`${ getTimeString() }: ${ res.data.message }`)
+    await new Promise((resolve) => setTimeout(resolve, 100))
+  }
+  autoJoinCompletedText.value = '加入完成'
+}
 const handleCreateGame = async () => {
   const res = await api.post('/gameCreate', {
     playerIDs: playerIds,
   })
   gameId.value = res.data.gameRoomID
   messages.value.push(`${ getTimeString() }: ${ res.data.message }`)
+  autoJoin()
 }
 const handleJoinGame = async () => {
   const playerId = selectedPlayer.value
@@ -66,7 +92,7 @@ const playStone = async () => {
   const res = await api.patch('/stone', {
     gameRoomID: gameId.value,
     playerID: selectedPlayer.value,
-    spellName: selectedStone.value
+    spellName: selectedStone.value,
   })
   messages.value.push(`${ getTimeString() }: ${ res.data.message }`)
 }
@@ -91,18 +117,32 @@ const getTimeString = () => {
     <h1 class="text-green-400">
       API Test Panel
     </h1>
-    <div class="p-4">
+    <div class="flex gap-4 p-4">
       <button
         class="bg-green-500 hover:bg-green-600 text-black py-2 px-4 border-b-4 border-green-700 hover:border-green-800 rounded"
         @click="handleCreateGame"
       >
         創建房間
       </button>
+      <button
+        v-if="gameId && autoJoinTimer > 0"
+        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 border-b-4 border-blue-700 hover:border-blue-800 rounded animate-pulse"
+        @click="cancelAutoJoin"
+      >
+        {{ autoJoinTimer }} 秒後自動加入房間
+      </button>
+      <button
+        v-if="autoJoinCompletedText"
+        class="bg-blue-900 text-white py-2 px-4 rounded cursor-not-allowed"
+      >
+        {{ autoJoinCompletedText }}
+      </button>
     </div>
     <div class="flex gap-4">
       <div>當前房號</div>
       <div>{{ gameId }}</div>
-    </div>    <div>
+    </div>
+    <div>
       <div class="p-4">
         <div>選擇玩家</div>
         <div class="flex">
@@ -154,20 +194,19 @@ const getTimeString = () => {
       <div class="p-4">
         <div>動作</div>
         <button
-          class="bg-black border border-1 border-green-500 hover:bg-green-600 text-white py-2 px-4 border-b-4  hover:border-green-800 hover:text-black rounded-lg mb-2 me-2"
+          class="bg-black border border-1 border-green-500 hover:bg-green-600 text-white py-2 px-4 border-b-4 hover:border-green-800 hover:text-black rounded-lg mb-2 me-2"
           @click="handleJoinGame"
         >
           玩家加入遊戲
         </button>
         <button
-          class="bg-black border border-1 border-green-500 hover:bg-green-600 text-white py-2 px-4 border-b-4  hover:border-green-800 hover:text-black rounded-lg mb-2 me-2"
+          class="bg-black border border-1 border-green-500 hover:bg-green-600 text-white py-2 px-4 border-b-4 hover:border-green-800 hover:text-black rounded-lg mb-2 me-2"
           @click="playStone"
         >
           施法
         </button>
         <button
-          
-          class="bg-black border border-1 border-green-500 hover:bg-green-600 text-white py-2 px-4 border-b-4  hover:border-green-800 hover:text-black rounded-lg mb-2 me-2"
+          class="bg-black border border-1 border-green-500 hover:bg-green-600 text-white py-2 px-4 border-b-4 hover:border-green-800 hover:text-black rounded-lg mb-2 me-2"
           @click="spellStop"
         >
           不再施法
@@ -182,7 +221,7 @@ const getTimeString = () => {
           :key="i"
         >
           {{ message }}
-        </div>  
+        </div>
       </div>
     </div>
   </div>
