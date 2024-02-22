@@ -68,18 +68,17 @@ watch(
   }
 )
 watch(
-  () => gameStore.gameStatus.current_player,(newCp,oldCp)=>{
-      if (oldCp === undefined) {
-        showHintStart.value = true
-        setTimeout(() => {
-          showHintStart.value = false
-        }, 1000)
-      }
-    
+  () => gameStore.gameStatus.current_player, (newCp, oldCp) => {
+    if (oldCp === undefined) {
+      showHintStart.value = true
+      setTimeout(() => {
+        showHintStart.value = false
+      }, 1000)
+    }
   }
 )
 
-const bgNumber=ref(Math.floor(Math.random() * 10))
+const bgNumber = ref(Math.floor(Math.random() * 10))
 
 </script>
 
