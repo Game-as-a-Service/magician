@@ -83,7 +83,7 @@ const handleCreateGame = async () => {
   })
   gameId.value = res.data.gameRoomID
   messages.value.push(`${ getTimeString() }: ${ res.data.message }`)
-  autoJoin()
+  countDownAutoJoin()
 }
 const handleJoinGame = async () => {
   const playerId = selectedPlayer.value
