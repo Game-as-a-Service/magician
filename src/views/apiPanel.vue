@@ -58,11 +58,15 @@ const cancelAutoJoin = () => {
   setAutoJoinTimer(0)
   autoJoinCompletedText.value = '取消自動加入房間'
 }
-const autoJoin = async () => {
+const countDownAutoJoin = async () => {
   while (autoJoinTimer.value > 0) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setAutoJoinTimer(autoJoinTimer.value - 1)
   }
+
+  if (autoJoinCompletedText.value === '') autoJoin()
+}
+const autoJoin = async () => {
   autoJoinCompletedText.value = '自動加入房間中...'
   for (let playerId of playerIds) {
     const res = await api.put(`/player/${ playerId }/join`, {
