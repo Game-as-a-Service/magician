@@ -1,4 +1,5 @@
 from typing import Tuple
+from bson.objectid import ObjectId
 from repository.game_repository import GameRepository
 from domain.game import Game
 from domain.spell import Spell, roll_dice
@@ -213,3 +214,20 @@ class GameService:
                 # 遊戲結束
                 game.active = False
                 self.game_repository.update_game(game)
+
+    def player_status(self, game_id: str, player_id: str):
+        # TODO
+        # 與backend\repository\redis_repository.py內的
+        # publish隱函數convert_object_id重複
+        # 可合併為utility function
+        def convert_object_id(data):
+            if isinstance(data, dict):
+                for k, v in data.items():
+                    data[k] = convert_object_id(v)
+            elif isinstance(data, ObjectId):
+                return str(data)
+            return data
+
+        game = self.game_repository.get_game_by_id(game_id)
+        query_result = game.real_game_can_see(player_id).to_dict()
+        return convert_object_id(query_result)

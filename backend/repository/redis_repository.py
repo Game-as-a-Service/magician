@@ -9,6 +9,10 @@ class RedisRepository:
         self.external_sio = external_sio
 
     def publish(self, channel: str, room_id: str, data: Dict[str, Any]) -> None:
+        # TODO
+        # 與backend\service\game_service.py內的
+        # player_status隱函數convert_object_id重複
+        # 可合併為utility function
         def convert_object_id(data):
             if isinstance(data, dict):
                 for k, v in data.items():

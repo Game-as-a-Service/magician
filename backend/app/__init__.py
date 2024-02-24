@@ -81,3 +81,15 @@ def stop_spell(player_id):
         return jsonify({"message": "Player turn ended"}), 200
     else:
         return jsonify({"message": "Player turn failed"}), 400
+
+
+@app.route("/player/status", methods=["GET"])
+def player_status():
+    player_id = request.args.get("player_id")
+    gameRoomID = request.args.get("gameRoomID")
+    if not player_id:
+        return jsonify({"message": "player_id not found"}), 400
+    if not gameRoomID:
+        return jsonify({"message": "gameRoomID not found"}), 400
+
+    return GameService.player_status(gameRoomID, player_id), 200

@@ -300,3 +300,21 @@ def test_left_right_player(five_player_game, players):
 
     assert left1.player_id == player4.player_id
     assert right1.player_id == player2.player_id
+
+
+# 測試是否正確回傳玩家狀態
+def test_player_status(game_service, five_player_game):
+    game_id = five_player_game.game_id
+    for player in five_player_game.players:
+        game_service.player_join_game(game_id, player.player_id)
+
+    query_player_id = five_player_game.players[2].player_id
+    assert query_player_id == "Tux"
+
+    game_service_result = game_service.player_status(game_id, query_player_id)
+    assert game_service_result["active"]
+    assert game_service_result["current_player"] == 0
+    assert game_service_result["turn"] == 1
+    assert game_service_result["round"] == 1
+    assert game_service_result["players"][2]["player_id"] == "Tux"
+    assert game_service_result["players"][2]["HP"] == 6
