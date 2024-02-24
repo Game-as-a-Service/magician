@@ -94,6 +94,11 @@ def test_real_game_can_see(game):
     assert len(player_view.players[4].spells) == len(game.players[4].spells)
 
 
+def test_shuffle_player(game):
+    game.shuffle_player()
+    assert game.current_player >= 0 and game.current_player < 5
+
+
 def test_to_dict(game):
     data = game.to_dict()
 

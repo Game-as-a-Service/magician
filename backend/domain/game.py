@@ -2,6 +2,7 @@ import copy
 from typing import List, Optional, Dict
 from dataclasses import dataclass
 from random import shuffle
+from random import randint
 
 from .player import Player
 from .spell import Spell
@@ -111,7 +112,7 @@ class Game:
         return game_copy
 
     def shuffle_player(self):
-        shuffle(self.players)
+        self.current_player = randint(0, len(self.players) - 1)
 
     def to_dict(self) -> dict:
         data = {
