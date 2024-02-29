@@ -15,8 +15,20 @@ import HintBar from '@/components/common/HintBar.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import {
-  ref, computed, watch 
+  ref, computed, watch, onMounted 
 } from 'vue'
+import axios from 'axios'
+import {
+  useRouter, useRoute 
+} from 'vue-router'
+const api = axios.create({
+  baseURL: 'https://gaas-magician-backend.azurewebsites.net/',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+const route = useRoute()
+const router = useRouter()
 const gameStore = useGameStore()
 const socket = ref(null)
 const playingId = computed(() => gameStore.playingId)
@@ -34,10 +46,22 @@ const handleConnect = () => {
   socket.value.on('connect', () => {
     console.log('socket connected')
     joinGame()
+    handleJoinGame()
+    getGameStatus()
     // socket.value.emit({ player_id: 'Leave3310' })
   })
   socket.value.on('game_update', (data) => {
     console.log(data, 'game_update')
+    const gameStatus = JSON.parse(data)
+    if (gameStatus.game_id !== route.query.gameRoomID || playerId.value !== route.query.playerId){
+      router.push({
+        path: route.path,
+        query: {
+          gameRoomID: gameStatus.game_id,
+          playerId: playerId.value
+        }
+      })
+    }
     gameStore.setGameStatus(JSON.parse(data))
   })
   socket.value.on('player_joined', (data) => {
@@ -53,6 +77,25 @@ const joinGame = () => {
 const showWarehouse = computed(() => {
   return gameStore.hoverMagic === 4
 })
+const getGameStatus = async () => {
+  const gameRoomID = route.query.gameRoomID
+  const player_id = route.query.playerId || playerId.value
+  const params = {
+    gameRoomID,
+    player_id,
+  }
+  const res = await api.get('/player/status', {
+    params
+  })
+  gameStore.setGameStatus(res.data)
+}
+const handleJoinGame = async () => {
+  const gameRoomID = route.query.gameRoomID
+  const playerId = route.query.playerId || playerId.value
+  await api.put(`/player/${ playerId }/join`, {
+    gameRoomID,
+  })
+}
 watch(
   () => gameStore.gameStatus.current_player,
   (newVal, oldVal) => {
@@ -77,8 +120,32 @@ watch(
     }
   }
 )
-
+onMounted(() => {
+  if (route.query.gameRoomID && route.query.playerId) {
+    playerId.value = route.query.playerId
+    handleConnect()
+  }
+})
 const bgNumber = ref(Math.floor(Math.random() * 10))
+const handleUserConnect = () => {
+  handleConnect()
+  if (route.query.gameRoomID && !route.query.playerId){
+    router.push({
+      path: route.path,
+      query: {
+        gameRoomID: route.query.gameRoomID,
+        playerId: playerId.value
+      }
+    })
+  }
+  router.push({
+    path: route.path,
+    query: {
+      gameRoomID: gameId.value,
+      playerId: playerId.value
+    }
+  })
+}
 
 </script>
 
@@ -177,7 +244,7 @@ const bgNumber = ref(Math.floor(Math.random() * 10))
           <button
             type="button"
             class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            @click="handleConnect"
+            @click="handleUserConnect"
           >
             連線
           </button>

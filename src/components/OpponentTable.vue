@@ -37,6 +37,7 @@ const opponents = computed(() => gameStore.gameStatus.players.map((player, i) =>
   // .sort(a, b => a.localeCompare(b))
   secretStone: player.secret_spells.length,
   name: player.player_id,
+  joined: player.joined,
 })).filter((player) => player.name !== gameStore.playingId))
 
 // function getAvatarImgUrl (avatar) {
@@ -89,6 +90,12 @@ const spells = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！',
           class="rounded-t-full rounded-l-full bg-oldBook p-2.5 h-[60px] text-[28px]"
         >
           {{ opponent.spell }}
+        </span>
+        <span
+          v-if="!opponent.joined"
+          class="rounded-t-full rounded-l-full bg-oldBook p-2.5 h-[60px] text-[28px]"
+        >
+          等等我～
         </span>
       </div>
 
