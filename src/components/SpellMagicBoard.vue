@@ -1,5 +1,6 @@
 <script setup>
 import { useGameStore } from '@/stores/game'
+import { useIntervalFn } from '@vueuse/core'
 import axios from 'axios'
 const api = axios.create({
   baseURL: 'https://gaas-magician-backend.azurewebsites.net/',
@@ -8,12 +9,35 @@ const api = axios.create({
   },
 })
 import {
-  defineEmits, ref, computed 
+  ref, computed, onMounted 
 } from 'vue'
-defineEmits([ 'close' ])
 function getImageUrl (number) {
   const url = `/src/assets/images/stone/magic${ number }.png`
   return new URL(url, import.meta.url)
+}
+const {
+  pause, resume 
+} = useIntervalFn(() => {
+  gameStore.countDownTimer--
+  if (gameStore.countDownTimer === 0) {
+    if (lastMagic.value === 0) {
+      randemPlayStone() // 幫使用者出魔法
+    } else {
+      spellStop()
+    }
+    pause()
+  }
+}, 1000)
+const resetTimer = () => {
+  gameStore.countDownTimer = 5
+  resume()
+}
+
+const randemPlayStone = () => {
+  // const random = Math.floor(Math.random() * 8) + 1 // 1 ~ 8 -> lastMagic ~ 8
+  const magicNumber = lastMagic.value || 1
+  const random = Math.floor(Math.random() * (9 - magicNumber)) + magicNumber
+  playStone(random)
 }
 
 // 上一次出牌
@@ -79,6 +103,7 @@ const playStone = async (i) => {
   })
   if (res.data.message === 'Spell cast successfully') {
     lastMagic.value = i
+    resetTimer()
   } else {
     lastMagic.value = 0
     gameStore.setHoverMagic(0)
@@ -91,6 +116,9 @@ const spellStop = async () => {
   })
   lastMagic.value = 0
 }
+onMounted(() => {
+  resetTimer()
+})
 </script>
 
 <template>
