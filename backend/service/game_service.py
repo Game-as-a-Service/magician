@@ -25,6 +25,8 @@ class GameService:
         if game:
             player = next((p for p in game.players if p.player_id == player_id), None)
             if player:
+                if player.joined:
+                    return False
                 player.joined = True
                 self.game_repository.update_game(game)
                 player_joined_stat = True

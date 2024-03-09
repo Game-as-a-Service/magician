@@ -318,3 +318,17 @@ def test_player_status(game_service, five_player_game):
     assert game_service_result["round"] == 1
     assert game_service_result["players"][2]["player_id"] == "Tux"
     assert game_service_result["players"][2]["HP"] == 6
+
+# 測試玩家重複加入，不會開新的一局
+def test_player_rejoined(game_service, five_player_game):
+    game_id = five_player_game.game_id
+    for player in five_player_game.players:
+        game_service.player_join_game(game_id, player.player_id)
+
+    game = game_service.game_repository.get_game_by_id(game_id)
+    game.round = 2
+    game_service.game_repository.update_game(game)
+
+    assert game_service.player_join_game(game_id, "Yock") == False
+    game2 = game_service.game_repository.get_game_by_id(game_id)
+    assert game2.round == 2
