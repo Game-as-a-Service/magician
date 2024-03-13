@@ -34,6 +34,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     }
     return gameStatus.value.players[gameStatus.value.current_player].player_id === playingId.value
   })
+  const countDownTimer = ref(5)
   return {
     gameStatus,
     playingId,
@@ -41,6 +42,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     setGameStatus,
     hoverMagic,
     setHoverMagic,
-    myTurn
+    myTurn,
+    countDownTimer,
   }
 })

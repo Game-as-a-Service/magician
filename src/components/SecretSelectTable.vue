@@ -1,10 +1,9 @@
 <script setup>
 import { useGameStore } from '@/stores/game'
 import {
-  defineEmits, computed
+  computed
 } from 'vue'
 import CountDown from './common/CountDown.vue'
-defineEmits([ 'close' ])
 // function getImageUrl (number) {
 //   const url = `/src/assets/images/stone/magic${ number }.png`
 //   return new URL(url, import.meta.url)

@@ -1,5 +1,6 @@
 <script setup>
-
+import { useGameStore } from '@/stores/game'
+const gameStore = useGameStore()
 </script>
 
 <template>
@@ -8,7 +9,7 @@
       <img src="/src/assets/images/sundries/timer.svg"> 
     </div>
     <p class="text-center text-white font-bold text-3xl"> 
-      00:00
+      00:{{ gameStore.countDownTimer.toString().padStart(2, '0') }}
     </p>
   </div>
 </template>
