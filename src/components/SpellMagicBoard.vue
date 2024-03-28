@@ -104,7 +104,7 @@ const playStone = async (i) => {
   if (res.data.message === 'Spell cast successfully') {
     lastMagic.value = i
     resetTimer()
-    if (spellName === 'Magic 4'){
+    if (i === 4){
       gameStore.updateShowSecretTable(true)  
     }
   } else {

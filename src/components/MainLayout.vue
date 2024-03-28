@@ -65,9 +65,8 @@ const handleConnect = () => {
         },
       })
     }
-    if (gameStore.showSecretTable){
-      gameStore.updateTmpGameStatus(JSON.parse(data))
-    } else {
+    gameStore.updateTmpGameStatus(JSON.parse(data))
+    if (!gameStore.showSecretTable){
       gameStore.setGameStatus(JSON.parse(data))
     }
   })
