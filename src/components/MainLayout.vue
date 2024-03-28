@@ -10,7 +10,7 @@ import MyState from '@/components/MyState.vue'
 import LeaveBtn from './LeaveBtn.vue'
 import OpenedBook from './OpenedBook.vue'
 import SpellMagicBoard from './SpellMagicBoard.vue'
-// import SecretSelectTable from './SecretSelectTable.vue'
+import SecretSelectTable from './SecretSelectTable.vue'
 import HintBar from '@/components/common/HintBar.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
@@ -53,16 +53,23 @@ const handleConnect = () => {
   socket.value.on('game_update', (data) => {
     console.log(data, 'game_update')
     const gameStatus = JSON.parse(data)
-    if (gameStatus.game_id !== route.query.gameRoomID || playerId.value !== route.query.playerId){
+    if (
+      gameStatus.game_id !== route.query.gameRoomID ||
+      playerId.value !== route.query.playerId
+    ) {
       router.push({
         path: route.path,
         query: {
           gameRoomID: gameStatus.game_id,
-          playerId: playerId.value
-        }
+          playerId: playerId.value,
+        },
       })
     }
-    gameStore.setGameStatus(JSON.parse(data))
+    if (gameStore.showSecretTable){
+      gameStore.updateTmpGameStatus(JSON.parse(data))
+    } else {
+      gameStore.setGameStatus(JSON.parse(data))
+    }
   })
   socket.value.on('player_joined', (data) => {
     console.log(data, 'player_joined')
@@ -85,7 +92,7 @@ const getGameStatus = async () => {
     player_id,
   }
   const res = await api.get('/player/status', {
-    params
+    params,
   })
   gameStore.setGameStatus(res.data)
 }
@@ -111,7 +118,8 @@ watch(
   }
 )
 watch(
-  () => gameStore.gameStatus.current_player, (newCp, oldCp) => {
+  () => gameStore.gameStatus.current_player,
+  (newCp, oldCp) => {
     if (oldCp === undefined) {
       showHintStart.value = true
       setTimeout(() => {
@@ -129,30 +137,29 @@ onMounted(() => {
 const bgNumber = ref(Math.floor(Math.random() * 10))
 const handleUserConnect = () => {
   handleConnect()
-  if (route.query.gameRoomID && !route.query.playerId){
+  if (route.query.gameRoomID && !route.query.playerId) {
     router.push({
       path: route.path,
       query: {
         gameRoomID: route.query.gameRoomID,
-        playerId: playerId.value
-      }
+        playerId: playerId.value,
+      },
     })
   }
   router.push({
     path: route.path,
     query: {
       gameRoomID: gameId.value,
-      playerId: playerId.value
-    }
+      playerId: playerId.value,
+    },
   })
 }
-
 </script>
 
 <template>
   <div>
-    <div 
-      :class="`bg-[url('@/assets/images/background/bg0`+bgNumber+`.webp')]`"
+    <div
+      :class="`bg-[url('@/assets/images/background/bg0` + bgNumber + `.webp')]`"
       class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
     >
       <div class="flex gap-11">
@@ -189,17 +196,14 @@ const handleUserConnect = () => {
       <div v-if="showBook">
         <OpenedBook @close="showBook = false"></OpenedBook>
       </div>
+      
       <div
-        v-if="myTurn"
-        class="bg-grey50 top-0 left-0 w-full h-full backgroundBlur absolute"
-      >
-        <SpellMagicBoard></SpellMagicBoard>
-      </div>
-      <!-- <div
+        v-if="gameStore.showSecretTable"
         class="flex justify-center items-center bg-grey50 top-0 z-50 left-0 w-full h-full backgroundBlur absolute"
       >
         <SecretSelectTable></SecretSelectTable>
-      </div> -->
+      </div>
+
       <HintBar
         v-if="showHint1"
         :hint-text="'輪到你了！ 請選擇魔法！'"
@@ -214,6 +218,12 @@ const handleUserConnect = () => {
         class="z-50"
       >
       </HintBar>
+      <div
+        v-if="myTurn"
+        class="bg-grey50 top-0 left-0 w-full h-full backgroundBlur absolute"
+      >
+        <SpellMagicBoard></SpellMagicBoard>
+      </div>
     </div>
     <div>
       <div
@@ -259,7 +269,7 @@ const handleUserConnect = () => {
   z-index: 50;
   border: 5px solid #fff;
   border-style: outset;
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, .3) 0;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3) 0;
 }
 
 .backgroundBlur {
