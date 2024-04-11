@@ -136,7 +136,7 @@ onMounted(() => {
 const bgNumber = ref(Math.floor(Math.random() * 10))
 const handleUserConnect = () => {
   handleConnect()
-  if (route.query.gameRoomID && !route.query.playerId) {
+  if (route.query.gameRoomID) {
     router.push({
       path: route.path,
       query: {
@@ -231,11 +231,11 @@ const handleUserConnect = () => {
       >
         您好，魔法師：{{ playingId }}
       </div>
-      <div v-else>
+      <div>
         <label
           for="countries"
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >你是誰？</label>
+        >切換角色？</label>
         <div class="flex gap-2">
           <select
             id="countries"
@@ -268,7 +268,7 @@ const handleUserConnect = () => {
   z-index: 50;
   border: 5px solid #fff;
   border-style: outset;
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3) 0;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .3) 0;
 }
 
 .backgroundBlur {

@@ -8,8 +8,17 @@ const gameStore = useGameStore()
     <div class=" w-[60px] h-[60px] -rotate-6 bg-contain flex items-center mix-blend-soft-light shrink-0">
       <img src="/src/assets/images/sundries/timer.svg"> 
     </div>
-    <p class="text-center text-white font-bold text-3xl"> 
-      00:{{ gameStore.countDownTimer.toString().padStart(2, '0') }}
+    <p
+      v-if="gameStore.showSecretTable"
+      class="text-center text-white font-bold text-3xl"
+    > 
+      00:{{ gameStore.secretCountDownTimer.toString().padStart(2, '0') }}
+    </p>
+    <p
+      v-else
+      class="text-center text-white font-bold text-3xl"
+    > 
+      00:{{ gameStore.spellCountDownTimer.toString().padStart(2, '0') }}
     </p>
   </div>
 </template>

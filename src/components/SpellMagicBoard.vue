@@ -18,8 +18,8 @@ function getImageUrl (number) {
 const {
   pause, resume 
 } = useIntervalFn(() => {
-  gameStore.countDownTimer--
-  if (gameStore.countDownTimer === 0) {
+  gameStore.spellCountDownTimer--
+  if (gameStore.spellCountDownTimer === 0) {
     if (lastMagic.value === 0) {
       randomPlayStone() // 幫使用者出魔法
     } else {
@@ -29,7 +29,7 @@ const {
   }
 }, 1000)
 const resetTimer = () => {
-  gameStore.countDownTimer = 30
+  gameStore.spellCountDownTimer = 30
   resume()
 }
 
@@ -103,9 +103,10 @@ const playStone = async (i) => {
   })
   if (res.data.message === 'Spell cast successfully') {
     lastMagic.value = i
-    resetTimer()
     if (i === 4){
       gameStore.updateShowSecretTable(true)  
+    } else {
+      resetTimer()
     }
   } else {
     lastMagic.value = 0
@@ -121,6 +122,11 @@ const spellStop = async () => {
 }
 onMounted(() => {
   resetTimer()
+})
+watch(gameStore.showSecretTable, (showSecretTable) => {
+  if (!showSecretTable){
+    resetTimer()
+  }
 })
 </script>
 
@@ -174,7 +180,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="absolute top-[666px] left-[1233px]">
-      <CountDown></CountDown>
+      <CountDown v-if="!gameStore.showSecretTable"></CountDown>
     </div>
     <div
       v-if="lastMagic !== 0"
@@ -201,7 +207,7 @@ onMounted(() => {
 }
 
 .parallelogram::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: -10px;
