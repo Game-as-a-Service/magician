@@ -21,7 +21,7 @@ const {
   gameStore.countDownTimer--
   if (gameStore.countDownTimer === 0) {
     if (lastMagic.value === 0) {
-      randemPlayStone() // 幫使用者出魔法
+      randomPlayStone() // 幫使用者出魔法
     } else {
       spellStop()
     }
@@ -33,7 +33,7 @@ const resetTimer = () => {
   resume()
 }
 
-const randemPlayStone = () => {
+const randomPlayStone = () => {
   // const random = Math.floor(Math.random() * 8) + 1 // 1 ~ 8 -> lastMagic ~ 8
   const magicNumber = lastMagic.value || 1
   const random = Math.floor(Math.random() * (9 - magicNumber)) + magicNumber
@@ -104,6 +104,9 @@ const playStone = async (i) => {
   if (res.data.message === 'Spell cast successfully') {
     lastMagic.value = i
     resetTimer()
+    if (i === 4){
+      gameStore.updateShowSecretTable(true)  
+    }
   } else {
     lastMagic.value = 0
     gameStore.setHoverMagic(0)
@@ -198,7 +201,7 @@ onMounted(() => {
 }
 
 .parallelogram::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -10px;
@@ -210,5 +213,4 @@ onMounted(() => {
   border-radius: 5px;
   transform: skew(-10deg);
 }
-
 </style>
