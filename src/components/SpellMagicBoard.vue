@@ -29,7 +29,7 @@ const {
   }
 }, 1000)
 const resetTimer = () => {
-  gameStore.countDownTimer = 5
+  gameStore.countDownTimer = 30
   resume()
 }
 

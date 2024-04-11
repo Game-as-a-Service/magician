@@ -89,7 +89,7 @@ export const useGameStore = defineStore('useGameStore', () => {
       playingId.value
     )
   })
-  const countDownTimer = ref(5)
+  const countDownTimer = ref(30)
   const showSecretTable = ref(false)
 
   const updateShowSecretTable = (value) => (showSecretTable.value = value)
