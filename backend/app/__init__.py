@@ -92,4 +92,8 @@ def player_status():
     if not gameRoomID:
         return jsonify({"message": "gameRoomID not found"}), 400
 
-    return GameService.player_status(gameRoomID, player_id), 200
+    result = GameService.player_status(gameRoomID, player_id)
+    if result:
+        return result, 200
+    else:
+        return jsonify({"message": "gameRoomID does not exist"}), 400

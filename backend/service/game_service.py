@@ -231,5 +231,8 @@ class GameService:
             return data
 
         game = self.game_repository.get_game_by_id(game_id)
-        query_result = game.real_game_can_see(player_id).to_dict()
-        return convert_object_id(query_result)
+        if game:  
+            # [待討論]新增一個玩家是否存在的判斷?
+            query_result = game.real_game_can_see(player_id).to_dict()
+            return convert_object_id(query_result)
+        return None
