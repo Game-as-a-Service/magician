@@ -2,7 +2,7 @@
 import { useGameStore } from '@/stores/game'
 import { useIntervalFn } from '@vueuse/core'
 import axios from 'axios'
-import magicStores from '@/models/magicStores'
+import magicStones from '@/models/MagicStones.js'
 
 const api = axios.create({
   baseURL: 'https://gaas-magician-backend.azurewebsites.net/',
@@ -14,7 +14,7 @@ import {
   ref, computed, onMounted, watch 
 } from 'vue'
 function getImageUrl (number) {
-  return magicStores[number]
+  return magicStones[number]
 }
 const {
   pause, resume 
