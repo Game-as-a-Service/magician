@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue'
 import { useGameStore } from '@/stores/game'
-import { Avatars as imgSrcs } from '@/models/Avatars.js'
+import imgSrcs from '@/models/Avatars.js'
+import magicStones from '@/models/MagicStones.js'
 const gameStore = useGameStore()
 const opponents = computed(() =>
   gameStore.gameStatus.players
@@ -47,8 +48,7 @@ const opponents = computed(() =>
 // }
 
 function getMagicStoneUrl (magicStone) {
-  const url = `/src/assets/images/stone/${ magicStone }.png`
-  return new URL(url, import.meta.url)
+  return magicStones[magicStone]
 }
 const spells = [
   '天蒼蒼野茫茫',

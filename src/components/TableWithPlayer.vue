@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import TableDesk from '@/components/TableDesk.vue'
 import { useGameStore } from '@/stores/game'
-import { Avatars as imgSrcs } from '@/models/Avatars.js'
+import imgSrcs from '@/models/Avatars.js'
 const gameStore = useGameStore()
 const playerClasses = [
   'player-green',

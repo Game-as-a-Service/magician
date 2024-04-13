@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useGameStore } from '@/stores/game'
-import { Avatars as imgSrcs } from '@/models/Avatars.js'
+import imgSrcs from '@/models/Avatars.js'
 const gameStore = useGameStore()
 
 const players = computed(() =>
