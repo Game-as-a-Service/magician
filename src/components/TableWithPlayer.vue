@@ -2,14 +2,8 @@
 import { computed } from 'vue'
 import TableDesk from '@/components/TableDesk.vue'
 import { useGameStore } from '@/stores/game'
+import { Avatars as imgSrcs } from '@/models/Avatars.js'
 const gameStore = useGameStore()
-const imgSrcs = [
-  '/src/assets/images/avatar/avatar_green.png',
-  '/src/assets/images/avatar/avatar_orange.png',
-  '/src/assets/images/avatar/avatar_red.png',
-  '/src/assets/images/avatar/avatar_yellow.png',
-  '/src/assets/images/avatar/avatar_blue.png',
-]
 const playerClasses = [
   'player-green',
   'player-orange',
@@ -27,7 +21,7 @@ const players = computed(() =>
     playerClass: playerClasses[i],
     attackable: attackable(i, gameStore.hoverMagic, gameStore.playingIndex),
     healable: healable(i, gameStore.hoverMagic, gameStore.playingIndex),
-    isPlaying: i === gameStore.gameStatus.current_player
+    isPlaying: i === gameStore.gameStatus.current_player,
   }))
 )
 const attackable = (playerIndex, magicNumber, playingIndex) => {
@@ -109,13 +103,11 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
       ></div>
       <div
         v-if="player.isPlaying"
-        class="w-[80px] h-[100px] absolute top-3 -left-8 -rotate-[18deg] "
+        class="w-[80px] h-[100px] absolute top-3 -left-8 -rotate-[18deg]"
       >
         <img src="/src/assets/images/table/magicWand.svg">
       </div>
-      <div
-        class=" info-box absolute "
-      >
+      <div class="info-box absolute">
         <div class="bg-white info">
           <div class="block whitespace-nowrap">
             玩家：{{ player.name }}
@@ -123,8 +115,12 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
           <div>手牌數：{{ player.holdStones }}</div>
           <div>分數：{{ player.score }}</div>
         </div>
-        <div class="info-box-triangle-left  inline-block w-[30px] h-[20px] "></div>
-        <div class="info-box-triangle-right  inline-block w-[30px] h-[20px] "></div>
+        <div
+          class="info-box-triangle-left inline-block w-[30px] h-[20px]"
+        ></div>
+        <div
+          class="info-box-triangle-right inline-block w-[30px] h-[20px]"
+        ></div>
       </div>
     </div>
     <div
