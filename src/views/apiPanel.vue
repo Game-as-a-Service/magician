@@ -191,7 +191,7 @@ const getTimeString = () => {
       <div>{{ gameId }}</div>
       <div>
         <a
-          :href="`/#/?gameRoomID=${gameId}&playerId=${selectedPlayer}`"
+          :href="`#/?gameRoomID=${gameId}&playerId=${selectedPlayer}`"
           target="_blank"
           class="text-blue-500 hover:underline"
         >
