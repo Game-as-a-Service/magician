@@ -50,23 +50,28 @@ const reversedMessages = computed(() => messages.value.slice().reverse())
 const selectedPlayer = ref('Leave3310')
 const selectedStone = ref('Magic 1')
 const autoJoinCompletedText = ref('')
-const autoJoinTimer = ref(10)
-const setAutoJoinTimer = (value) => {
-  autoJoinTimer.value = value
+const autoJoinBaseTimer = ref(-1)
+const autoJoinTimer = ref(0)
+const resetAutoJoinTimer = () => {
+  autoJoinTimer.value = autoJoinBaseTimer.value
+  autoJoinCompletedText.value = ''
 }
 const cancelAutoJoin = () => {
-  setAutoJoinTimer(0)
+  autoJoinTimer.value = 0
   autoJoinCompletedText.value = '取消自動加入房間'
 }
 const countDownAutoJoin = async () => {
+  if (autoJoinBaseTimer.value < 0) return
+
+  resetAutoJoinTimer()
   while (autoJoinTimer.value > 0) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    setAutoJoinTimer(autoJoinTimer.value - 1)
+    autoJoinTimer.value -= 1
   }
 
-  if (autoJoinCompletedText.value === '') autoJoin()
+  autoJoinGameRoom()
 }
-const autoJoin = async () => {
+const autoJoinGameRoom = async () => {
   autoJoinCompletedText.value = '自動加入房間中...'
   for (let playerId of playerIds) {
     const res = await api.put(`/player/${ playerId }/join`, {
@@ -123,6 +128,13 @@ const getTimeString = () => {
     </h1>
     <div class="flex gap-4 p-4">
       <button
+        v-if="gameId && autoJoinTimer > 0"
+        class="bg-green-900 text-white py-2 px-4 rounded cursor-not-allowed"
+      >
+        創建房間
+      </button>
+      <button
+        v-else
         class="bg-green-500 hover:bg-green-600 text-black py-2 px-4 border-b-4 border-green-700 hover:border-green-800 rounded"
         @click="handleCreateGame"
       >
@@ -141,10 +153,51 @@ const getTimeString = () => {
       >
         {{ autoJoinCompletedText }}
       </button>
+
+      <template v-if="true">
+        <div class="flex gap-3 items-center">
+          <label>
+            <input
+              id="disable-auto-join"
+              v-model="autoJoinBaseTimer"
+              type="radio"
+              :value="-1"
+            >
+            取消自動加入房間
+          </label>
+          <label>
+            <input
+              id="enable-auto-join"
+              v-model="autoJoinBaseTimer"
+              type="radio"
+              :value="1"
+            >
+            {{ 1 }} 秒後自動加入房間
+          </label>
+          <label>
+            <input
+              id="enable-auto-join"
+              v-model="autoJoinBaseTimer"
+              type="radio"
+              :value="10"
+            >
+            {{ 10 }} 秒後自動加入房間
+          </label>
+        </div>
+      </template>
     </div>
     <div class="flex gap-4">
       <div>當前房號</div>
       <div>{{ gameId }}</div>
+      <div>
+        <a
+          :href="`/#/?gameRoomID=${gameId}&playerId=${selectedPlayer}`"
+          target="_blank"
+          class="text-blue-500 hover:underline"
+        >
+          ↗️ 另開新分頁前往遊戲房間，(扮演玩家 {{ selectedPlayer }})
+        </a>
+      </div>
     </div>
     <div>
       <div class="p-4">
