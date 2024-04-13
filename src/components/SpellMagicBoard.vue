@@ -14,7 +14,7 @@ import {
   ref, computed, onMounted, watch 
 } from 'vue'
 function getImageUrl (number) {
-  return magicStones[number]
+  return magicStones[`magic${ number }`]
 }
 const {
   pause, resume 
