@@ -89,7 +89,8 @@ export const useGameStore = defineStore('useGameStore', () => {
       playingId.value
     )
   })
-  const countDownTimer = ref(5)
+  const spellCountDownTimer = ref(30)
+  const secretCountDownTimer = ref(20)
   const showSecretTable = ref(false)
 
   const updateShowSecretTable = (value) => (showSecretTable.value = value)
@@ -105,7 +106,8 @@ export const useGameStore = defineStore('useGameStore', () => {
     hoverMagic,
     setHoverMagic,
     myTurn,
-    countDownTimer,
+    spellCountDownTimer,
+    secretCountDownTimer,
     showSecretTable,
     updateShowSecretTable,
     updateTmpGameStatus,

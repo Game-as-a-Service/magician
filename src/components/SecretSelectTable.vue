@@ -1,5 +1,6 @@
 <script setup>
 import { useGameStore } from '@/stores/game'
+import { useIntervalFn } from '@vueuse/core'
 import { computed } from 'vue'
 import CountDown from './common/CountDown.vue'
 // function getImageUrl (number) {
@@ -15,7 +16,21 @@ const secretNumber = computed(() => {
 const clickSecretStone = () => {
   gameStore.updateShowSecretTable(false)
   gameStore.restoreGameStatus()
+  pause()
 }
+const {
+  pause, resume 
+} = useIntervalFn(() => {
+  gameStore.secretCountDownTimer--
+  if (gameStore.secretCountDownTimer === 0) {
+    clickSecretStone() // 關閉秘密選擇面板
+  }
+}, 1000)
+const resetTimer = () => {
+  gameStore.secretCountDownTimer = 20
+  resume()
+}
+resetTimer()
 </script>
 
 <template>
@@ -37,9 +52,7 @@ const clickSecretStone = () => {
 <style scoped>
 .secret-table {
   background: linear-gradient(
-    7deg,
-    rgba(104, 17, 64, 1) 9%,
-    rgba(244, 202, 152, 1) 100%
+    7deg, rgba(104, 17, 64, 1) 9%, rgba(244, 202, 152, 1) 100%
   );
 }
 </style>
