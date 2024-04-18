@@ -1,19 +1,16 @@
 <script setup>
 import { computed } from 'vue'
 import { useGameStore } from '@/stores/game'
+import imgSrcs from '@/models/Avatars.js'
 const gameStore = useGameStore()
-const imgSrcs = [
-  '/src/assets/images/avatar/avatar_green.png',
-  '/src/assets/images/avatar/avatar_orange.png',
-  '/src/assets/images/avatar/avatar_red.png',
-  '/src/assets/images/avatar/avatar_yellow.png',
-  '/src/assets/images/avatar/avatar_blue.png',
-]
-const players = computed(() => gameStore.gameStatus.players.map((player, i) => ({
-  name: player.player_id,
-  score: player.score,
-  imgSrc: imgSrcs[i],
-})))
+
+const players = computed(() =>
+  gameStore.gameStatus.players.map((player, i) => ({
+    name: player.player_id,
+    score: player.score,
+    imgSrc: imgSrcs[i],
+  }))
+)
 // function getImageUrl (name) {
 //   const url = `/src/assets/images/avatar/${ name }.png`
 //   return new URL(url, import.meta.url)
@@ -49,7 +46,7 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 </script>
 
 <template>
-  <div class=" bg-grey50 p-[12px] inline-block">
+  <div class="bg-grey50 p-[12px] inline-block">
     <div
       v-for="item of players"
       :key="item.name"

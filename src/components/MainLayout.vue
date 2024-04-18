@@ -40,7 +40,7 @@ const showHint1 = ref(false)
 const showHintStart = ref(false)
 
 const handleConnect = () => {
-  socket.value = io('https://gaas-magician-socketio.azurewebsites.net/', {
+  socket.value = io(import.meta.env.VITE_SOCKET_IO_URL, {
     transports: [ 'websocket', 'polling' ],
   })
   socket.value.on('connect', () => {
@@ -66,7 +66,7 @@ const handleConnect = () => {
       })
     }
     gameStore.updateTmpGameStatus(JSON.parse(data))
-    if (!gameStore.showSecretTable){
+    if (!gameStore.showSecretTable) {
       gameStore.setGameStatus(JSON.parse(data))
     }
   })
@@ -132,6 +132,8 @@ onMounted(() => {
     playerId.value = route.query.playerId
     handleConnect()
   }
+  console.log('mounted')
+  console.log(import.meta.env.VITE_SOCKET_IO_URL)
 })
 const bgNumber = ref(Math.floor(Math.random() * 10))
 const handleUserConnect = () => {
@@ -195,7 +197,7 @@ const handleUserConnect = () => {
       <div v-if="showBook">
         <OpenedBook @close="showBook = false"></OpenedBook>
       </div>
-      
+
       <div
         v-if="gameStore.showSecretTable"
         class="flex justify-center items-center bg-grey50 top-0 z-50 left-0 w-full h-full backgroundBlur absolute"
@@ -231,12 +233,12 @@ const handleUserConnect = () => {
       >
         您好，魔法師：{{ playingId }}
       </div>
-      <div>
+      <div class="user-switch-panel">
         <label
           for="countries"
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >切換角色？</label>
-        <div class="flex gap-2">
+        <div class="flex pl-5 pb-5 gap-3">
           <select
             id="countries"
             v-model="playerId"
@@ -256,6 +258,21 @@ const handleUserConnect = () => {
             @click="handleUserConnect"
           >
             連線
+          </button>
+          <button
+            v-if="playerId !== playerIds[gameStore.gameStatus.current_player]"
+            type="button"
+            class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            @click="
+              () => {
+                playerId = playerIds[gameStore.gameStatus.current_player];
+
+                handleUserConnect();
+              }
+            "
+          >
+            切換至當前玩家 (a.k.a.
+            {{ playerIds[gameStore.gameStatus.current_player] }})
           </button>
         </div>
       </div>

@@ -2,6 +2,8 @@
 import { useGameStore } from '@/stores/game'
 import { useIntervalFn } from '@vueuse/core'
 import axios from 'axios'
+import magicStones from '@/models/MagicStones.js'
+
 const api = axios.create({
   baseURL: 'https://gaas-magician-backend.azurewebsites.net/',
   headers: {
@@ -9,11 +11,10 @@ const api = axios.create({
   },
 })
 import {
-  ref, computed, onMounted 
+  ref, computed, onMounted, watch 
 } from 'vue'
 function getImageUrl (number) {
-  const url = `/src/assets/images/stone/magic${ number }.png`
-  return new URL(url, import.meta.url)
+  return magicStones[`magic${ number }`]
 }
 const {
   pause, resume 
@@ -103,8 +104,8 @@ const playStone = async (i) => {
   })
   if (res.data.message === 'Spell cast successfully') {
     lastMagic.value = i
-    if (i === 4){
-      gameStore.updateShowSecretTable(true)  
+    if (i === 4) {
+      gameStore.updateShowSecretTable(true)
     } else {
       resetTimer()
     }
@@ -124,7 +125,7 @@ onMounted(() => {
   resetTimer()
 })
 watch(gameStore.showSecretTable, (showSecretTable) => {
-  if (!showSecretTable){
+  if (!showSecretTable) {
     resetTimer()
   }
 })

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build-github-page": "vite build --base /magician/",
     "preview": "vite preview",
     "lint": "npm run lint:script && npm run lint:style",
     "lint:style": "stylelint --cache src/**/*.{vue,scss} --fix",
