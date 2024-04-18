@@ -1,130 +1,134 @@
 <script setup>
-import { useGameStore } from "@/stores/game";
-import { useIntervalFn } from "@vueuse/core";
-import axios from "axios";
-import magicStones from "@/models/MagicStones.js";
+import { useGameStore } from '@/stores/game'
+import { useIntervalFn } from '@vueuse/core'
+import axios from 'axios'
+import magicStones from '@/models/MagicStones.js'
 
 const api = axios.create({
-  baseURL: "https://gaas-magician-backend.azurewebsites.net/",
+  baseURL: 'https://gaas-magician-backend.azurewebsites.net/',
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
-});
-import { ref, computed, onMounted, watch } from "vue";
-function getImageUrl(number) {
-  return magicStones[`magic${number}`];
+})
+import {
+  ref, computed, onMounted, watch 
+} from 'vue'
+function getImageUrl (number) {
+  return magicStones[`magic${ number }`]
 }
-const { pause, resume } = useIntervalFn(() => {
-  gameStore.spellCountDownTimer--;
+const {
+  pause, resume 
+} = useIntervalFn(() => {
+  gameStore.spellCountDownTimer--
   if (gameStore.spellCountDownTimer === 0) {
     if (lastMagic.value === 0) {
-      randomPlayStone(); // 幫使用者出魔法
+      randomPlayStone() // 幫使用者出魔法
     } else {
-      spellStop();
+      spellStop()
     }
-    pause();
+    pause()
   }
-}, 1000);
+}, 1000)
 const resetTimer = () => {
-  gameStore.spellCountDownTimer = 30;
-  resume();
-};
+  gameStore.spellCountDownTimer = 30
+  resume()
+}
 
 const randomPlayStone = () => {
   // const random = Math.floor(Math.random() * 8) + 1 // 1 ~ 8 -> lastMagic ~ 8
-  const magicNumber = lastMagic.value || 1;
-  const random = Math.floor(Math.random() * (9 - magicNumber)) + magicNumber;
-  playStone(random);
-};
+  const magicNumber = lastMagic.value || 1
+  const random = Math.floor(Math.random() * (9 - magicNumber)) + magicNumber
+  playStone(random)
+}
 
 // 上一次出牌
-const lastMagic = ref(0);
+const lastMagic = ref(0)
 
-import CountDown from "./common/CountDown.vue";
-const gameStore = useGameStore();
+import CountDown from './common/CountDown.vue'
+const gameStore = useGameStore()
 // const hoverItem = ref(0)
 const focusMagic = computed(() => {
-  return magicDesc[gameStore.hoverMagic];
-});
+  return magicDesc[gameStore.hoverMagic]
+})
 const magicDesc = [
   {
-    title: "",
-    content: "",
+    title: '',
+    content: '',
   },
   {
-    title: "Magic1-火爆的龍,共1張",
+    title: 'Magic1-火爆的龍,共1張',
     content:
-      "所有玩家將扣除等同於擲骰點數的生命值,不要怕！如果喊出但手牌中沒有此魔法,將遭到反噬,所以也必須擲骰子,骰出多少點數失去多生命值。",
+      '所有玩家將扣除等同於擲骰點數的生命值,不要怕！如果喊出但手牌中沒有此魔法,將遭到反噬,所以也必須擲骰子,骰出多少點數失去多生命值。',
   },
   {
-    title: "Magic2-黑暗幽靈,共2張",
-    content: "其他玩家將失去1點生命值,而你卻神秘地回復了1點生命值！",
+    title: 'Magic2-黑暗幽靈,共2張',
+    content: '其他玩家將失去1點生命值,而你卻神秘地回復了1點生命值！',
   },
   {
-    title: "Magic3-甜蜜夢境,共3張",
+    title: 'Magic3-甜蜜夢境,共3張',
     content:
-      "你將回復擲骰點數所代表的生命值,最高回復上限是6點,享受治癒的魔力吧！",
+      '你將回復擲骰點數所代表的生命值,最高回復上限是6點,享受治癒的魔力吧！',
   },
   {
-    title: "Magic4-智慧鳥,共4張",
+    title: 'Magic4-智慧鳥,共4張',
     content:
-      "你可以暗中查看1個秘密魔法石,蓋在自己面前。在這一輪結束時,每多蓋著1個魔法石,就能額外加1分,智慧鳥賦予你智慧和洞察力。",
+      '你可以暗中查看1個秘密魔法石,蓋在自己面前。在這一輪結束時,每多蓋著1個魔法石,就能額外加1分,智慧鳥賦予你智慧和洞察力。',
   },
   {
-    title: "Magic5-暴風雨,共5張",
-    content: "你的左右兩位玩家將不幸失去1點生命值,如同一場閃電狂風的猛烈打擊!",
+    title: 'Magic5-暴風雨,共5張',
+    content: '你的左右兩位玩家將不幸失去1點生命值,如同一場閃電狂風的猛烈打擊!',
   },
   {
-    title: "Magic6-暴雪,共6張",
-    content: "你的左手邊玩家將遭受暴雪的襲擊,失去1點生命值!",
+    title: 'Magic6-暴雪,共6張',
+    content: '你的左手邊玩家將遭受暴雪的襲擊,失去1點生命值!',
   },
   {
-    title: "Magic7-火焰彈,共7張,",
+    title: 'Magic7-火焰彈,共7張,',
     content:
-      "你的右手邊玩家要小心了,他們將被你的火焰彈命中,損失1點生命值,將他們燃燒成灰燼!",
+      '你的右手邊玩家要小心了,他們將被你的火焰彈命中,損失1點生命值,將他們燃燒成灰燼!',
   },
   {
-    title: "Magic8-魔藥水,共8張,",
+    title: 'Magic8-魔藥水,共8張,',
     content:
-      "喝下一瓶魔藥水,恢復1點生命值,這瓶神奇的魔法藥水將帶來治癒與重生的力量!",
+      '喝下一瓶魔藥水,恢復1點生命值,這瓶神奇的魔法藥水將帶來治癒與重生的力量!',
   },
-];
+]
 const setHoverMagic = (magicNumber) => {
-  gameStore.setHoverMagic(magicNumber);
-};
+  gameStore.setHoverMagic(magicNumber)
+}
 const playStone = async (i) => {
-  const res = await api.patch("/stone", {
+  const res = await api.patch('/stone', {
     gameRoomID: gameStore.gameStatus.game_id,
     playerID: gameStore.playingId,
-    spellName: `Magic ${i}`,
-  });
-  if (res.data.message === "Spell cast successfully") {
-    lastMagic.value = i;
+    spellName: `Magic ${ i }`,
+  })
+  if (res.data.message === 'Spell cast successfully') {
+    lastMagic.value = i
     if (i === 4) {
-      gameStore.updateShowSecretTable(true);
+      gameStore.updateShowSecretTable(true)
     } else {
-      resetTimer();
+      resetTimer()
     }
   } else {
-    lastMagic.value = 0;
-    gameStore.setHoverMagic(0);
+    lastMagic.value = 0
+    gameStore.setHoverMagic(0)
   }
-};
+}
 const spellStop = async () => {
-  const playerId = gameStore.playingId;
-  await api.patch(`/player/${playerId}/spellstop`, {
+  const playerId = gameStore.playingId
+  await api.patch(`/player/${ playerId }/spellstop`, {
     gameRoomID: gameStore.gameStatus.game_id,
-  });
-  lastMagic.value = 0;
-};
+  })
+  lastMagic.value = 0
+}
 onMounted(() => {
-  resetTimer();
-});
+  resetTimer()
+})
 watch(gameStore.showSecretTable, (showSecretTable) => {
   if (!showSecretTable) {
-    resetTimer();
+    resetTimer()
   }
-});
+})
 </script>
 
 <template>
@@ -144,8 +148,11 @@ watch(gameStore.showSecretTable, (showSecretTable) => {
           @mouseenter="setHoverMagic(i)"
           @mouseleave="setHoverMagic(0)"
           @click="playStone(i)"
-        />
-        <img v-else src="/src/assets/images/stone/stone.png" />
+        >
+        <img
+          v-else
+          src="/src/assets/images/stone/stone.png"
+        >
       </div>
       <div></div>
       <div
@@ -160,8 +167,11 @@ watch(gameStore.showSecretTable, (showSecretTable) => {
           @mouseenter="setHoverMagic(i + 4)"
           @mouseleave="setHoverMagic(0)"
           @click="playStone(i + 4)"
-        />
-        <img v-else src="/src/assets/images/stone/stone.png" />
+        >
+        <img
+          v-else
+          src="/src/assets/images/stone/stone.png"
+        >
       </div>
     </div>
     <div class="absolute top-[450px] left-[980px]">
@@ -198,7 +208,7 @@ watch(gameStore.showSecretTable, (showSecretTable) => {
 }
 
 .parallelogram::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: -10px;
