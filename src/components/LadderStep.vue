@@ -1,8 +1,6 @@
 <script setup>
-function getImageUrl (number) {
-  const url = `/src/assets/images/stone/magic${ number }.png`
-  return new URL(url, import.meta.url)
-}
+import magicStones from '@/models/MagicStones.js'
+
 defineProps({
   magicNumber: {
     default: 1,
@@ -13,6 +11,8 @@ defineProps({
     type: Number,
   },
 })
+
+const getMagicStoneUrl = (magicStone) => magicStones[`magic${ magicStone }`]
 </script>
 
 <template>
@@ -20,7 +20,7 @@ defineProps({
     <div class="border border-grey70 bg-grey50 w-[60px] h-[76px] flex justify-center items-center">
       <img
         class="opacity-50"
-        :src="getImageUrl(magicNumber)"
+        :src="getMagicStoneUrl(magicNumber)"
       >
     </div>
     <div
