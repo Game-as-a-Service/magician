@@ -14,6 +14,7 @@ class Game:
     game_id: str
     players: List[Player]
     active: bool = True
+    
 
     def __init__(self, game_id: str, players: List[dict], active: bool = True):
         self.game_id = game_id
@@ -27,6 +28,7 @@ class Game:
         self.turn: Optional[int] = None  # 玩家從開始施法到結束稱為回合
         self.current_player: Optional[int] = None  # 目前可進行施法動作玩家index
         self.spells: Dict[str, Spell] = self.load_spells()  # 初始化所有可能的魔法石
+        self.action_message: str = ""
 
     def load_spells(self) -> Dict[str, Spell]:
         """載入遊戲中可能存在的魔法石"""
@@ -119,6 +121,7 @@ class Game:
             "game_id": self.game_id,
             "players": [player.to_dict() for player in self.players],
             "active": self.active,
+            "action_message":self.action_message,
         }
 
         if self.current_player is not None:
@@ -153,6 +156,9 @@ class Game:
             players=data["players"],
             active=data.get("active", True),
         )
+
+        if "action_message" in data:
+            game.action_message = data["action_message"]
 
         if "current_player" in data:
             game.current_player = data["current_player"]

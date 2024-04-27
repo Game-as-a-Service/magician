@@ -13,6 +13,7 @@ class GameService:
         game = Game(game_id=None, players=player_ids)
         game_id = self.game_repository.create_game(game)
         game.game_id = game_id  # 從資料取得的game_id
+        game.action_message = "開始遊戲"
         self.game_repository.update_game(game)
         return game
 
@@ -28,6 +29,7 @@ class GameService:
                 if player.joined:
                     return False
                 player.joined = True
+                game.action_message = player.player_id + " 加入遊戲"
                 self.game_repository.update_game(game)
                 player_joined_stat = True
 
