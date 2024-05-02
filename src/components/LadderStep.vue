@@ -30,7 +30,7 @@ const getMagicStoneUrl = (magicStone) => magicStones[`magic${ magicStone }`]
     >
       <img
         v-if="used >= number"
-        :src="getImageUrl(magicNumber)"
+        :src="getMagicStoneUrl(magicNumber)"
       >
     </div>
     <div></div>
