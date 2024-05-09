@@ -102,6 +102,7 @@ const playStone = async (i) => {
     playerID: gameStore.playingId,
     spellName: `Magic ${ i }`,
   })
+  gameStore.setHoverMagic(0)
   if (res.data.message === 'Spell cast successfully') {
     lastMagic.value = i
     if (i === 4) {
@@ -111,7 +112,6 @@ const playStone = async (i) => {
     }
   } else {
     lastMagic.value = 0
-    gameStore.setHoverMagic(0)
   }
 }
 const spellStop = async () => {
@@ -124,7 +124,7 @@ const spellStop = async () => {
 onMounted(() => {
   resetTimer()
 })
-watch(gameStore.showSecretTable, (showSecretTable) => {
+watch(() => gameStore.showSecretTable, (showSecretTable) => {
   if (!showSecretTable) {
     resetTimer()
   }
