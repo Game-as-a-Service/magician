@@ -73,6 +73,9 @@ export const useGameStore = defineStore('useGameStore', () => {
       (player) => player.player_id === playingId.value
     )
   })
+  const gameOver = computed(() => {
+    return gameStatus.value.players.any((player) => player.score >= 8)
+  })
   const setGameStatus = (status) => {
     gameStatus.value = status
   }
@@ -99,6 +102,7 @@ export const useGameStore = defineStore('useGameStore', () => {
 
   return {
     gameStatus,
+    gameOver,
     playingId,
     playingIndex,
     setGameStatus,

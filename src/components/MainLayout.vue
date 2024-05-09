@@ -1,6 +1,7 @@
 <script setup>
 import LadderBoard from '@/components/LadderBoard.vue'
 import ScoreBoard from '@/components/ScoreBoard.vue'
+import FinalScoreBoard from '@/components/FinalScoreBoard.vue'
 import WarehouseUnknown from '@/components/WarehouseUnknown.vue'
 import WarehouseSecret from '@/components/WarehouseSecret.vue'
 import TableWithPlayer from '@/components/TableWithPlayer.vue'
@@ -38,7 +39,7 @@ const playerIds = [ 'Leave3310', 'Momo', 'Yock', 'Tux', 'Teds' ]
 const showBook = ref(false)
 const showHint1 = ref(false)
 const showHintStart = ref(false)
-
+const gameOver = computed(() => gameStore.gameOver)
 const handleConnect = () => {
   socket.value = io(import.meta.env.VITE_SOCKET_IO_URL, {
     transports: [ 'websocket', 'polling' ],
@@ -227,6 +228,12 @@ const handleUserConnect = () => {
         class="bg-grey50 top-0 left-0 w-full h-full backgroundBlur absolute"
       >
         <SpellMagicBoard></SpellMagicBoard>
+      </div>
+      <div
+        v-if="gameOver"
+        class="bg-grey50 z-50 top-1/4 left-0 w-full backgroundBlur absolute flex justify-center items-center"
+      >
+        <FinalScoreBoard></FinalScoreBoard>
       </div>
     </div>
     <div>
