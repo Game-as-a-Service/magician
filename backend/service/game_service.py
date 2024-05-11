@@ -37,8 +37,9 @@ class GameService:
 
         if all_joined:
             game = self.start_game(game)
+            game.action_message = "回合開始"
             self.game_repository.update_game(game)
-
+            
         return player_joined_stat
 
     def start_game(self, game: Game) -> Game:
@@ -78,12 +79,12 @@ class GameService:
         player.prev_spell = spell_name
         if spell_name not in player.spells:
             # 施法失敗
+            hp_damge = -1
             if spell_name == "Magic 1":
-                # 喊出火龍,但手牌沒有火龍
-                player.update_HP(roll_dice() * -1)
-            else:
-                player.update_HP(-1)
-
+                # 喊得是火龍，玩家擲骰扣HP
+                hp_damge = roll_dice() * -1                
+            player.update_HP(hp_damge)
+            game.action_message = player.player_id + " 施放 " +spell_name + " 失敗自損 " + str(abs(hp_damge)) +" 滴血"
             self.game_repository.update_game(game)
 
             if player.get_HP() == 0:
@@ -103,6 +104,7 @@ class GameService:
         # 玩家把手上所有的魔法石都用完了
         if len(player.spells) == 0:
             # 儲存目前遊戲狀態
+            game.action_message = player.player_id + " 手牌魔法石出完，局結束，結算分數"
             self.game_repository.update_game(game)
             # 結束這一局，結算分數
             self.end_round(game_id, player_id)
@@ -119,6 +121,7 @@ class GameService:
         # 將手牌放置於階梯
         game.ladder.append(spell_name)
         # 儲存目前遊戲狀態
+        game.action_message = player.player_id + " 施法 " + spell_name +" 成功 "
         self.game_repository.update_game(game)
 
         for p in game.players:
@@ -167,7 +170,7 @@ class GameService:
                 if game.warehouse:
                     be_hand_stone = game.warehouse.pop()
                     player.spells.append(be_hand_stone)
-
+        game.action_message = player.player_id + " 回合結束"
         self.game_repository.update_game(game)
 
         return True
@@ -196,7 +199,7 @@ class GameService:
                 if len(p.secret_spells) > 0:
                     # 持有秘密魔法石，有幾個加幾分
                     p.update_score(len(p.secret_spells))
-
+        game.action_message = "新局開始"
         self.game_repository.update_game(game)
         self.start_new_round(game_id)
 
@@ -209,7 +212,7 @@ class GameService:
         game.turn = 1
 
         game.shuffle_player()
-
+        game.action_message = "回合開始"
         self.game_repository.update_game(game)
 
         for player in game.players:
@@ -217,6 +220,7 @@ class GameService:
                 # 已有玩家獲得8分
                 # 遊戲結束
                 game.active = False
+                game.action_message = "有玩家獲得8分，遊戲結束"
                 self.game_repository.update_game(game)
 
     def player_status(self, game_id: str, player_id: str):
