@@ -39,7 +39,7 @@ class GameService:
             game = self.start_game(game)
             game.action_message = "回合開始"
             self.game_repository.update_game(game)
-            
+
         return player_joined_stat
 
     def start_game(self, game: Game) -> Game:
@@ -82,9 +82,16 @@ class GameService:
             hp_damge = -1
             if spell_name == "Magic 1":
                 # 喊得是火龍，玩家擲骰扣HP
-                hp_damge = roll_dice() * -1                
+                hp_damge = roll_dice() * -1
             player.update_HP(hp_damge)
-            game.action_message = player.player_id + " 施放 " +spell_name + " 失敗自損 " + str(abs(hp_damge)) +" 滴血"
+            game.action_message = (
+                player.player_id
+                + " 施放 "
+                + spell_name
+                + " 失敗自損 "
+                + str(abs(hp_damge))
+                + " 滴血"
+            )
             self.game_repository.update_game(game)
 
             if player.get_HP() == 0:
@@ -121,7 +128,7 @@ class GameService:
         # 將手牌放置於階梯
         game.ladder.append(spell_name)
         # 儲存目前遊戲狀態
-        game.action_message = player.player_id + " 施法 " + spell_name +" 成功 "
+        game.action_message = player.player_id + " 施法 " + spell_name + " 成功 "
         self.game_repository.update_game(game)
 
         for p in game.players:
@@ -237,7 +244,7 @@ class GameService:
             return data
 
         game = self.game_repository.get_game_by_id(game_id)
-        if game:  
+        if game:
             # [待討論]新增一個玩家是否存在的判斷?
             query_result = game.real_game_can_see(player_id).to_dict()
             return convert_object_id(query_result)

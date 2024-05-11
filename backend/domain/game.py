@@ -14,7 +14,6 @@ class Game:
     game_id: str
     players: List[Player]
     active: bool = True
-    
 
     def __init__(self, game_id: str, players: List[dict], active: bool = True):
         self.game_id = game_id
@@ -121,7 +120,7 @@ class Game:
             "game_id": self.game_id,
             "players": [player.to_dict() for player in self.players],
             "active": self.active,
-            "action_message":self.action_message,
+            "action_message": self.action_message,
         }
 
         if self.current_player is not None:

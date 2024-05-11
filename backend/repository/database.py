@@ -15,7 +15,9 @@ class MongoDB:
         username: Union[str, None] = self.config.MONGODB_SETTINGS.get("username")
         password: Union[str, None] = self.config.MONGODB_SETTINGS.get("password")
 
-        uri: str = f"mongodb://{self.config.MONGODB_SETTINGS['host']}:{self.config.MONGODB_SETTINGS['port']}/?retryWrites=true&w=majority"
+        uri: str = (
+            f"mongodb://{self.config.MONGODB_SETTINGS['host']}:{self.config.MONGODB_SETTINGS['port']}/?retryWrites=true&w=majority"
+        )
 
         if username and password:
             uri = f"mongodb+srv://{username}:{password}@{self.config.MONGODB_SETTINGS['host']}/"

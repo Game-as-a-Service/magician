@@ -13,7 +13,9 @@ class Redis_URI:
         self.db: int = self.config.REDIS_DB
         self.REDIS_PROTOCOL: str = self.config.REDIS_PROTOCOL
         if self.config.REDIS_PASSWORD:
-            self.redis_uri: str = f"{self.REDIS_PROTOCOL}://default:{self.config.REDIS_PASSWORD}@{self.host}:{self.port}/{self.db}"
+            self.redis_uri: str = (
+                f"{self.REDIS_PROTOCOL}://default:{self.config.REDIS_PASSWORD}@{self.host}:{self.port}/{self.db}"
+            )
         else:
             self.redis_uri: str = (
                 f"{self.REDIS_PROTOCOL}://{self.host}:{self.port}/{self.db}"

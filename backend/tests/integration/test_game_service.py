@@ -319,6 +319,7 @@ def test_player_status(game_service, five_player_game):
     assert game_service_result["players"][2]["player_id"] == "Tux"
     assert game_service_result["players"][2]["HP"] == 6
 
+
 # 測試玩家重複加入，不會開新的一局
 def test_player_rejoined(game_service, five_player_game):
     game_id = five_player_game.game_id
@@ -329,11 +330,12 @@ def test_player_rejoined(game_service, five_player_game):
     game.round = 2
     game_service.game_repository.update_game(game)
 
-    assert game_service.player_join_game(game_id, "Yock") == False
+    assert not game_service.player_join_game(game_id, "Yock")
     game2 = game_service.game_repository.get_game_by_id(game_id)
     assert game2.round == 2
 
-#取得遊戲狀態若無此房號則回傳訊息
+
+# 取得遊戲狀態若無此房號則回傳訊息
 def test_roomID_status(game_service, five_player_game):
     game_id = five_player_game.game_id
     for player in five_player_game.players:
@@ -342,7 +344,7 @@ def test_roomID_status(game_service, five_player_game):
     query_player_id = five_player_game.players[2].player_id
     assert query_player_id == "Tux"
 
-    #輸入正確的player_id、錯誤的game_roomID
+    # 輸入正確的player_id、錯誤的game_roomID
     room_id = None
     game_roomID = game_service.player_status(room_id, query_player_id)
     assert game_roomID is None

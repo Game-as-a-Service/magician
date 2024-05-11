@@ -112,22 +112,22 @@ def test_roomID_status(client):
     assert resp.status_code == 200
 
     # 測試gameRoomID不存在 與 player_id 正確
-    params = "player_id=p1"    
-    resp = client.get(f"/player/status?{params}")    
+    params = "player_id=p1"
+    resp = client.get(f"/player/status?{params}")
     assert resp.status_code == 400
     resp_json = resp.json
     assert resp_json["message"] == "gameRoomID not found"
 
     # 測試gameRoomID錯誤的 與 player_id 正確
     params = "player_id=p1&gameRoomID=" + "wrong_gameroomID"
-    resp = client.get(f"/player/status?{params}")    
+    resp = client.get(f"/player/status?{params}")
     assert resp.status_code == 400
     resp_json = resp.json
     assert resp_json["message"] == "gameRoomID does not exist"
 
     # 測試gameRoomID正確 與 player_id 不存在
     params = "gameRoomID=" + game_id
-    resp = client.get(f"/player/status?{params}")    
+    resp = client.get(f"/player/status?{params}")
     assert resp.status_code == 400
     resp_json = resp.json
     assert resp_json["message"] == "player_id not found"
