@@ -20,6 +20,7 @@
     "pinia": "^2.0.33",
     "socket.io-client": "^4.7.2",
     "vue": "^3.2.45",
+    "vue-responsive-video-background-player": "^2.2.2",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

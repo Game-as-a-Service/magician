@@ -1,4 +1,5 @@
 <script setup>
+import PlayVideo from '@/components/PlayVideo.vue'
 import LadderBoard from '@/components/LadderBoard.vue'
 import ScoreBoard from '@/components/ScoreBoard.vue'
 import WarehouseUnknown from '@/components/WarehouseUnknown.vue'
@@ -158,6 +159,7 @@ const handleUserConnect = () => {
     },
   })
 }
+const showVideo = ref(false)
 </script>
 
 <template>
@@ -166,7 +168,8 @@ const handleUserConnect = () => {
       :class="`bg-[url('@/assets/images/background/bg0` + bgNumber + `.webp')]`"
       class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
     >
-      <div class="flex gap-11">
+      
+      <div class="flex gap-11 top-8 left-8 absolute" >
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>
         <WarehouseSecret
@@ -200,7 +203,10 @@ const handleUserConnect = () => {
       <div v-if="showBook">
         <OpenedBook @close="showBook = false"></OpenedBook>
       </div>
-
+      <div v-if="showVideo">
+        <PlayVideo>
+        </PlayVideo>
+      </div>      
       <div
         v-if="gameStore.showSecretTable"
         class="flex justify-center items-center bg-grey50 top-0 z-50 left-0 w-full h-full backgroundBlur absolute"
@@ -228,6 +234,7 @@ const handleUserConnect = () => {
       >
         <SpellMagicBoard></SpellMagicBoard>
       </div>
+      
     </div>
     <div>
       <div
