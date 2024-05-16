@@ -168,8 +168,7 @@ const showVideo = ref(false)
       :class="`bg-[url('@/assets/images/background/bg0` + bgNumber + `.webp')]`"
       class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
     >
-      
-      <div class="flex gap-11 top-8 left-8 absolute" >
+      <div class="flex gap-11 top-8 left-8 absolute">
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>
         <WarehouseSecret
@@ -234,7 +233,6 @@ const showVideo = ref(false)
       >
         <SpellMagicBoard></SpellMagicBoard>
       </div>
-      
     </div>
     <div>
       <div
