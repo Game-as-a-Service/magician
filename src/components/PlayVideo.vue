@@ -10,9 +10,9 @@ const videoSrc = computed(() => {
   return `/src/assets/video/magic0${ gameStore.videoNumber }.mp4`
 })
 const ended = () => {
-  // gameStore.showVideo = false
-  // if (gameStore.videoNumber === 4)
-  //   gameStore.updateShowSecretTable(true)
+  gameStore.showVideo = false
+  if (gameStore.videoNumber === 4)
+    gameStore.updateShowSecretTable(true)
 }
 </script>
 
@@ -37,7 +37,7 @@ const ended = () => {
     left: 50%;
     width: 760px;
     height: 540px;
-    transform: translate(-50%, -50%);
     border-radius: 20px;
+    transform: translate(-50%, -50%);
   }
 </style>
