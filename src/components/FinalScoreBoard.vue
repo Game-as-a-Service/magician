@@ -37,8 +37,7 @@ const winner = computed(() => players.value[0].name)
       </div>
     </div>
     <div class="flex justify-evenly pt-4">
-      <img src="/src/assets/images/scoreBoard/play-again.svg"> 
-      <img src="/src/assets/images/scoreBoard/exit.svg"> 
+      <img src="/src/assets/images/sundries/door-leave.svg"> 
     </div>
   </div>
 </template>

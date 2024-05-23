@@ -74,7 +74,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     )
   })
   const gameOver = computed(() => {
-    return gameStatus.value.players.any((player) => player.score >= 8)
+    return gameStatus.value.players.some((player) => player.score >= 8)
   })
   const setGameStatus = (status) => {
     gameStatus.value = status
@@ -95,11 +95,16 @@ export const useGameStore = defineStore('useGameStore', () => {
   const spellCountDownTimer = ref(30)
   const secretCountDownTimer = ref(20)
   const showSecretTable = ref(false)
+  const showVideo = ref(false)
+  const videoNumber = ref(0)
 
   const updateShowSecretTable = (value) => (showSecretTable.value = value)
   const updateTmpGameStatus = (value) => (tmpGameStatus.value = value)
   const restoreGameStatus = () => setGameStatus(tmpGameStatus.value)
-
+  const playMagicVideo = (n) => {
+    videoNumber.value = n
+    showVideo.value = true
+  }
   return {
     gameStatus,
     gameOver,
@@ -116,5 +121,8 @@ export const useGameStore = defineStore('useGameStore', () => {
     updateShowSecretTable,
     updateTmpGameStatus,
     restoreGameStatus,
+    showVideo,
+    videoNumber,
+    playMagicVideo,
   }
 })
