@@ -70,7 +70,7 @@ const handleConnect = () => {
       })
     }
     gameStore.updateTmpGameStatus(JSON.parse(data))
-    if (!gameStore.showSecretTable) {
+    if (!(gameStore.showVideo && gameStore.videoNumber === 4)) {
       gameStore.setGameStatus(JSON.parse(data))
     }
   })
@@ -160,7 +160,6 @@ const handleUserConnect = () => {
     },
   })
 }
-const showVideo = ref(false)
 </script>
 
 <template>
@@ -203,7 +202,7 @@ const showVideo = ref(false)
       <div v-if="showBook">
         <OpenedBook @close="showBook = false"></OpenedBook>
       </div>
-      <div v-if="showVideo">
+      <div v-if="gameStore.showVideo">
         <PlayVideo>
         </PlayVideo>
       </div>      

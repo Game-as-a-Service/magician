@@ -104,9 +104,10 @@ const playStone = async (i) => {
   })
   gameStore.setHoverMagic(0)
   if (res.data.message === 'Spell cast successfully') {
+    gameStore.playMagicVideo(i)
     lastMagic.value = i
     if (i === 4) {
-      gameStore.updateShowSecretTable(true)
+      // gameStore.updateShowSecretTable(true)
     } else {
       resetTimer()
     }
