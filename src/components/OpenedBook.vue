@@ -1,13 +1,42 @@
 <script setup>
-import { defineEmits } from 'vue'
+import {
+  computed, ref 
+} from 'vue'
 
 import CloseIcon from '@/assets/images/book/CloseIcon.vue'
-defineEmits([ 'close' ])
+import MagicCircle from '@/assets/images/book/magic-circle.png'
+import Book2 from '@/assets/images/book/book2.png'
+
+const showBook = ref(false)
+const magicCircleClass = computed(() => showBook.value ? 'magic-circle' : 'hidden')
+const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
 </script>
 
 <template>
   <div
-    class="bg-grey50 z-50 w-full h-full top-0 left-0 absolute backdrop-blur-sm"
+    class="absolute top-[750px] left-[830px] "
+  >
+    <div
+      class="group cursor-pointer"
+      @click="showBook = true"
+    >
+      <img
+        class="w-[100px] mr-2 group-hover:hidden"
+        src="/src/assets/images/book/book1.png"
+      >
+      <img
+        :src="Book2"
+        class="hidden w-[100px] group-hover:block"
+      >
+    </div>
+    <img
+      :class="magicCircleClass"
+      :src="MagicCircle"
+    >
+  </div>
+  <div
+    class="bg-grey50 z-50 w-full h-full top-0 left-0 absolute backdrop-blur-sm magic-book"
+    :class="magicBookClass"
   >
     <div
       class="bg-cover w-[1000px] h-[700px] bottom-0 left-0 absolute pt-[120px] pb-[140px] px-[80px] flex"
@@ -66,7 +95,7 @@ defineEmits([ 'close' ])
       </div>
       <div
         class="group right-[-46px] top-[86px] absolute z-40 cursor-pointer flex items-center"
-        @click="$emit('close')"
+        @click="showBook=false"
       >
         <div
           class="absolute left-[-10px] z-[-1] bg-transparent py-2 px-[10px] rounded-[20px] w-1/2 group-hover:w-[calc(100%+20px)] h-[100px] group-hover:bg-white transition-all"
@@ -87,3 +116,48 @@ defineEmits([ 'close' ])
     </div>
   </div>
 </template>
+
+<style scoped>
+.magic-circle {
+  position: relative;
+  z-index: 100;
+  width: 95px;
+  height: 95px;
+  animation: animate-magic-circle 3s forwards;
+}
+
+.magic-book {
+  opacity: 0;
+  animation: animate-magic-book 1s 2.2s forwards;
+}
+
+@keyframes animate-magic-circle {
+  0% {
+    filter: blur(4px);
+    transform: translateY(-100%);
+  }
+
+  50% {
+    width: 401px;
+    height: 401px;
+    filter: blur(4px);
+    transform: translateX(-105%) translateY(-120%) rotate(360deg);
+  }
+
+  100% {
+    width: 55px;
+    height: 55px;
+    transform: translateX(76%) translateY(-45%);
+  }
+}
+
+@keyframes animate-magic-book {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+</style>

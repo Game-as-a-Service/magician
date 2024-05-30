@@ -37,7 +37,6 @@ const playingId = computed(() => gameStore.playingId)
 const myTurn = computed(() => gameStore.myTurn)
 const playerId = ref('Leave3310')
 const playerIds = [ 'Leave3310', 'Momo', 'Yock', 'Tux', 'Teds' ]
-const showBook = ref(false)
 const showHint1 = ref(false)
 const showHintStart = ref(false)
 const gameOver = computed(() => gameStore.gameOver)
@@ -188,20 +187,12 @@ const handleUserConnect = () => {
       <div class="absolute z-40 top-[330px] left-[370px]">
         <TableWithPlayer></TableWithPlayer>
       </div>
-      <div
-        class="absolute top-[750px] left-[830px] cursor-pointer"
-        @click="showBook = true"
-      >
-        <div class="w-[100px] mr-2">
-          <img src="/src/assets/images/book/book1.png">
-        </div>
-      </div>
+      
       <div class="absolute bottom-8 left-[730px]">
         <LeaveBtn></LeaveBtn>
       </div>
-      <div v-if="showBook">
-        <OpenedBook @close="showBook = false"></OpenedBook>
-      </div>
+      <OpenedBook></OpenedBook>
+      
       <div v-if="gameStore.showVideo">
         <PlayVideo>
         </PlayVideo>
