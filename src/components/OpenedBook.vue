@@ -29,10 +29,13 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
         class="hidden w-[100px] group-hover:block"
       >
     </div>
-    <img
+    <div 
       :class="magicCircleClass"
-      :src="MagicCircle"
     >
+      <img
+        :src="MagicCircle"
+      >
+    </div>
   </div>
   <div
     class="bg-grey50 z-50 w-full h-full top-0 left-0 absolute backdrop-blur-sm magic-book"
@@ -119,7 +122,8 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
 
 <style scoped>
 .magic-circle {
-  position: relative;
+  position: absolute;
+  top: 0px;
   z-index: 100;
   width: 95px;
   height: 95px;
@@ -133,21 +137,44 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
 
 @keyframes animate-magic-circle {
   0% {
-    filter: blur(4px);
-    transform: translateY(-100%);
+    position: absolute;
+    filter: blur(2px);
+    opacity: 0;
+    transform: translateX(0%) translateY(10%) rotate(0deg) scale(0);
+    transform-origin: (50%,50%);
   }
 
-  50% {
-    width: 401px;
-    height: 401px;
-    filter: blur(4px);
-    transform: translateX(-105%) translateY(-120%) rotate(360deg);
+  30% {
+    filter: blur(2px);
+    opacity: 1;
+    transform: translateX(2%) translateY(0%) rotate(0deg) scale(1);
+    /* transform-origin: (50%,50%); */
+  }
+
+  45% {
+    filter: blur(0px);
+    transform: translateX(-280%) translateY(-240%) rotate(343deg) scale(4);
+    /* transform-origin: (50%,50%); */
+  }
+
+  55% {
+    filter: blur(1px);
+    transform: translateX(-280%) translateY(-240%) rotate(350deg) scale(4);
+  }
+
+  65% {
+    filter: blur(3px);
+    transform: translateX(-280%) translateY(-240%) rotate(343deg) scale(4);
+  }
+
+  75% {
+    filter: blur(1px);
+    transform: translateX(-280%) translateY(-240%) rotate(10deg) scale(4);
   }
 
   100% {
-    width: 55px;
-    height: 55px;
-    transform: translateX(76%) translateY(-45%);
+    filter: blur(0px);
+    transform: translateX(36%) translateY(60%) rotate(15deg) scale(.6);
   }
 }
 
