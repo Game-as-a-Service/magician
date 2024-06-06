@@ -95,6 +95,7 @@ const magicDesc = [
 ]
 const setHoverMagic = (magicNumber) => {
   gameStore.setHoverMagic(magicNumber)
+  gameStore.afterAction = true
 }
 const playStone = async (i) => {
   const res = await api.patch('/stone', {

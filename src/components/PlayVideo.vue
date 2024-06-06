@@ -14,6 +14,9 @@ const ended = () => {
   if (gameStore.videoNumber === 4)
     gameStore.updateShowSecretTable(true)
 }
+const afterAction = computed(() => {
+  return !gameStore.afterAction
+})
 </script>
 
 <template>
@@ -23,7 +26,7 @@ const ended = () => {
     <VideoBackground
       :src="videoSrc"
       class="video"
-      :muted="false"
+      :muted="afterAction"
       :loop="false"
       @ended="ended"
     >

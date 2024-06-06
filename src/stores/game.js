@@ -77,7 +77,13 @@ export const useGameStore = defineStore('useGameStore', () => {
     return gameStatus.value.players.some((player) => player.score >= 8)
   })
   const setGameStatus = (status) => {
+    // 把訊息放到廣播區
     gameStatus.value = status
+    messages.value.push(status.action_message)
+    if (status.action_message.includes('成功')){
+      const number = status.action_message.split(' ')[3]
+      playMagicVideo(number)
+    }
   }
   const hoverMagic = ref(0)
   const setHoverMagic = (magicNumber) => {
@@ -97,7 +103,7 @@ export const useGameStore = defineStore('useGameStore', () => {
   const showSecretTable = ref(false)
   const showVideo = ref(false)
   const videoNumber = ref(0)
-
+  const messages = ref([])
   const updateShowSecretTable = (value) => (showSecretTable.value = value)
   const updateTmpGameStatus = (value) => (tmpGameStatus.value = value)
   const restoreGameStatus = () => setGameStatus(tmpGameStatus.value)
@@ -105,6 +111,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     videoNumber.value = n
     showVideo.value = true
   }
+  const afterAction = ref(false) 
   return {
     gameStatus,
     gameOver,
@@ -124,5 +131,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     showVideo,
     videoNumber,
     playMagicVideo,
+    messages,
+    afterAction,
   }
 })
