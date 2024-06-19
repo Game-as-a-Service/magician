@@ -135,6 +135,8 @@ class GameService:
             if p.get_HP() == 0:
                 # 有玩家的血量歸0
                 # 結束這一局，結算分數
+                game.action_message = p.player_id + "已死亡，該局結束"
+                self.game_repository.update_game(game)
                 self.end_round(game_id, game.players[game.current_player].player_id)
 
         return True, 200
