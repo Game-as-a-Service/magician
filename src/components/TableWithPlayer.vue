@@ -2,14 +2,8 @@
 import { computed } from 'vue'
 import TableDesk from '@/components/TableDesk.vue'
 import { useGameStore } from '@/stores/game'
+import imgSrcs from '@/models/Avatars.js'
 const gameStore = useGameStore()
-const imgSrcs = [
-  '/src/assets/images/avatar/avatar_green.png',
-  '/src/assets/images/avatar/avatar_orange.png',
-  '/src/assets/images/avatar/avatar_red.png',
-  '/src/assets/images/avatar/avatar_yellow.png',
-  '/src/assets/images/avatar/avatar_blue.png',
-]
 const playerClasses = [
   'player-green',
   'player-orange',
@@ -17,13 +11,41 @@ const playerClasses = [
   'player-yellow',
   'player-blue',
 ]
-const players = computed(() => gameStore.gameStatus.players.map((player, i) => ({
-  name: player.player_id,
-  hp: player.HP,
-  score: player.score,
-  imgSrc: imgSrcs[i],
-  playerClass: playerClasses[i],
-})))
+const players = computed(() =>
+  gameStore.gameStatus.players.map((player, i) => ({
+    name: player.player_id,
+    hp: player.HP,
+    score: player.score,
+    holdStones: player.spells.length,
+    imgSrc: imgSrcs[i],
+    playerClass: playerClasses[i],
+    attackable: attackable(i, gameStore.hoverMagic, gameStore.playingIndex),
+    healable: healable(i, gameStore.hoverMagic, gameStore.playingIndex),
+    isPlaying: i === gameStore.gameStatus.current_player,
+  }))
+)
+const attackable = (playerIndex, magicNumber, playingIndex) => {
+  if (magicNumber === 1 || magicNumber === 2) {
+    return playerIndex !== playingIndex
+  }
+  if (magicNumber === 5) {
+    return (
+      playerIndex == (4 + playingIndex) % 5 ||
+      playerIndex == (6 + playingIndex) % 5
+    )
+  }
+  if (magicNumber === 6) {
+    return playerIndex == (6 + playingIndex) % 5
+  }
+  if (magicNumber === 7) {
+    return playerIndex == (4 + playingIndex) % 5
+  }
+}
+const healable = (playerIndex, magicNumber, playingIndex) => {
+  if (magicNumber === 2 || magicNumber === 3 || magicNumber === 8) {
+    return playerIndex == playingIndex
+  }
+}
 // function getImageUrl (name) {
 //   const url = `/src/assets/images/avatar/${ name }.png`
 //   return new URL(url, import.meta.url)
@@ -64,14 +86,42 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 </script>
 
 <template>
-  <div class="w-[480px] h-[480px] relative flex justify-center items-center ">
+  <div class="w-[480px] h-[480px] relative flex justify-center items-center">
     <div
-      v-for="item of players"
-      :key="item.name"
-      class="w-[100px] h-[100px] absolute"
-      :class="item.playerClass"
+      v-for="player of players"
+      :key="player.name"
+      class="w-[100px] h-[100px] absolute hover-player"
+      :class="player.playerClass"
     >
-      <img :src="item.imgSrc">
+      <img :src="player.imgSrc">
+      <!-- /      <div class="healable "></div> -->
+      <!-- <div v-if="player.attackable" class="attackable "></div> -->
+      <div
+        class="transition duration-500 ease-linear"
+        :class="{ healable: player.healable,
+                  attackable: player.attackable }"
+      ></div>
+      <div
+        v-if="player.isPlaying"
+        class="w-[80px] h-[100px] absolute top-3 -left-8 -rotate-[18deg]"
+      >
+        <img src="/src/assets/images/table/magicWand.svg">
+      </div>
+      <div class="info-box absolute">
+        <div class="bg-white info">
+          <div class="block whitespace-nowrap">
+            玩家：{{ player.name }}
+          </div>
+          <div>手牌數：{{ player.holdStones }}</div>
+          <div>分數：{{ player.score }}</div>
+        </div>
+        <div
+          class="info-box-triangle-left inline-block w-[30px] h-[20px]"
+        ></div>
+        <div
+          class="info-box-triangle-right inline-block w-[30px] h-[20px]"
+        ></div>
+      </div>
     </div>
     <div
       v-for="item of players"
@@ -88,6 +138,32 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 </template>
 
 <style>
+.attackable {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  filter: blur(5px);
+  border: 13px solid #ff0000;
+  border-radius: 100%;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.healable {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  filter: blur(5px);
+  border: 10px solid #fff;
+  border-radius: 100%;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
 .player-green {
   top: 295px;
   left: 60px;
@@ -114,28 +190,95 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
 }
 
 .hp-player-green {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 1 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 1 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 1 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 1 + var(--deg-angle))
+  );
 }
 
 .hp-player-orange {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 2 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 2 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 2 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 2 + var(--deg-angle))
+  );
 }
 
 .hp-player-red {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 3 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 3 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 3 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 3 + var(--deg-angle))
+  );
 }
 
 .hp-player-yellow {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 4 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 4 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 4 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 4 + var(--deg-angle))
+  );
 }
 
 .hp-player-blue {
-  top: calc(var(--center-y) + var(--length) * sin(72deg * 0 + var(--deg-angle)));
-  left: calc(var(--center-x) + var(--length) * cos(72deg * 0 + var(--deg-angle)));
+  top: calc(
+    var(--center-y) + var(--length) * sin(72deg * 0 + var(--deg-angle))
+  );
+  left: calc(
+    var(--center-x) + var(--length) * cos(72deg * 0 + var(--deg-angle))
+  );
+}
+
+.info-box {
+  top: 0px;
+  z-index: 200;
+  display: block;
+  padding: 5px 10px;
+  opacity: 0;
+  transition: all .3s;
+}
+
+.hover-player:hover .info-box {
+  top: -100px;
+  z-index: 200;
+  display: block;
+  opacity: .9;
+}
+
+.info {
+  min-width: 140px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, .3);
+}
+
+.info-box-triangle-left,
+.info-box-triangle-right {
+  overflow: hidden;
+}
+
+.info-box-triangle-left::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 20px -10px 0px #fbfbfb;
+  transform: translateX(-50%);
+}
+
+.info-box-triangle-right::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: -20px -10px 0px #fbfbfb;
 }
 
 :root {
@@ -144,5 +287,4 @@ const players = computed(() => gameStore.gameStatus.players.map((player, i) => (
   --center-x: 227px;
   --center-y: 215px;
 }
-
 </style>

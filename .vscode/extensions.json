@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "teamchilla.blueprint",
+    "streetsidesoftware.code-spell-checker",
+    "dbaeumer.vscode-eslint",
+    "christian-kohler.path-intellisense",
+    "stylelint.vscode-stylelint",
+    "formulahendry.auto-rename-tag",
+    "Vue.volar"
+  ]
+}

@@ -1,43 +1,46 @@
 <script setup>
 import { computed } from 'vue'
 import { useGameStore } from '@/stores/game'
+import imgSrcs from '@/models/Avatars.js'
+import magicStones from '@/models/MagicStones.js'
 const gameStore = useGameStore()
-const imgSrcs = [
-  '/src/assets/images/avatar/avatar_green.png',
-  '/src/assets/images/avatar/avatar_orange.png',
-  '/src/assets/images/avatar/avatar_red.png',
-  '/src/assets/images/avatar/avatar_yellow.png',
-  '/src/assets/images/avatar/avatar_blue.png',
-]
-const opponents = computed(() => gameStore.gameStatus.players.map((player, i) => ({
-  spell: i === gameStore.gameStatus.current_player ? spells[Math.floor(Math.random() * spells.length)] : '',
-  avatar: imgSrcs[i],
-  stone: player.spells.map((spell) => {
-    switch (spell) {
-    case 'Magic 1':
-      return 'magic1'
-    case 'Magic 2':
-      return 'magic2'
-    case 'Magic 3':
-      return 'magic3'
-    case 'Magic 4':
-      return 'magic4'
-    case 'Magic 5':
-      return 'magic5'
-    case 'Magic 6':
-      return 'magic6'
-    case 'Magic 7':
-      return 'magic7'
-    case 'Magic 8':
-      return 'magic8'
-    default:
-      return ''
-    }
-  }),
-  // .sort(a, b => a.localeCompare(b))
-  secretStone: player.secret_spells.length,
-  name: player.player_id,
-})).filter((player) => player.name !== gameStore.playingId))
+const opponents = computed(() =>
+  gameStore.gameStatus.players
+    .map((player, i) => ({
+      spell:
+        i === gameStore.gameStatus.current_player
+          ? spells[Math.floor(Math.random() * spells.length)]
+          : '',
+      avatar: imgSrcs[i],
+      stone: player.spells.map((spell) => {
+        switch (spell) {
+        case 'Magic 1':
+          return 'magic1'
+        case 'Magic 2':
+          return 'magic2'
+        case 'Magic 3':
+          return 'magic3'
+        case 'Magic 4':
+          return 'magic4'
+        case 'Magic 5':
+          return 'magic5'
+        case 'Magic 6':
+          return 'magic6'
+        case 'Magic 7':
+          return 'magic7'
+        case 'Magic 8':
+          return 'magic8'
+        default:
+          return ''
+        }
+      }),
+      // .sort(a, b => a.localeCompare(b))
+      secretStone: player.secret_spells.length,
+      name: player.player_id,
+      joined: player.joined,
+    }))
+    .filter((player) => player.name !== gameStore.playingId)
+)
 
 // function getAvatarImgUrl (avatar) {
 //   const url = `/src/assets/images/avatar/${ avatar }.png`
@@ -45,10 +48,23 @@ const opponents = computed(() => gameStore.gameStatus.players.map((player, i) =>
 // }
 
 function getMagicStoneUrl (magicStone) {
-  const url = `/src/assets/images/stone/${ magicStone }.png`
-  return new URL(url, import.meta.url)
+  return magicStones[magicStone]
 }
-const spells = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！', 'Give me magic!', '霹靂卡霹靂拉拉' ]
+const spells = [
+  '天蒼蒼野茫茫',
+  '9527吃飯了',
+  '天靈靈＃％＠！',
+  'Give me magic!',
+  '霹靂卡霹靂拉拉',
+  '快龍就是魯魯米',
+  '你還是太年輕6',
+  '讓我想一下',
+  '去去爬爬走',
+  '左欺敵右欺敵',
+  '鄰兵火力掩護我',
+  '吃雞大吉大利',
+  '地球防衛軍',
+]
 
 // const opponent = [
 //   {
@@ -90,13 +106,24 @@ const spells = [ '天蒼蒼野茫茫', '9527吃飯了', '天靈靈＃％＠！',
         >
           {{ opponent.spell }}
         </span>
+        <span
+          v-if="!opponent.joined"
+          class="rounded-t-full rounded-l-full bg-oldBook p-2.5 h-[60px] text-[28px]"
+        >
+          等等我～
+        </span>
       </div>
 
       <div class="w-[60px] mr-2">
         <img :src="opponent.avatar">
       </div>
       <div
-        class="text-center pt-4 bg-[url('@/assets/images/sundries/pocket.png')] mr-2 w-[60px] h-[60px] text-gray-700 text-[28px]"
+        :class="
+          opponent.secretStone !== 0
+            ? `bg-[url('@/assets/images/sundries/pocket-pink.png')]`
+            : `bg-[url('@/assets/images/sundries/pocket.png')] `
+        "
+        class="text-center pt-4 mr-2 w-[60px] h-[60px] text-gray-700 text-[28px]"
       >
         {{ opponent.secretStone }}
       </div>

@@ -2,20 +2,21 @@
 import {
   computed 
 } from 'vue'
+
 import { useGameStore } from '@/stores/game'
+import magicStones from '@/models/MagicStones'
+
 const gameStore = useGameStore()
 const me = computed(() => gameStore.gameStatus.players.find((player) => player.player_id === gameStore.playingId))
-function getImageUrl (number) {
-  const url = `/src/assets/images/stone/magic${ number }.png`
-  return new URL(url, import.meta.url)
-}
+
+const getMagicStoneUrl = (magicStone) => magicStones[`magic${ magicStone }`]
 const secretStones = computed(() => {
   if (!me.value) return []
 
   return me.value.secret_spells.map((spell) => {
     switch (spell) {
     case 'Magic 1':
-      return 1
+      return 1 
     case 'Magic 2':
       return 2
     case 'Magic 3':
@@ -35,12 +36,12 @@ const secretStones = computed(() => {
     }
   }).sort((a, b) => a - b)
 })
+// 如果要 debug 直接註解拿掉
 // const secretStones = [ 5, 6, 7, 8 ]
 const handStoneCount = computed(() => {
   if (!me.value) return 0
   return me.value.spells.length
 })
-// const handStoneCount = ref(5)
 </script>
 
 <template>
@@ -56,7 +57,7 @@ const handStoneCount = computed(() => {
       >
         <img
           class="stone-img"
-          :src="getImageUrl(stone)"
+          :src="getMagicStoneUrl(stone)"
         >  
       </div>
     </div>
@@ -71,8 +72,8 @@ const handStoneCount = computed(() => {
       >
         <img
           class="stone-back"
-          :src="`/src/assets/images/stone/stone.png`"
-        >  
+          src="@/assets/images/stone/stone.png"
+        >
       </div>
     </div>
   </div>

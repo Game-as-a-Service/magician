@@ -11,7 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-.vscode
+.vscode/*
 # Editor directories and files
 !.vscode/extensions.json
 .stylelintcache
