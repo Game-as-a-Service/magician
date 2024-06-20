@@ -10,7 +10,7 @@ import MyState from '@/components/MyState.vue'
 import LeaveBtn from './LeaveBtn.vue'
 import OpenedBook from './OpenedBook.vue'
 import HintBar from '@/components/common/HintBar.vue'
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import {
   ref, computed, watch

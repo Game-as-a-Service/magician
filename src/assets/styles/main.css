@@ -4,9 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 @layer base {
   body {
-    font-family: "Noto Sans TC", sans-serif;
+    font-family: "Noto Sans TC", sans-serif,'Custom magic';
   }
   h6 {
     font-size: 20px;

@@ -5,11 +5,13 @@ defineEmits([ 'close' ])
 
 <template>
   <div class="bg-grey50 w-full h-full top-0 left-0 absolute backdrop-blur-sm">
-    <div class="bg-cover w-[1000px] h-[700px] bottom-0 left-0  absolute pt-[120px] pb-[140px] px-[80px] flex ">
-      <div class=" w-1/2 h-full  z-20 relative">
+    <div class=" font bg-cover w-[1000px] h-[700px] bottom-0 left-0  absolute pt-[120px] pb-[140px] px-[80px] flex ">
+      <div class="w-1/2 h-full  z-20 relative">
         <ul class="h-full px-8 list-disc flex flex-col justify-evenly">
           <li class=" mb-1 ">
-            <p>Magic1-火爆的龍,共1張</p>
+            <p class="">
+              Magic1-火爆的龍,共1張
+            </p>
             <p>所有玩家將扣除等同於擲骰點數的生命值,不要怕！如果喊出但手牌中沒有此魔法,將遭到反噬,所以也必須擲骰子,骰出多少點數失去多生命值。</p>
           </li>
           <li class=" mb-1 ">
@@ -60,6 +62,40 @@ defineEmits([ 'close' ])
         src="/src/assets/images/book/magicBookOpen.png"
       > 
     </div>
-  
   </div>
 </template>
+
+<style scoped>
+
+@font-face {
+  font-family: 'Custom magic bubble';
+  src: url('/src/assets/fonts/KFhimaji.otf') format('ttf'),;
+}
+
+.font {
+  /* color:rgb(58, 54, 50); */
+  font-family: 'Custom magic bubble',serif;
+  cursor: url(
+    'https://cdn.discordapp.com/emojis/1235669685601697792.webp?size=96&quality=lossless'
+      ) ,auto;
+  /* //Todo:svg */
+}
+@keyframes animate-text {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: -150% 0;
+  }
+}
+
+.font li:hover {
+  color: transparent;
+  background: linear-gradient(45deg, rgb(34, 43, 165) 0%, rgba(253, 29, 29, 1) 50%, rgb(228, 168, 85) 60%, rgb(22, 147, 28) 65%, rgb(34, 43, 165) 100%);
+  -webkit-background-clip: text;
+  background-size: 300% 120%;
+  transition: all .4s;
+  animation: animate-text 4s infinite linear;
+}
+</style>
