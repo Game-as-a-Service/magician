@@ -72,11 +72,10 @@ defineEmits([ 'close' ])
   src: url('/src/assets/fonts/KFhimaji.otf') format('ttf'),;
 }
 
-
 .font {
   font-family: 'Custom magic bubble',serif;
   color: rgb(164, 130, 97);
-  cursor: url('https://cur.cursors-4u.net/others/oth-3/oth256.cur'), auto ;
+  cursor: url('https://cur.cursors-4u.net/others/oth-3/oth256.cur'), auto;
 }
 @keyframes animate-text {
   0% {
