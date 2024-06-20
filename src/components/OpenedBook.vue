@@ -77,7 +77,7 @@ defineEmits([ 'close' ])
   font-family: 'Custom magic bubble',serif;
   cursor: url(
     'https://cdn.discordapp.com/emojis/1235669685601697792.webp?size=96&quality=lossless'
-      ) ,auto;
+  ) ,auto;
   /* //Todo:svg */
 }
 @keyframes animate-text {
