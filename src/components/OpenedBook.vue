@@ -72,13 +72,11 @@ defineEmits([ 'close' ])
   src: url('/src/assets/fonts/KFhimaji.otf') format('ttf'),;
 }
 
+
 .font {
-  /* color:rgb(58, 54, 50); */
   font-family: 'Custom magic bubble',serif;
-  cursor: url(
-    'https://cdn.discordapp.com/emojis/1235669685601697792.webp?size=96&quality=lossless'
-  ) ,auto;
-  /* //Todo:svg */
+  color: rgb(164, 130, 97);
+  cursor: url('https://cur.cursors-4u.net/others/oth-3/oth256.cur'), auto ;
 }
 @keyframes animate-text {
   0% {
@@ -92,7 +90,7 @@ defineEmits([ 'close' ])
 
 .font li:hover {
   color: transparent;
-  background: linear-gradient(45deg, rgb(34, 43, 165) 0%, rgba(253, 29, 29, 1) 50%, rgb(228, 168, 85) 60%, rgb(22, 147, 28) 65%, rgb(34, 43, 165) 100%);
+  background: linear-gradient(45deg, rgb(34, 43, 165) 0%, rgba(253, 29, 29, 1) 65%, rgb(228, 168, 85) 75%, rgb(22, 147, 28) 85%, rgb(34, 43, 165) 100%);
   -webkit-background-clip: text;
   background-size: 300% 120%;
   transition: all .4s;
