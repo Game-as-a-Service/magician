@@ -4,11 +4,13 @@ import {
 } from 'vue'
 import VideoBackground from 'vue-responsive-video-background-player'
 import { useGameStore } from '@/stores/game'
+import MagicVideo from '@/models/MagicVideo.js'
+
 const gameStore = useGameStore()
 defineEmits([ 'close' ])
-const videoSrc = computed(() => {
-  return `/src/assets/video/magic0${ gameStore.videoNumber }.mp4`
-})
+
+const videoSrc = () => MagicVideo[`magic0${ gameStore.videoNumber }`]
+
 const ended = () => {
   gameStore.showVideo = false
   if (gameStore.videoNumber === 4)
@@ -24,7 +26,7 @@ const afterAction = computed(() => {
     class="bg-grey50 z-50 w-full h-full top-0 left-0 absolute backdrop-blur-sm"
   >
     <VideoBackground
-      :src="videoSrc"
+      :src="videoSrc()"
       class="video"
       :muted="afterAction"
       :loop="false"

@@ -14,7 +14,7 @@ import OpenedBook from './OpenedBook.vue'
 import SpellMagicBoard from './SpellMagicBoard.vue'
 import SecretSelectTable from './SecretSelectTable.vue'
 import HintBar from '@/components/common/HintBar.vue'
-// import io from 'socket.io-client'
+import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import {
   ref, computed, watch, onMounted 
