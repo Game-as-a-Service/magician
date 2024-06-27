@@ -149,7 +149,7 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
   font-family: 'Custom magic jh','Custom magic bubble',sans-serif;
   font-size: 16px;
   color: rgb(124, 107, 88);
-  cursor: url('https://cur.cursors-4u.net/others/oth-3/oth269.cur'), auto;
+  cursor: url('@/assets/cursor/oth269.cur'), auto; 
 }
 
 .font li:hover {
