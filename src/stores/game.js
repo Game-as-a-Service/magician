@@ -82,7 +82,9 @@ export const useGameStore = defineStore('useGameStore', () => {
     messages.value.push(status.action_message)
     if (status.action_message.includes('成功')){
       const number = status.action_message.split(' ')[3]
-      playMagicVideo(number)
+      if (gameStatus.value.players[gameStatus.value.current_player].player_id !== playingId.value){
+        playMagicVideo(number)
+      }
     }
   }
   const hoverMagic = ref(0)
