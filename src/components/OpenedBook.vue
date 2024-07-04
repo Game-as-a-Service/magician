@@ -14,7 +14,7 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
 
 <template>
   <div
-    class="absolute top-[750px] left-[830px] "
+    class="absolute top-[750px] left-[830px]  "
   >
     <div
       class="group cursor-pointer"
@@ -38,13 +38,13 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
     </div>
   </div>
   <div
-    class="bg-grey50 z-50 w-full h-full top-0 left-0 absolute backdrop-blur-sm magic-book"
+    class="font bg-grey50 z-50 w-full h-full top-0 left-0 absolute backdrop-blur-sm magic-book"
     :class="magicBookClass"
   >
     <div
-      class="font bg-cover w-[1000px] h-[700px] bottom-0 left-0 absolute pt-[120px] pb-[140px] px-[80px] flex"
+      class="bg-cover w-[1000px] h-[700px] bottom-0 left-0 absolute pt-[120px] pb-[140px] px-[80px] flex"
     >
-      <div class="w-1/2 h-full z-20 relative">
+      <div class=" w-1/2 h-full z-20 relative">
         <ul class="h-full px-8 list-disc flex flex-col justify-evenly">
           <li class="mb-1">
             <p>Magic1-火爆的龍,共1張</p>
@@ -149,12 +149,15 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
   font-family: 'Custom magic jh','Custom magic bubble',sans-serif;
   font-size: 16px;
   color: rgb(124, 107, 88);
-  cursor: url('@/assets/cursor/oth269.cur'), auto; 
+  cursor: /* url('@/assets/cursor/magicwandmd.cur')5 5,auto; */
+  url('@/assets/cursor/magicwand.cur') 15 15,auto;
+  /* url('@/assets/cursor/oth269.cur') 5 5, auto ; */
 }
 
 .font li:hover {
   color: transparent;
-  background: linear-gradient(45deg, rgb(34, 43, 165) 0%, rgba(253, 29, 29, 1) 50%, rgb(228, 168, 85) 60%, rgb(22, 147, 28) 65%, rgb(34, 43, 165) 100%);
+  cursor: url('@/assets/cursor/magicwandmd.cur') 3 3,auto;
+  background: linear-gradient(45deg, rgb(34, 43, 165) 0%, rgba(253, 29, 29, 1) 50%, rgb(228, 168, 85) 60%, rgb(22, 147, 28) 75%, rgb(34, 43, 165) 100%);
   -webkit-background-clip: text;
   background-size: 300% 120%;
   transition: all .4s;
