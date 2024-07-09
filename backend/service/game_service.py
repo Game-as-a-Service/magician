@@ -97,6 +97,8 @@ class GameService:
             if player.get_HP() == 0:
                 # 當玩家把自己血量歸0
                 # 結束這一局，結算分數
+                game.action_message = player.player_id + "自殺了!!"
+                self.game_repository.update_game(game)
                 self.end_round(game_id, player_id)
             # 本回合結束
             self.end_turn(game_id, player_id)
