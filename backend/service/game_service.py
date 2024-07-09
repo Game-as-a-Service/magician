@@ -113,7 +113,7 @@ class GameService:
         # 玩家把手上所有的魔法石都用完了
         if len(player.spells) == 0:
             # 儲存目前遊戲狀態
-            game.action_message = player.player_id + " 手牌魔法石出完，局結束，結算分數"
+            game.action_message = player.player_id + " 手牌魔法石出完，局結束"
             self.game_repository.update_game(game)
             # 結束這一局，結算分數
             self.end_round(game_id, player_id)
@@ -210,9 +210,15 @@ class GameService:
                 if len(p.secret_spells) > 0:
                     # 持有秘密魔法石，有幾個加幾分
                     p.update_score(len(p.secret_spells))
-        game.action_message = "新局開始"
+        
+        game.action_message = "結算分數中..."
         self.game_repository.update_game(game)
         self.start_new_round(game_id)
+
+        game = self.game_repository.get_game_by_id(game_id)
+        if game.active:            
+            game.action_message = "新局開始"
+            self.game_repository.update_game(game)
 
     def start_new_round(self, game_id: str) -> None:
         game = self.game_repository.get_game_by_id(game_id)
@@ -223,8 +229,7 @@ class GameService:
         game.turn = 1
 
         game.shuffle_player()
-        game.action_message = "回合開始"
-        self.game_repository.update_game(game)
+
 
         for player in game.players:
             if player.score >= 8:
@@ -233,6 +238,10 @@ class GameService:
                 game.active = False
                 game.action_message = "有玩家獲得8分，遊戲結束"
                 self.game_repository.update_game(game)
+
+        if game.active:
+            game.action_message = "回合開始"
+            self.game_repository.update_game(game)
 
     def player_status(self, game_id: str, player_id: str):
         # TODO
