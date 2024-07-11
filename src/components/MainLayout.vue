@@ -16,6 +16,7 @@ import SecretSelectTable from './SecretSelectTable.vue'
 import HintBar from '@/components/common/HintBar.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
+import PlayDice from '@/components/PlayDice.vue'
 import {
   ref, computed, watch, onMounted 
 } from 'vue'
@@ -168,6 +169,7 @@ const handleUserConnect = () => {
       class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
     >
       <div class="flex gap-11 top-8 left-8 absolute">
+        <PlayDice></PlayDice>
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>
         <WarehouseSecret
