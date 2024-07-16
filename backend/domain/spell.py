@@ -113,7 +113,7 @@ class Spell:
             # 祕密倉庫沒有魔法石
             secret_spell = None
 
-        return "owl", secret_spell
+        return "owl", 1
 
     def cast_magic_5(self, game, player) -> tuple:
         """

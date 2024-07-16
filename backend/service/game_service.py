@@ -92,6 +92,8 @@ class GameService:
                 + str(abs(hp_damge))
                 + " 滴血"
             )
+            game.dice_result = 0
+
             self.game_repository.update_game(game)
 
             if player.get_HP() == 0:
@@ -123,7 +125,7 @@ class GameService:
             return True, 200
 
         # 執行魔法石效果
-        spell.cast(game, player)
+        _, spell_status = spell.cast(game, player)
 
         if game.ladder is None:
             game.ladder = []
@@ -131,6 +133,11 @@ class GameService:
         game.ladder.append(spell_name)
         # 儲存目前遊戲狀態
         game.action_message = player.player_id + " 施法 " + spell_name + " 成功 "
+        if(spell.get_value()== 1 or spell.get_value()==3):
+            game.dice_result = spell_status
+        else:
+            game.dice_result = 0
+
         self.game_repository.update_game(game)
 
         for p in game.players:

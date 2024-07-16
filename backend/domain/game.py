@@ -28,6 +28,7 @@ class Game:
         self.current_player: Optional[int] = None  # 目前可進行施法動作玩家index
         self.spells: Dict[str, Spell] = self.load_spells()  # 初始化所有可能的魔法石
         self.action_message: str = ""
+        self.dice_result: Optional[int] = None
 
     def load_spells(self) -> Dict[str, Spell]:
         """載入遊戲中可能存在的魔法石"""
@@ -130,6 +131,8 @@ class Game:
             data["round"] = self.round
         if self.turn:
             data["turn"] = self.turn
+        if self.dice_result:
+            data["dice_result"] = self.dice_result
 
         if self.secret_warehouse:
             data["secret_warehouse"] = self.secret_warehouse
@@ -166,6 +169,8 @@ class Game:
             game.round = data["round"]
         if "turn" in data:
             game.turn = data["turn"]
+        if "dice_result" in data:
+            game.dice_result = data["dice_result"]
 
         if "secret_warehouse" in data:
             game.secret_warehouse = data["secret_warehouse"]
