@@ -69,8 +69,19 @@ const handleConnect = () => {
         },
       })
     }
-    gameStore.updateTmpGameStatus(JSON.parse(data))
+    const newGameStatus = JSON.parse(data)
+    gameStore.updateTmpGameStatus(newGameStatus)
+    // 投骰子1,3時不更新
+    if (newGameStatus.action_message.includes('成功')){
+      const number = newGameStatus.action_message.split(' ')[3]
+      if (number == 1 || number == 3){
+        // dice_result
+        gameStore.setPlayDice(newGameStatus.dice_result)
+      }
+    }
+    // 避免觸發兩次video
     if (!(gameStore.showVideo && gameStore.videoNumber === 4)) {
+      // 更新遊戲狀態
       gameStore.setGameStatus(JSON.parse(data))
     }
   })
@@ -169,7 +180,7 @@ const handleUserConnect = () => {
       class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
     >
       <div class="flex gap-11 top-8 left-8 absolute">
-        <PlayDice></PlayDice>
+        <PlayDice v-if="gameStore.showDice"></PlayDice>
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>
         <WarehouseSecret
