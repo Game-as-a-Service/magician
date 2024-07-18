@@ -1,7 +1,19 @@
 <script setup>
-import { ref } from 'vue'
-
+import {
+  ref, onMounted
+} from 'vue'
+import { useGameStore } from '@/stores/game'
+const gameStore = useGameStore()
 const diceValue = ref(0)
+onMounted(() => {
+  setTimeout(() => {
+    diceValue.value = gameStore.diceNumber
+  }, 500)
+  setTimeout(() => {
+    gameStore.setShowDice(false)
+    diceValue.value = 0
+  }, 3000)
+})
 </script>
 
 <template>
