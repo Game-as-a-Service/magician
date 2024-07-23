@@ -83,6 +83,9 @@ class GameService:
             if spell_name == "Magic 1":
                 # 喊得是火龍，玩家擲骰扣HP
                 hp_damge = roll_dice() * -1
+                game.dice_result = hp_damge * -1
+            else:
+                game.dice_result = 0
             player.update_HP(hp_damge)
             game.action_message = (
                 player.player_id
@@ -92,7 +95,7 @@ class GameService:
                 + str(abs(hp_damge))
                 + " 滴血"
             )
-            game.dice_result = 0
+            
 
             self.game_repository.update_game(game)
 
@@ -133,12 +136,17 @@ class GameService:
         game.ladder.append(spell_name)
         # 儲存目前遊戲狀態
         game.action_message = player.player_id + " 施法 " + spell_name + " 成功 "
-        if(spell.get_value()== 1 or spell.get_value()==3):
-            game.dice_result = spell_status
-        else:
-            game.dice_result = 0
-
+        game.dice_result = 0
         self.game_repository.update_game(game)
+        
+        if spell.get_value() == 1:
+            game.dice_result = spell_status
+            game.action_message = f"其餘玩家扣除 {game.dice_result} 血量"
+            self.game_repository.update_game(game)
+        elif spell.get_value() == 3:
+            game.dice_result = spell_status
+            game.action_message = f"玩家回復 {game.dice_result} 血量"
+            self.game_repository.update_game(game)        
 
         for p in game.players:
             if p.get_HP() == 0:
