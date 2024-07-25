@@ -18,8 +18,7 @@ onMounted(() => {
 
 <template>
   <div
-    class=""
-    @click="diceValue = (diceValue+1)%3+1"
+    class="dice"
   >
     <input
       id="dice"
@@ -116,4 +115,30 @@ onMounted(() => {
 #dice {
   display: none;
 }
+
+.dice {
+  position: absolute;
+  top: 430px;
+  left: 535px;
+  z-index: 100;
+  animation: animate-drop 2s 1 var(--bounce);
+}
+
+@keyframes animate-drop {
+  0% {
+    translate: 0 -300%;
+  }
+
+  50%,
+  100% {
+    translate: 0 0;
+  }
+}
+
+:root {
+  --bounce: linear(
+    0, .07 10%, .25 18%, 1 36%, .8 46%, .75, .81, 1, .94, 1 91%, .98, 1
+  );
+}
+
 </style>

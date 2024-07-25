@@ -76,6 +76,9 @@ const handleConnect = () => {
       const number = newGameStatus.action_message.split(' ')[3]
       if (number == 1 || number == 3){
         // dice_result
+        // event_name: "spell_successed" // 施法成功
+        // event_name: "spell_failed" // 施法失敗
+        // event_name: "dice_rolled" // 擲骰子
         gameStore.setPlayDice(newGameStatus.dice_result)
       }
     }
@@ -180,7 +183,8 @@ const handleUserConnect = () => {
       class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
     >
       <div class="flex gap-11 top-8 left-8 absolute">
-        <PlayDice v-if="gameStore.showDice"></PlayDice>
+        <PlayDice v-if="gameStore.showDice || true"></PlayDice>
+
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>
         <WarehouseSecret
