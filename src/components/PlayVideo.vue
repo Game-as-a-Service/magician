@@ -15,6 +15,9 @@ const ended = () => {
   gameStore.showVideo = false
   if (gameStore.videoNumber === 4)
     gameStore.updateShowSecretTable(true)
+  if (gameStore.videoNumber == 1 || gameStore.videoNumber == 3){
+    gameStore.setShowDice(true)
+  }
 }
 const afterAction = computed(() => {
   return !gameStore.afterAction

@@ -83,7 +83,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     if (status.action_message.includes('成功')){
       const number = status.action_message.split(' ')[3]
       if (gameStatus.value.players[gameStatus.value.current_player].player_id !== playingId.value){
-        playMagicVideo(number)
+        playMagicVideo(Number(number))
       }
     }
   }
@@ -114,6 +114,15 @@ export const useGameStore = defineStore('useGameStore', () => {
     showVideo.value = true
   }
   const afterAction = ref(false) 
+  const diceNumber = ref(0)
+  const showDice = ref(false)
+  const setPlayDice = (number) => {
+    diceNumber.value = number
+    console.log('diceNumber: ', diceNumber.value)
+  }
+  const setShowDice = (value) => {
+    showDice.value = value
+  }
   return {
     gameStatus,
     gameOver,
@@ -135,5 +144,9 @@ export const useGameStore = defineStore('useGameStore', () => {
     playMagicVideo,
     messages,
     afterAction,
+    diceNumber,
+    showDice,
+    setShowDice,
+    setPlayDice
   }
 })
