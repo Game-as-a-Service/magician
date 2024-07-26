@@ -121,24 +121,45 @@ onMounted(() => {
   top: 430px;
   left: 535px;
   z-index: 100;
-  animation: animate-drop 2s 1 var(--bounce);
+  animation: animate-drop 2s infinite linear;
 }
 
 @keyframes animate-drop {
   0% {
-    translate: 0 -300%;
+    translate: 200% -300%;
   }
-
-  50%,
+  10%{
+    translate: 180% -240%;
+  }
+  20%{
+    translate: 160% -150%;
+  }
+  30%{
+    translate: 140% -80%;
+  }
+  40%{
+    translate: 120% 0%;
+  }
+  50%{
+    translate: 100% -40%;
+  }
+  60%{
+    translate: 80% -50%;
+  }
+  70%{
+    translate: 60% -40%;
+  }
+  80%{
+    translate: 40% 0;
+  }
+  90%{
+    translate: 20% -20%;
+  }
   100% {
-    translate: 0 0;
+    translate: 0% 0;
   }
 }
 
-:root {
-  --bounce: linear(
-    0, .07 10%, .25 18%, 1 36%, .8 46%, .75, .81, 1, .94, 1 91%, .98, 1
-  );
-}
+
 
 </style>
