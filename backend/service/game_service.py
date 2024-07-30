@@ -14,6 +14,7 @@ class GameService:
         game_id = self.game_repository.create_game(game)
         game.game_id = game_id  # 從資料取得的game_id
         game.action_message = "開始遊戲"
+        game.event_name = ""
         self.game_repository.update_game(game)
         return game
 
@@ -30,6 +31,7 @@ class GameService:
                     return False
                 player.joined = True
                 game.action_message = player.player_id + " 加入遊戲"
+                game.event_name = ""
                 self.game_repository.update_game(game)
                 player_joined_stat = True
 
@@ -38,6 +40,7 @@ class GameService:
         if all_joined:
             game = self.start_game(game)
             game.action_message = "回合開始"
+            game.event_name = ""
             self.game_repository.update_game(game)
 
         return player_joined_stat
@@ -79,23 +82,21 @@ class GameService:
         player.prev_spell = spell_name
         if spell_name not in player.spells:
             # 施法失敗
+            game.action_message = f"{player.player_id} 施法 {spell_name} 失敗"
+            game.event_name = "spell_fail"
+            game.spell_cast_number = 0
+            self.game_repository.update_game(game)
             hp_damge = -1
             if spell_name == "Magic 1":
+                game.event_name = "dice_rolled"
                 # 喊得是火龍，玩家擲骰扣HP
                 hp_damge = roll_dice() * -1
                 game.dice_result = hp_damge * -1
             else:
+                game.event_name = ""
                 game.dice_result = 0
             player.update_HP(hp_damge)
-            game.action_message = (
-                player.player_id
-                + " 施放 "
-                + spell_name
-                + " 失敗自損 "
-                + str(abs(hp_damge))
-                + " 滴血"
-            )
-            
+            game.action_message = f"玩家扣 {abs(hp_damge)} 滴血"
 
             self.game_repository.update_game(game)
 
@@ -103,6 +104,9 @@ class GameService:
                 # 當玩家把自己血量歸0
                 # 結束這一局，結算分數
                 game.action_message = player.player_id + "自殺了!!"
+                game.event_name = ""
+                game.dice_result = 0
+                game.spell_cast_number = 0
                 self.game_repository.update_game(game)
                 self.end_round(game_id, player_id)
             # 本回合結束
@@ -118,7 +122,16 @@ class GameService:
         # 玩家把手上所有的魔法石都用完了
         if len(player.spells) == 0:
             # 儲存目前遊戲狀態
+            game.event_name = "spell_success"
+            game.action_message = f"{player.player_id} 施法 {spell_name} 成功"
+            game.spell_cast_number = spell.get_value()
+            game.dice_result = 0
+            self.game_repository.update_game(game)
+            
             game.action_message = player.player_id + " 手牌魔法石出完，局結束"
+            game.event_name = ""
+            game.spell_cast_number = 0
+            game.dice_result = 0
             self.game_repository.update_game(game)
             # 結束這一局，結算分數
             self.end_round(game_id, player_id)
@@ -136,15 +149,21 @@ class GameService:
         game.ladder.append(spell_name)
         # 儲存目前遊戲狀態
         game.action_message = player.player_id + " 施法 " + spell_name + " 成功 "
+        game.event_name = "spell_success"
+        game.spell_cast_number = spell.get_value()
         game.dice_result = 0
         self.game_repository.update_game(game)
         
         if spell.get_value() == 1:
             game.dice_result = spell_status
+            game.event_name = "dice_rolled"
+            game.spell_cast_number = 0
             game.action_message = f"其餘玩家扣除 {game.dice_result} 血量"
             self.game_repository.update_game(game)
         elif spell.get_value() == 3:
             game.dice_result = spell_status
+            game.event_name = "dice_rolled"
+            game.spell_cast_number = 0
             game.action_message = f"玩家回復 {game.dice_result} 血量"
             self.game_repository.update_game(game)        
 
@@ -153,6 +172,9 @@ class GameService:
                 # 有玩家的血量歸0
                 # 結束這一局，結算分數
                 game.action_message = p.player_id + "已死亡，該局結束"
+                game.dice_result = 0
+                game.event_name = ""
+                game.spell_cast_number = 0
                 self.game_repository.update_game(game)
                 self.end_round(game_id, game.players[game.current_player].player_id)
 
@@ -197,6 +219,9 @@ class GameService:
                     be_hand_stone = game.warehouse.pop()
                     player.spells.append(be_hand_stone)
         game.action_message = player.player_id + " 回合結束"
+        game.event_name = ""
+        game.dice_result = 0
+        game.spell_cast_number = 0
         self.game_repository.update_game(game)
 
         return True
@@ -227,12 +252,14 @@ class GameService:
                     p.update_score(len(p.secret_spells))
         
         game.action_message = "結算分數中..."
+        game.event_name = ""
         self.game_repository.update_game(game)
         self.start_new_round(game_id)
 
         game = self.game_repository.get_game_by_id(game_id)
         if game.active:            
             game.action_message = "新局開始"
+            game.event_name = ""
             self.game_repository.update_game(game)
 
     def start_new_round(self, game_id: str) -> None:
@@ -252,10 +279,12 @@ class GameService:
                 # 遊戲結束
                 game.active = False
                 game.action_message = "有玩家獲得8分，遊戲結束"
+                game.event_name = ""
                 self.game_repository.update_game(game)
 
         if game.active:
             game.action_message = "回合開始"
+            game.event_name = ""
             self.game_repository.update_game(game)
 
     def player_status(self, game_id: str, player_id: str):
