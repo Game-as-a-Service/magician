@@ -121,7 +121,7 @@ onMounted(() => {
   top: 430px;
   left: 535px;
   z-index: 100;
-  animation: animate-drop 2s infinite linear;
+  animation: animate-drop 2s 1 linear;
 }
 
 @keyframes animate-drop {
@@ -159,7 +159,5 @@ onMounted(() => {
     translate: 0% 0;
   }
 }
-
-
 
 </style>
