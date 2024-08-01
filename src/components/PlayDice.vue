@@ -18,8 +18,7 @@ onMounted(() => {
 
 <template>
   <div
-    class=""
-    @click="diceValue = (diceValue+1)%3+1"
+    class="dice"
   >
     <input
       id="dice"
@@ -116,4 +115,51 @@ onMounted(() => {
 #dice {
   display: none;
 }
+
+.dice {
+  position: absolute;
+  top: 430px;
+  left: 535px;
+  z-index: 100;
+  animation: animate-drop 2s infinite linear;
+}
+
+@keyframes animate-drop {
+  0% {
+    translate: 200% -300%;
+  }
+  10%{
+    translate: 180% -240%;
+  }
+  20%{
+    translate: 160% -150%;
+  }
+  30%{
+    translate: 140% -80%;
+  }
+  40%{
+    translate: 120% 0%;
+  }
+  50%{
+    translate: 100% -40%;
+  }
+  60%{
+    translate: 80% -50%;
+  }
+  70%{
+    translate: 60% -40%;
+  }
+  80%{
+    translate: 40% 0;
+  }
+  90%{
+    translate: 20% -20%;
+  }
+  100% {
+    translate: 0% 0;
+  }
+}
+
+
+
 </style>
