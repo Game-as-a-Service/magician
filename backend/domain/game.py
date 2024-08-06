@@ -75,6 +75,8 @@ class Game:
             # 每位玩家取得5個魔法石
             all_spells = all_spells[5:]
 
+            player.prev_spell = None
+
         game.current_player = 0
 
         game.secret_warehouse = all_spells[:4]
