@@ -10,7 +10,7 @@ onMounted(() => {
     diceValue.value = gameStore.diceNumber
   }, 500)
   setTimeout(() => {
-    gameStore.setShowDice(false)
+    gameStore.diceEnded()
     diceValue.value = 0
   }, 3000)
 })

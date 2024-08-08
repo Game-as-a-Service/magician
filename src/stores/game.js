@@ -152,14 +152,14 @@ export const useGameStore = defineStore('useGameStore', () => {
       // } else 
       if (status.event_name === 'spell_success'){
         const number = status.spell_cast_number
-        if (status.players[status.current_player].player_id !== playingId.value){
-          playMagicVideo(Number(number))
-          updateTmpGameStatus(status)
-        } else {
-          processing.value = false
-          setGameStatus(status)
-          processGameStatus()
-        }
+        // if (status.players[status.current_player].player_id !== playingId.value){
+        playMagicVideo(Number(number))
+        updateTmpGameStatus(status)
+        // } else {
+        //   processing.value = false
+        //   setGameStatus(status)
+        //   processGameStatus()
+        // }
       } else if (status.event_name === 'dice_rolled') {
         console.log('dice_rolled: ', status.dice_result)
         setPlayDice(status.dice_result)
@@ -168,7 +168,7 @@ export const useGameStore = defineStore('useGameStore', () => {
       } else {
         setGameStatus(status)
         processing.value = false
-        // processGameStatus()
+        processGameStatus()
       }
     }
   }
@@ -176,7 +176,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     showVideo.value = false
     processing.value = false
     restoreGameStatus()
-    if (videoNumber.value === 4){
+    if (videoNumber.value === 4 && myTurn.value){
       updateShowSecretTable(true)
     } else {
       processGameStatus()
@@ -185,6 +185,12 @@ export const useGameStore = defineStore('useGameStore', () => {
     // if (videoNumber.value == 1 || gameStore.videoNumber == 3){
     //   gameStore.setShowDice(true)
     // }
+  }
+  const diceEnded = () => {
+    setShowDice(false)
+    processing.value = false
+    restoreGameStatus()
+    processGameStatus()
   }
   return {
     gameStatus,
@@ -217,5 +223,6 @@ export const useGameStore = defineStore('useGameStore', () => {
     processGameStatus,
     videoEnded,
     processing,
+    diceEnded,
   }
 })
