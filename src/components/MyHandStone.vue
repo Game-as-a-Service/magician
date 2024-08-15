@@ -11,44 +11,6 @@ const handStoneCount = computed(() => {
   return me.value.spells.length
 })
 
-const opponents = computed(() =>
-  gameStore.gameStatus.players
-    .map((player, i) => ({
-      spell:
-        i === gameStore.gameStatus.current_player
-          ? spells[Math.floor(Math.random() * spells.length)]
-          : '',
-      avatar: imgSrcs[i],
-      stone: player.spells.map((spell) => {
-        switch (spell) {
-        case 'Magic 1':
-          return 'magic1'
-        case 'Magic 2':
-          return 'magic2'
-        case 'Magic 3':
-          return 'magic3'
-        case 'Magic 4':
-          return 'magic4'
-        case 'Magic 5':
-          return 'magic5'
-        case 'Magic 6':
-          return 'magic6'
-        case 'Magic 7':
-          return 'magic7'
-        case 'Magic 8':
-          return 'magic8'
-        default:
-          return ''
-        }
-      }),
-      // .sort(a, b => a.localeCompare(b))
-      secretStone: player.secret_spells.length,
-      name: player.player_id,
-      joined: player.joined,
-    }))
-    .filter((player) => player.name == gameStore.playingId)
-)
-
 </script>
 
 <template>
