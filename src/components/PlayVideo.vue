@@ -1,6 +1,6 @@
 <script setup>
 import {
-  defineEmits, computed 
+  computed 
 } from 'vue'
 import VideoBackground from 'vue-responsive-video-background-player'
 import { useGameStore } from '@/stores/game'
@@ -12,12 +12,13 @@ defineEmits([ 'close' ])
 const videoSrc = () => MagicVideo[`magic0${ gameStore.videoNumber }`]
 
 const ended = () => {
-  gameStore.showVideo = false
-  if (gameStore.videoNumber === 4)
-    gameStore.updateShowSecretTable(true)
-  if (gameStore.videoNumber == 1 || gameStore.videoNumber == 3){
-    gameStore.setShowDice(true)
-  }
+  // gameStore.showVideo = false
+  // if (gameStore.videoNumber === 4)
+  //   gameStore.updateShowSecretTable(true)
+  // if (gameStore.videoNumber == 1 || gameStore.videoNumber == 3){
+  //   gameStore.setShowDice(true)
+  // }
+  gameStore.videoEnded()
 }
 const afterAction = computed(() => {
   return !gameStore.afterAction

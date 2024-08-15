@@ -57,6 +57,7 @@ const handleConnect = () => {
   socket.value.on('game_update', (data) => {
     const gameStatus = JSON.parse(data)
     console.log(gameStatus, 'game_update')
+    // 如果game_id或playerId不同，重新導向
     if (
       gameStatus.game_id !== route.query.gameRoomID ||
       playerId.value !== route.query.playerId
@@ -69,24 +70,31 @@ const handleConnect = () => {
         },
       })
     }
+    // 暫存gameStatus
     const newGameStatus = JSON.parse(data)
-    gameStore.updateTmpGameStatus(newGameStatus)
+    // gameStore.updateTmpGameStatus(newGameStatus)
+    gameStore.enqueueGameStatus(newGameStatus)
+    console.log('gameStore.processing', gameStore.processing, newGameStatus.action_message)
+    if (gameStore.processing === false){
+      gameStore.processGameStatus()
+    }
+    // gameStore.processGameStatus()
     // 投骰子1,3時不更新
-    if (newGameStatus.action_message.includes('成功')){
-      const number = newGameStatus.action_message.split(' ')[3]
-      if (number == 1 || number == 3){
-        // dice_result
-        // event_name: "spell_successed" // 施法成功
-        // event_name: "spell_failed" // 施法失敗
-        // event_name: "dice_rolled" // 擲骰子
-        gameStore.setPlayDice(newGameStatus.dice_result)
-      }
-    }
+    // if (newGameStatus.action_message.includes('成功')){
+    //   const number = newGameStatus.action_message.split(' ')[3]
+    //   if (number == 1 || number == 3){
+    //     // dice_result
+    //     // event_name: "spell_successed" // 施法成功
+    //     // event_name: "spell_failed" // 施法失敗
+    //     // event_name: "dice_rolled" // 擲骰子
+    //     gameStore.setPlayDice(newGameStatus.dice_result)
+    //   }
+    // }
     // 避免觸發兩次video
-    if (!(gameStore.showVideo && gameStore.videoNumber === 4)) {
-      // 更新遊戲狀態
-      gameStore.setGameStatus(JSON.parse(data))
-    }
+    // if (!(gameStore.showVideo && gameStore.videoNumber === 4)) {
+    //   // 更新遊戲狀態
+    //   gameStore.setGameStatus(JSON.parse(data))
+    // }
   })
   socket.value.on('player_joined', (data) => {
     console.log(data, 'player_joined')
@@ -183,7 +191,7 @@ const handleUserConnect = () => {
       class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
     >
       <div class="flex gap-11 top-8 left-8 absolute">
-        <PlayDice v-if="gameStore.showDice || true"></PlayDice>
+        <PlayDice v-if="gameStore.showDice"></PlayDice>
 
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>

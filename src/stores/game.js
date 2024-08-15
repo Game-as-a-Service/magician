@@ -80,12 +80,12 @@ export const useGameStore = defineStore('useGameStore', () => {
     // 把訊息放到廣播區
     gameStatus.value = status
     messages.value.push(status.action_message)
-    if (status.action_message.includes('成功')){
-      const number = status.action_message.split(' ')[3]
-      if (gameStatus.value.players[gameStatus.value.current_player].player_id !== playingId.value){
-        playMagicVideo(Number(number))
-      }
-    }
+    // if (status.action_message.includes('成功')){
+    //   const number = status.action_message.split(' ')[3]
+    //   if (gameStatus.value.players[gameStatus.value.current_player].player_id !== playingId.value){
+    //     playMagicVideo(Number(number))
+    //   }
+    // }
   }
   const hoverMagic = ref(0)
   const setHoverMagic = (magicNumber) => {
@@ -106,6 +106,13 @@ export const useGameStore = defineStore('useGameStore', () => {
   const showVideo = ref(false)
   const videoNumber = ref(0)
   const messages = ref([])
+  const gameStatusQueue = ref([])
+  const enqueueGameStatus = (status) => {
+    gameStatusQueue.value.push(status)
+  }
+  const dequeueGameStatus = () => {
+    return gameStatusQueue.value.shift()
+  }
   const updateShowSecretTable = (value) => (showSecretTable.value = value)
   const updateTmpGameStatus = (value) => (tmpGameStatus.value = value)
   const restoreGameStatus = () => setGameStatus(tmpGameStatus.value)
@@ -122,6 +129,68 @@ export const useGameStore = defineStore('useGameStore', () => {
   }
   const setShowDice = (value) => {
     showDice.value = value
+    if (!value){
+      processing.value = false
+      restoreGameStatus()
+    }
+  }
+  const processing = ref(false)
+  const processGameStatus = () => {
+    if (gameStatusQueue.value.length > 0) {
+      const status = dequeueGameStatus()
+      console.log('processGameStatus: ', status.action_message)
+      processing.value = true
+      // if (status.event_name === 'spell_success') {
+      //   const number = status.spell_cast_number
+      //   if (number == 1 || number == 3){
+      //     // dice_result
+      //     // event_name: "spell_success" // 施法成功
+      //     // event_name: "spell_fail" // 施法失敗
+      //     // event_name: "dice_rolled" // 擲骰子
+      //     // setPlayDice(newGameStatus.dice_result)
+      //   }
+      // } else 
+      if (status.event_name === 'spell_success'){
+        const number = status.spell_cast_number
+        // if (status.players[status.current_player].player_id !== playingId.value){
+        playMagicVideo(Number(number))
+        updateTmpGameStatus(status)
+        // } else {
+        //   processing.value = false
+        //   setGameStatus(status)
+        //   processGameStatus()
+        // }
+      } else if (status.event_name === 'dice_rolled') {
+        console.log('dice_rolled: ', status.dice_result)
+        setPlayDice(status.dice_result)
+        setShowDice(true)
+        updateTmpGameStatus(status)
+      } else {
+        setGameStatus(status)
+        processing.value = false
+        processGameStatus()
+      }
+    }
+  }
+  const videoEnded = () => {
+    showVideo.value = false
+    processing.value = false
+    restoreGameStatus()
+    if (videoNumber.value === 4 && myTurn.value){
+      updateShowSecretTable(true)
+    } else {
+      processGameStatus()
+    }
+
+    // if (videoNumber.value == 1 || gameStore.videoNumber == 3){
+    //   gameStore.setShowDice(true)
+    // }
+  }
+  const diceEnded = () => {
+    setShowDice(false)
+    processing.value = false
+    restoreGameStatus()
+    processGameStatus()
   }
   return {
     gameStatus,
@@ -147,6 +216,13 @@ export const useGameStore = defineStore('useGameStore', () => {
     diceNumber,
     showDice,
     setShowDice,
-    setPlayDice
+    setPlayDice,
+    gameStatusQueue,
+    enqueueGameStatus,
+    dequeueGameStatus,
+    processGameStatus,
+    videoEnded,
+    processing,
+    diceEnded,
   }
 })

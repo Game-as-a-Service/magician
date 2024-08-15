@@ -105,11 +105,12 @@ const playStone = async (i) => {
   })
   gameStore.setHoverMagic(0)
   if (res.data.message === 'Spell cast successfully') {
-    gameStore.playMagicVideo(i)
+    // gameStore.playMagicVideo(i)
     lastMagic.value = i
     if (i === 4) {
       // gameStore.updateShowSecretTable(true)
     } else {
+      // 等動畫結束後再開始倒數
       resetTimer()
     }
   } else {
