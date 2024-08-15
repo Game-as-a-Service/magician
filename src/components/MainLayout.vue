@@ -9,7 +9,6 @@ import TableWithPlayer from '@/components/TableWithPlayer.vue'
 import BoardcastArea from '@/components/BoardcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
-import LeaveBtn from './LeaveBtn.vue'
 import OpenedBook from './OpenedBook.vue'
 import SpellMagicBoard from './SpellMagicBoard.vue'
 import SecretSelectTable from './SecretSelectTable.vue'
@@ -207,14 +206,12 @@ const handleUserConnect = () => {
       </div>
       <div class="absolute bottom-8 right-8">
         <BoardcastArea></BoardcastArea>
-        <MyState class="mt-6"></MyState>
+      </div>
+      <div class="absolute bottom-8 right-[520px]">
+        <MyState></MyState>
       </div>
       <div class="absolute z-40 top-[330px] left-[370px]">
         <TableWithPlayer></TableWithPlayer>
-      </div>
-      
-      <div class="absolute bottom-8 left-[730px]">
-        <LeaveBtn></LeaveBtn>
       </div>
       <OpenedBook></OpenedBook>
       

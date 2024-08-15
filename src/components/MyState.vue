@@ -36,16 +36,17 @@ const secretStones = computed(() => {
     }
   }).sort((a, b) => a - b)
 })
+
 // 如果要 debug 直接註解拿掉
 // const secretStones = [ 5, 6, 7, 8 ]
-const handStoneCount = computed(() => {
-  if (!me.value) return 0
-  return me.value.spells.length
-})
-</script>
+// const handStoneCount = computed(() => {
+//   if (!me.value) return 0
+//   return me.value.spells.length
+// })
+// </script>
 
 <template>
-  <div class=" bg-grey50 w-[450px] h-[322px] pt-[10px] px-[33px]">
+  <div class=" bg-grey50 w-[250px] h-[120px] pt-[5px] px-[10px]">
     <p class="text-left w-full mt-1 mb-3 text-white font-medium"> 
       我的口袋
     </p>
@@ -53,7 +54,7 @@ const handStoneCount = computed(() => {
       <div
         v-for="(stone, index) in secretStones"
         :key="index"
-        class="w-[66px] h-[88px]"
+        class="w-[44px] aspect-[2/3]"
       >
         <img
           class="stone-img"
@@ -61,10 +62,9 @@ const handStoneCount = computed(() => {
         >  
       </div>
     </div>
-    <p class="text-left w-full mt-8 mb-3 text-white font-medium"> 
-      我的手牌
-    </p>
-    <div class="flex ml-4 gap-2">
+    
+    <!-- //我的手牌 -->
+    <!-- <div class="flex ml-4 gap-2">
       <div
         v-for="item in handStoneCount"
         :key="item"
@@ -75,7 +75,7 @@ const handStoneCount = computed(() => {
           src="@/assets/images/stone/stone.png"
         >
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
