@@ -6,7 +6,7 @@ import magic5 from '@/assets/images/stone/magic5.png'
 import magic6 from '@/assets/images/stone/magic6.png'
 import magic7 from '@/assets/images/stone/magic7.png'
 import magic8 from '@/assets/images/stone/magic8.png'
-import MagicStone  from '@/assets/images/stone/stone.png'
+import MagicStone from '@/assets/images/stone/stone.png'
 
 export default {
   magic1,

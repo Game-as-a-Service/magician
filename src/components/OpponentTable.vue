@@ -70,7 +70,6 @@ const spells = [
   '地球防衛軍',
 ]
 
-
 </script>
 
 <template>
