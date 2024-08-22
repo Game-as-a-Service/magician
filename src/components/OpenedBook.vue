@@ -17,7 +17,7 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
   >
     <div
       class="group cursor-pointer"
-      @click="clickEvent"
+      @click="showBook = true"
     >
       <img
         class="w-[100px] mr-2 group-hover:hidden"
