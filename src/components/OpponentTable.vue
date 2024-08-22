@@ -30,6 +30,8 @@ const opponents = computed(() =>
           return 'magic7'
         case 'Magic 8':
           return 'magic8'
+        case 'Magic Stone':
+          return 'MagicStone'
         default:
           return ''
         }
@@ -39,13 +41,15 @@ const opponents = computed(() =>
       name: player.player_id,
       joined: player.joined,
     }))
-    .filter((player) => player.name !== gameStore.playingId)
+    // .filter((player) => player.name !== gameStore.playingId)
 )
 
-// function getAvatarImgUrl (avatar) {
-//   const url = `/src/assets/images/avatar/${ avatar }.png`
-//   return new URL(url, import.meta.url)
-// }
+// const myHandStone= computed(() =>
+// opponents.value.filter((player) => player.name == gameStore.playingId)
+// );
+// const notMyHandStone= computed(() =>
+// opponents.value.filter((player) => player.name !== gameStore.playingId)
+// );
 
 function getMagicStoneUrl (magicStone) {
   return magicStones[magicStone]
@@ -66,30 +70,7 @@ const spells = [
   '地球防衛軍',
 ]
 
-// const opponent = [
-//   {
-//     spell: spell[0],
-//     avatar: 'avatar_blue',
-//     stone: [ 'magic1', 'magic2', 'magic3', 'magic4', 'magic5' ],
-//     secretStone: 0,
-//   },
-//   {
-//     avatar: 'avatar_green',
-//     stone: [ 'magic3', 'magic2', 'magic3', 'magic4', 'magic5' ],
-//     secretStone: 0,
-//   },
-//   {
-//     avatar: 'avatar_orange',
-//     stone: [ 'magic4', 'magic5', 'magic5' ],
-//     secretStone: 0,
-//   },
-//   {
-//     // spell: spell[4],
-//     avatar: 'avatar_red',
-//     stone: [ 'magic6', 'magic6', 'magic6', 'magic6' ],
-//     secretStone: 0,
-//   },
-// ]
+
 </script>
 
 <template>
@@ -97,7 +78,7 @@ const spells = [
     <div
       v-for="opponent of opponents"
       :key="opponent.avatar"
-      class="flex items-center mb-9"
+      class="flex items-center mb-4"
     >
       <div class="w-[225px] mr-2.5 flex items-center justify-end">
         <span
