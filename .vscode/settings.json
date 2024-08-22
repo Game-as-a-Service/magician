@@ -39,4 +39,8 @@
   "editor.wordWrapColumn": 60,
   "editor.accessibilityPageSize": 80,
   "editor.formatOnSave": false,
+  "cSpell.words": [
+    "Boardcast"
+  ],
+  "editor.formatOnSave": true,
 }
