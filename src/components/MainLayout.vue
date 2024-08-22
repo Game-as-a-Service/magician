@@ -9,6 +9,7 @@ import TableWithPlayer from '@/components/TableWithPlayer.vue'
 import BoardcastArea from '@/components/BoardcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
+import MyHandStone from '@/components/MyHandStone.vue'
 import OpenedBook from './OpenedBook.vue'
 import SpellMagicBoard from './SpellMagicBoard.vue'
 import SecretSelectTable from './SecretSelectTable.vue'
@@ -200,6 +201,7 @@ const handleUserConnect = () => {
       </div>
       <div class="absolute top-8 right-8">
         <OpponentTable></OpponentTable>
+        <MyHandStone></MyHandStone>
       </div>
       <div class="absolute bottom-8 left-8">
         <LadderBoard></LadderBoard>
