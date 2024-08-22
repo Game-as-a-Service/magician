@@ -1,15 +1,17 @@
 <script setup>
-import { computed, onMounted,ref } from 'vue'
+import {
+  computed, onMounted, ref 
+} from 'vue'
 import { useGameStore } from '@/stores/game'
 import imgSrcs from '@/models/Avatars.js'
 import magicStones from '@/models/MagicStones.js'
 const gameStore = useGameStore()
 const randomSpellIndex = ref(0)
 
-onMounted(()=>{
-  setInterval(()=>{
-    randomSpellIndex.value=Math.floor(Math.random() * spells.length)
-  },900)
+onMounted(() => {
+  setInterval(() => {
+    randomSpellIndex.value = Math.floor(Math.random() * spells.length)
+  }, 900)
 })
 const opponents = computed(() =>
 
