@@ -142,14 +142,19 @@ watch(
     }
   }
 )
+const clickEvent = () => {
+  gameStore.afterAction = true
+  showHintStart.value = false
+}
+
 watch(
   () => gameStore.gameStatus.current_player,
   (newCp, oldCp) => {
     if (oldCp === undefined) {
       showHintStart.value = true
-      setTimeout(() => {
-        showHintStart.value = false
-      }, 1000)
+      // setTimeout(() => {
+      //   showHintStart.value = false
+      // }, 1000)
     }
   }
 )
@@ -238,9 +243,10 @@ const handleUserConnect = () => {
       </HintBar>
       <HintBar
         v-if="showHintStart"
-        :hint-text="'遊戲開始！'"
+        :hint-text="'按一下，成為魔法師吧！'"
         :change-color="'bg-purple text-white'"
-        class="z-50"
+        class="z-50 cursor-pointer"
+        @click="clickEvent"
       >
       </HintBar>
       <div

@@ -2,14 +2,13 @@
 import {
   computed, ref 
 } from 'vue'
-
 import CloseIcon from '@/assets/images/book/CloseIcon.vue'
 import MagicCircle from '@/assets/images/book/magic-circle.png'
 import Book2 from '@/assets/images/book/book2.png'
-
 const showBook = ref(false)
 const magicCircleClass = computed(() => showBook.value ? 'magic-circle' : 'hidden')
 const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
+
 </script>
 
 <template>
@@ -18,7 +17,7 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
   >
     <div
       class="group cursor-pointer"
-      @click="showBook = true"
+      @click="clickEvent"
     >
       <img
         class="w-[100px] mr-2 group-hover:hidden"
