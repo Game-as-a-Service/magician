@@ -179,6 +179,17 @@ class GameService:
                 self.end_round(game_id, game.players[game.current_player].player_id)
 
         return True, 200
+    
+    def spell_stop(self, game_id: str, player_id: str) -> bool:
+        """玩家停止施法"""
+        result = self.end_turn(game_id, player_id)
+        if result:
+            game = self.game_repository.get_game_by_id(game_id)
+            game.action_message = player_id + "不再施法"
+            game.event_name = "spell_stop"
+            self.game_repository.update_game(game)
+
+        return result
 
     def end_turn(self, game_id: str, player_id: str) -> bool:
         """結束目前回合，並且保存遊戲狀態至資料庫"""

@@ -76,7 +76,7 @@ def stop_spell(player_id):
         return jsonify({"message": "Player ID is required"}), 400
     data = request.json
     gameRoomID = data.get("gameRoomID")
-    result = GameService.end_turn(gameRoomID, player_id)
+    result = GameService.spell_stop(gameRoomID, player_id)
     if result:
         return jsonify({"message": "Player turn ended"}), 200
     else:
