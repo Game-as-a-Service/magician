@@ -127,13 +127,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     diceNumber.value = number
     console.log('diceNumber: ', diceNumber.value)
   }
-  const setShowDice = (value) => {
-    showDice.value = value
-    if (!value){
-      processing.value = false
-      restoreGameStatus()
-    }
-  }
+  const setShowDice = (value) => showDice.value = value
   const processing = ref(false)
   const processGameStatus = () => {
     if (gameStatusQueue.value.length > 0) {
@@ -150,11 +144,13 @@ export const useGameStore = defineStore('useGameStore', () => {
       //     // setPlayDice(newGameStatus.dice_result)
       //   }
       // } else 
+      
       if (status.event_name === 'spell_success'){
         const number = status.spell_cast_number
         // if (status.players[status.current_player].player_id !== playingId.value){
         playMagicVideo(Number(number))
         updateTmpGameStatus(status)
+        
         // } else {
         //   processing.value = false
         //   setGameStatus(status)
@@ -176,6 +172,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     showVideo.value = false
     processing.value = false
     restoreGameStatus()
+    
     if (videoNumber.value === 4 && myTurn.value){
       updateShowSecretTable(true)
     } else {
@@ -189,6 +186,7 @@ export const useGameStore = defineStore('useGameStore', () => {
   const diceEnded = () => {
     setShowDice(false)
     processing.value = false
+    
     restoreGameStatus()
     processGameStatus()
   }
