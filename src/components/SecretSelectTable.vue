@@ -9,8 +9,8 @@ import CountDown from './common/CountDown.vue'
 // }
 const gameStore = useGameStore()
 const secretNumber = computed(() => {
-  if (!gameStore.gameStatus.secret_warehouse) return 0
-  return gameStore.gameStatus.secret_warehouse.length
+  if (!gameStore.gameStatus.secret_warehouse) return 1
+  return gameStore.gameStatus.secret_warehouse.length + 1
 })
 
 const clickSecretStone = () => {
