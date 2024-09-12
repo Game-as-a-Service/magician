@@ -109,6 +109,7 @@ const playStone = async (i) => {
     lastMagic.value = i
     if (i === 4) {
       // gameStore.updateShowSecretTable(true)
+      pause()
     } else {
       // 等動畫結束後再開始倒數
       resetTimer()
