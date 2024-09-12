@@ -161,6 +161,12 @@ export const useGameStore = defineStore('useGameStore', () => {
         setPlayDice(status.dice_result)
         setShowDice(true)
         updateTmpGameStatus(status)
+      } else if (status.event_name === 'spell_owl') {
+        console.log('select secret')
+        updateTmpGameStatus(status)
+        if (myTurn.value){
+          updateShowSecretTable(true)
+        }
       } else {
         setGameStatus(status)
         processing.value = false
@@ -172,12 +178,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     showVideo.value = false
     processing.value = false
     restoreGameStatus()
-    
-    if (videoNumber.value === 4 && myTurn.value){
-      updateShowSecretTable(true)
-    } else {
-      processGameStatus()
-    }
+    processGameStatus()
 
     // if (videoNumber.value == 1 || gameStore.videoNumber == 3){
     //   gameStore.setShowDice(true)
