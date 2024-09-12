@@ -191,6 +191,12 @@ export const useGameStore = defineStore('useGameStore', () => {
     restoreGameStatus()
     processGameStatus()
   }
+  const selectSecretEnded = () => {
+    updateShowSecretTable(false)
+    processing.value = false
+    restoreGameStatus()
+    processGameStatus()
+  }
   return {
     gameStatus,
     gameOver,
@@ -223,5 +229,6 @@ export const useGameStore = defineStore('useGameStore', () => {
     videoEnded,
     processing,
     diceEnded,
+    selectSecretEnded,
   }
 })

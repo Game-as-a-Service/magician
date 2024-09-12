@@ -14,8 +14,7 @@ const secretNumber = computed(() => {
 })
 
 const clickSecretStone = () => {
-  gameStore.updateShowSecretTable(false)
-  gameStore.restoreGameStatus()
+  gameStore.selectSecretEnded()
   pause()
 }
 const {
