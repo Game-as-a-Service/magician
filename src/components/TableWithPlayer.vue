@@ -25,8 +25,6 @@ const players = computed(() =>
   }))
 )
 
-const spellFailed = computed(() => gameStore.action_message.includes('失敗'))
-
 const attackable = (playerIndex, magicNumber, playingIndex) => {
   if (magicNumber === 1 || magicNumber === 2) {
     return playerIndex !== playingIndex
@@ -109,11 +107,10 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
         <img src="/src/assets/images/table/magicWand.svg">
       </div>
       <div
-        v-if="player.isPlaying"
-        class="absolute -rotate-[18deg] "
-        :class="{ spellWrong: spellFailed }"
+        v-if="player.isPlaying && gameStore.showFailAnimation"
+        class="absolute -rotate-[18deg] spell-wrong"
       >
-        <img src="/src/assets/images/sundries/white-smoke.png">
+        <img src="/src/assets/images/sundries/smoke.png">
       </div>
       <div class="info-box absolute">
         <div class="bg-white info">
@@ -296,10 +293,10 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
   --center-y: 215px;
 }
 
-.spellWrong {
-  top: 8px;
-  left: -40px;
-  animation: animate-smoke 1.5s 1s ease-in-out forwards;
+.spell-wrong {
+  top: 45px;
+  left: -20px;
+  animation: animate-smoke 1.5s 1 ease-in-out forwards;
 }
 
 @keyframes animate-smoke {
