@@ -84,7 +84,7 @@ class GameService:
             # 施法失敗
             game.action_message = f"{player.player_id} 施法 {spell_name} 失敗"
             game.event_name = "spelled_fail"
-            game.spell_cast_number = 0
+            game.spell_cast_number = spell.get_value()
             self.game_repository.update_game(game)
             hp_damge = -1
             if spell_name == "Magic 1":
@@ -157,43 +157,35 @@ class GameService:
         if spell.get_value() == 1:
             game.dice_result = spell_status
             game.event_name = "dice_rolled"
-            game.spell_cast_number = 0
             game.action_message = f"其餘玩家扣除 {game.dice_result} 血量"
             self.game_repository.update_game(game)
         elif spell.get_value() == 3:
             game.dice_result = spell_status
             game.event_name = "dice_rolled"
-            game.spell_cast_number = 0
             game.action_message = f"玩家回復 {game.dice_result} 血量"
             self.game_repository.update_game(game)
         elif spell.get_value() == 2:
             game.event_name = "damage_HP"
-            game.spell_cast_number = 0
             game.action_message = f"其餘玩家扣除 1 血量, {player.player_id} 回復 1 血量"            
             self.game_repository.update_game(game)
         elif spell.get_value() == 5:
             game.event_name = "damage_HP"
-            game.spell_cast_number = 0
             game.action_message = f"{game.get_left_player(player).player_id} 扣除 1 血量 , {game.get_right_player(player).player_id} 扣除 1 血量"
             self.game_repository.update_game(game)
         elif spell.get_value() == 6:
             game.event_name = "damage_HP"
-            game.spell_cast_number = 0
             game.action_message = f"{game.get_left_player(player).player_id} 扣除 1 血量"
             self.game_repository.update_game(game)
         elif spell.get_value() == 7:
             game.event_name = "damage_HP"
-            game.spell_cast_number = 0
             game.action_message = f"{game.get_right_player(player).player_id} 扣除 1 血量"
             self.game_repository.update_game(game)
         elif spell.get_value() == 8:
             game.event_name = "cure_HP"
-            game.spell_cast_number = 0
             game.action_message = f"{player.player_id} 回復 1 血量"
             self.game_repository.update_game(game)
         elif spell.get_value() == 4:
             game.event_name = "spell_owl"
-            game.spell_cast_number = 0
             game.action_message = f"{player.player_id} 得到一張秘密魔法石"
             self.game_repository.update_game(game)
                         
