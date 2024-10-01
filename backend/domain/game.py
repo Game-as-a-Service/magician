@@ -31,6 +31,7 @@ class Game:
         self.dice_result: int = 0
         self.event_name: str = ""
         self.spell_cast_number: int = 0 
+        self.damage_info : Optional[int] = None
 
     def load_spells(self) -> Dict[str, Spell]:
         """載入遊戲中可能存在的魔法石"""
@@ -129,6 +130,7 @@ class Game:
             "dice_result":self.dice_result,
             "event_name":self.event_name,
             "spell_cast_number":self.spell_cast_number,
+            "damage_info":self.damage_info,
         }
 
         if self.current_player is not None:
@@ -182,6 +184,9 @@ class Game:
 
         if "spell_cast_number" in data:
             game.spell_cast_number = data["spell_cast_number"]
+
+        if "damage_info" in data:
+            game.damage_info = data["damage_info"]
 
         if "secret_warehouse" in data:
             game.secret_warehouse = data["secret_warehouse"]

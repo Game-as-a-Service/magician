@@ -85,6 +85,7 @@ class GameService:
             game.action_message = f"{player.player_id} 施法 {spell_name} 失敗"
             game.event_name = "spelled_fail"
             game.spell_cast_number = spell.get_value()
+            game.damage_info = [0] * 5
             self.game_repository.update_game(game)
             hp_damge = -1
             if spell_name == "Magic 1":
@@ -97,7 +98,7 @@ class GameService:
                 game.dice_result = 0
             player.update_HP(hp_damge)
             game.action_message = f"玩家扣 {abs(hp_damge)} 滴血"
-
+            game.damage_info[game.current_player] = hp_damge
             self.game_repository.update_game(game)
 
             if player.get_HP() == 0:
@@ -107,6 +108,7 @@ class GameService:
                 game.event_name = "murdered_self"
                 game.dice_result = 0
                 game.spell_cast_number = 0
+                game.damage_info = [0] * 5
                 self.game_repository.update_game(game)
                 self.end_round(game_id, player_id)
             # 本回合結束
@@ -115,7 +117,7 @@ class GameService:
             return False, 200
 
         # 施法成功
-
+        game.damage_info = [0] * 5
         # 玩家手牌移除對應魔法石
         player.spells.remove(spell_name)
 
@@ -158,31 +160,41 @@ class GameService:
             game.dice_result = spell_status
             game.event_name = "dice_rolled"
             game.action_message = f"其餘玩家扣除 {game.dice_result} 血量"
+            game.damage_info = [-game.dice_result] * 5
+            game.damage_info[game.current_player] = 0
             self.game_repository.update_game(game)
         elif spell.get_value() == 3:
             game.dice_result = spell_status
             game.event_name = "dice_rolled"
             game.action_message = f"玩家回復 {game.dice_result} 血量"
+            game.damage_info[game.current_player] = game.dice_result
             self.game_repository.update_game(game)
         elif spell.get_value() == 2:
             game.event_name = "damage_HP"
-            game.action_message = f"其餘玩家扣除 1 血量, {player.player_id} 回復 1 血量"            
+            game.action_message = f"其餘玩家扣除 1 血量, {player.player_id} 回復 1 血量"
+            game.damage_info = [-1] * 5
+            game.damage_info[game.current_player] = 1            
             self.game_repository.update_game(game)
         elif spell.get_value() == 5:
             game.event_name = "damage_HP"
             game.action_message = f"{game.get_left_player(player).player_id} 扣除 1 血量 , {game.get_right_player(player).player_id} 扣除 1 血量"
+            game.damage_info[game.players.index(game.get_left_player(player))] = -1
+            game.damage_info[game.players.index(game.get_right_player(player))] = -1
             self.game_repository.update_game(game)
         elif spell.get_value() == 6:
             game.event_name = "damage_HP"
             game.action_message = f"{game.get_left_player(player).player_id} 扣除 1 血量"
+            game.damage_info[game.players.index(game.get_left_player(player))] = -1
             self.game_repository.update_game(game)
         elif spell.get_value() == 7:
             game.event_name = "damage_HP"
             game.action_message = f"{game.get_right_player(player).player_id} 扣除 1 血量"
+            game.damage_info[game.players.index(game.get_right_player(player))] = -1
             self.game_repository.update_game(game)
         elif spell.get_value() == 8:
             game.event_name = "cure_HP"
             game.action_message = f"{player.player_id} 回復 1 血量"
+            game.damage_info[game.current_player] = 1
             self.game_repository.update_game(game)
         elif spell.get_value() == 4:
             game.event_name = "spell_owl"
@@ -198,6 +210,7 @@ class GameService:
                 game.dice_result = 0
                 game.event_name = "end_round_die"
                 game.spell_cast_number = 0
+                game.damage_info = [0] * 5
                 self.game_repository.update_game(game)
                 self.end_round(game_id, game.players[game.current_player].player_id)
 
@@ -256,6 +269,7 @@ class GameService:
         game.event_name = "turn_end"
         game.dice_result = 0
         game.spell_cast_number = 0
+        game.damage_info = [0] * 5
         self.game_repository.update_game(game)
 
         return True
