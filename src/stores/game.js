@@ -104,6 +104,7 @@ export const useGameStore = defineStore('useGameStore', () => {
   const secretCountDownTimer = ref(20)
   const showSecretTable = ref(false)
   const showVideo = ref(false)
+  const showFailAnimation = ref(false)
   const videoNumber = ref(0)
   const messages = ref([])
   const gameStatusQueue = ref([])
@@ -119,6 +120,15 @@ export const useGameStore = defineStore('useGameStore', () => {
   const playMagicVideo = (n) => {
     videoNumber.value = n
     showVideo.value = true
+  }
+  const playFailAnimation = () => {
+    showFailAnimation.value = true
+    setTimeout(() => {
+      showFailAnimation.value = false
+      processing.value = false
+      restoreGameStatus()
+      processGameStatus()
+    }, 1500)
   }
   const afterAction = ref(false) 
   const diceNumber = ref(0)
@@ -156,6 +166,9 @@ export const useGameStore = defineStore('useGameStore', () => {
         //   setGameStatus(status)
         //   processGameStatus()
         // }
+      } else if (status.event_name === 'spelled_fail') {
+        updateTmpGameStatus(status)
+        playFailAnimation()
       } else if (status.event_name === 'dice_rolled') {
         console.log('dice_rolled: ', status.dice_result)
         setPlayDice(status.dice_result)
@@ -214,6 +227,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     updateTmpGameStatus,
     restoreGameStatus,
     showVideo,
+    showFailAnimation,
     videoNumber,
     playMagicVideo,
     messages,

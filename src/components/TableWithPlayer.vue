@@ -24,6 +24,7 @@ const players = computed(() =>
     isPlaying: i === gameStore.gameStatus.current_player,
   }))
 )
+
 const attackable = (playerIndex, magicNumber, playingIndex) => {
   if (magicNumber === 1 || magicNumber === 2) {
     return playerIndex !== playingIndex
@@ -94,8 +95,6 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
       :class="player.playerClass"
     >
       <img :src="player.imgSrc">
-      <!-- /      <div class="healable "></div> -->
-      <!-- <div v-if="player.attackable" class="attackable "></div> -->
       <div
         class="transition duration-500 ease-linear"
         :class="{ healable: player.healable,
@@ -106,6 +105,12 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
         class="w-[80px] h-[100px] absolute top-3 -left-8 -rotate-[18deg]"
       >
         <img src="/src/assets/images/table/magicWand.svg">
+      </div>
+      <div
+        v-if="player.isPlaying && gameStore.showFailAnimation"
+        class="absolute -rotate-[18deg] spell-wrong"
+      >
+        <img src="/src/assets/images/sundries/smoke.png">
       </div>
       <div class="info-box absolute">
         <div class="bg-white info">
@@ -286,5 +291,34 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
   --length: 90px;
   --center-x: 227px;
   --center-y: 215px;
+}
+
+.spell-wrong {
+  top: 45px;
+  left: -20px;
+  animation: animate-smoke 1.5s 1 ease-in-out forwards;
+}
+
+@keyframes animate-smoke {
+  0% {
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+    transform: translate(0px, 0px);
+  }
+
+  50% {
+    width: 80px;
+    height: 100px;
+    opacity: 1;
+    transform: translate(-30px, -40px);
+  }
+
+  100% {
+    width: 120px;
+    height: 150px;
+    opacity: 0;
+    transform: translate(-50px, -60px);
+  }
 }
 </style>
