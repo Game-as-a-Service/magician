@@ -163,9 +163,13 @@ export const useGameStore = defineStore('useGameStore', () => {
         updateTmpGameStatus(status)
       } else if (status.event_name === 'spell_owl') {
         console.log('select secret')
-        updateTmpGameStatus(status)
         if (myTurn.value){
+          updateTmpGameStatus(status)
           updateShowSecretTable(true)
+        } else {
+          setGameStatus(status)
+          processing.value = false
+          processGameStatus()
         }
       } else {
         setGameStatus(status)
