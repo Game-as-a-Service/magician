@@ -121,6 +121,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     videoNumber.value = n
     showVideo.value = true
   }
+  // 播放失敗動畫要調整時長時要記得調整 animate-smoke timing
   const playFailAnimation = () => {
     showFailAnimation.value = true
     setTimeout(() => {
