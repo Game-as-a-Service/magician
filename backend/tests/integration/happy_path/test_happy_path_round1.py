@@ -98,6 +98,11 @@ def test_happy_path_round1(game_service, five_player_game, monkeypatch):
     assert game.find_player_by_id("C").get_HP() == 4
     assert len(game.find_player_by_id("B").spells) == 3
     assert len(game.ladder) == 3
+    assert game.damage_info[0] == -1
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == -1
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # B補充手牌5 H列
     assert game.current_player == 1
@@ -106,6 +111,11 @@ def test_happy_path_round1(game_service, five_player_game, monkeypatch):
     assert game.find_player_by_id("B").spells[3] == "Magic 7"
     assert game.find_player_by_id("B").spells[4] == "Magic 6"
     assert len(game.warehouse) == 4
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # C施法4 I列
     assert game.current_player == 2
@@ -116,6 +126,11 @@ def test_happy_path_round1(game_service, five_player_game, monkeypatch):
     assert game.find_player_by_id("C").secret_spells[0] == "Magic 8"
     assert len(game.secret_warehouse) == 3
     assert len(game.ladder) == 4
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # C施法4 J列
     assert game.current_player == 2
@@ -126,6 +141,11 @@ def test_happy_path_round1(game_service, five_player_game, monkeypatch):
     assert game.find_player_by_id("C").secret_spells[1] == "Magic 7"
     assert len(game.secret_warehouse) == 2
     assert len(game.ladder) == 5
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # C補充手牌5 K列
     assert game.current_player == 2
@@ -134,20 +154,35 @@ def test_happy_path_round1(game_service, five_player_game, monkeypatch):
     assert game.find_player_by_id("C").spells[3] == "Magic 1"
     assert game.find_player_by_id("C").spells[4] == "Magic 6"
     assert len(game.warehouse) == 2
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
-    # D施法5 L列
+    # D施法3 L列 (施法失敗)
     assert game.current_player == 3
     assert game.turn == 4
     game_service.cast_spell(game_id, "D", "Magic 3")
     game = game_service.game_repository.get_game_by_id(game_id)
     assert game.find_player_by_id("D").get_HP() == 5
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
-    # E施法5 M列
+    # E施法5 M列 (施法失敗)
     assert game.current_player == 4
     assert game.turn == 5
     game_service.cast_spell(game_id, "E", "Magic 5")
     game = game_service.game_repository.get_game_by_id(game_id)
     assert game.find_player_by_id("E").get_HP() == 4
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # A施法1, 因為玩家A自殺, 自動進入結算 N列
     assert game.current_player == 0
@@ -161,3 +196,8 @@ def test_happy_path_round1(game_service, five_player_game, monkeypatch):
     assert game.find_player_by_id("C").score == 3
     assert game.find_player_by_id("D").score == 1
     assert game.find_player_by_id("E").score == 1
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0

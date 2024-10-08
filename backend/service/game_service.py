@@ -97,7 +97,7 @@ class GameService:
                 #game.event_name = "spelled_fail"
                 game.dice_result = 0
             player.update_HP(hp_damge)
-            game.action_message = f"玩家扣 {abs(hp_damge)} 滴血"
+            game.action_message = f"{player.player_id} 扣 {abs(hp_damge)} 滴血"
             game.damage_info[game.current_player] = hp_damge
             self.game_repository.update_game(game)
 
@@ -159,19 +159,19 @@ class GameService:
         if spell.get_value() == 1:
             game.dice_result = spell_status
             game.event_name = "dice_rolled"
-            game.action_message = f"其餘玩家扣除 {game.dice_result} 血量"
+            game.action_message = f"除了 {player.player_id} ,其餘玩家扣除 {game.dice_result} 血量"
             game.damage_info = [-game.dice_result] * 5
             game.damage_info[game.current_player] = 0
             self.game_repository.update_game(game)
         elif spell.get_value() == 3:
             game.dice_result = spell_status
             game.event_name = "dice_rolled"
-            game.action_message = f"玩家回復 {game.dice_result} 血量"
+            game.action_message = f"{player.player_id} 回復 {game.dice_result} 血量"
             game.damage_info[game.current_player] = game.dice_result
             self.game_repository.update_game(game)
         elif spell.get_value() == 2:
             game.event_name = "damage_HP"
-            game.action_message = f"其餘玩家扣除 1 血量, {player.player_id} 回復 1 血量"
+            game.action_message = f"{player.player_id} 回復 1 血量 ,其餘玩家扣除 1 血量"
             game.damage_info = [-1] * 5
             game.damage_info[game.current_player] = 1            
             self.game_repository.update_game(game)
