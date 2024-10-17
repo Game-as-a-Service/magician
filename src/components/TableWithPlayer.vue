@@ -112,6 +112,12 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
       >
         <img src="/src/assets/images/sundries/smoke.png">
       </div>
+      <div
+        v-if="player.isPlaying && gameStore.showFailAnimation"
+        class="absolute blood"
+      >
+        <img src="/src/assets/images/sundries/blood.png">
+      </div>
       <div class="info-box absolute">
         <div class="bg-white info">
           <div class="block whitespace-nowrap">
@@ -300,6 +306,12 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
   animation: animate-smoke 1.5s 1 ease-in-out forwards;
 }
 
+.blood {
+  top: 60px;
+  left: 20px;
+  animation: animate-blood 1.5s infinite ease-in-out forwards;
+}
+
 @keyframes animate-smoke {
   0% {
     width: 40px;
@@ -320,6 +332,29 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
     height: 150px;
     opacity: 0;
     transform: translate(-50px, -60px);
+  }
+}
+
+@keyframes animate-blood {
+  0% {
+    width: 15px;
+    height: 20px;
+    opacity: 0;
+    transform: translate(18px, 8px);
+  }
+
+  50% {
+    width: 20px;
+    height: 30px;
+    opacity: 1;
+    transform: translate(15px, 40px);
+  }
+
+  100% {
+    width: 25px;
+    height: 35px;
+    opacity: 0;
+    transform: translate(15px, 50px);
   }
 }
 </style>
