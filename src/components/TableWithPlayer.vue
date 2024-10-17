@@ -293,6 +293,7 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
   --center-y: 215px;
 }
 
+/* 播放失敗動畫要調整時長時要記得調整 stores/game.js 的 showFailAnimation 時長 */
 .spell-wrong {
   top: 45px;
   left: -20px;
