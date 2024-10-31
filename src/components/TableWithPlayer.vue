@@ -11,8 +11,9 @@ const playerClasses = [
   'player-yellow',
   'player-blue',
 ]
-const players = computed(() =>
-  gameStore.gameStatus.players.map((player, i) => ({
+const players = computed(() => {
+  const damageInfo = gameStore.gameStatus.damage_info || [ 0, 0, 0, 0, 0 ]
+  return gameStore.gameStatus.players.map((player, i) => ({
     name: player.player_id,
     hp: player.HP,
     score: player.score,
@@ -22,8 +23,9 @@ const players = computed(() =>
     attackable: attackable(i, gameStore.hoverMagic, gameStore.playingIndex),
     healable: healable(i, gameStore.hoverMagic, gameStore.playingIndex),
     isPlaying: i === gameStore.gameStatus.current_player,
+    hpChange: damageInfo[i],
   }))
-)
+})
 
 const attackable = (playerIndex, magicNumber, playingIndex) => {
   if (magicNumber === 1 || magicNumber === 2) {
@@ -112,12 +114,16 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
       >
         <img src="/src/assets/images/sundries/smoke.png">
       </div>
-      <div
-        v-if="player.isPlaying && gameStore.showFailAnimation"
-        class="absolute blood"
-      >
-        <img src="/src/assets/images/sundries/blood.png">
-      </div>
+      <template v-if="player.hpChange<0">
+        <div
+          v-for="i in -player.hpChange"
+          :key="player.hp+i"
+          class="absolute blood"
+          :style="{ top: `${(i-1) * 30 + 60}px` }"
+        >
+          <img src="/src/assets/images/sundries/blood.png">
+        </div>
+      </template>
       <div class="info-box absolute">
         <div class="bg-white info">
           <div class="block whitespace-nowrap">
@@ -307,9 +313,9 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
 }
 
 .blood {
-  top: 60px;
+  /* top: 60px; */
   left: 20px;
-  animation: animate-blood 1.5s infinite ease-in-out forwards;
+  animation: animate-blood 1.5s 1 ease-in-out forwards;
 }
 
 @keyframes animate-smoke {
