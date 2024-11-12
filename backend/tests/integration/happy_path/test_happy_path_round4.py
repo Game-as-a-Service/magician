@@ -42,6 +42,11 @@ def test_happy_path_round4(game_service, five_player_game):
     game_service.cast_spell(game_id, "A", "Magic 5")
     game = game_service.game_repository.get_game_by_id(game_id)
     assert game.find_player_by_id("A").get_HP() == 5
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # B施法5 AI列
     assert game.turn == 2
@@ -52,6 +57,11 @@ def test_happy_path_round4(game_service, five_player_game):
     assert game.find_player_by_id("C").get_HP() == 5
     assert len(game.find_player_by_id("B").spells) == 4
     assert len(game.ladder) == 1
+    assert game.damage_info[0] == -1
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == -1
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # B施法6 AJ列
     game_service.cast_spell(game_id, "B", "Magic 6")
@@ -59,6 +69,11 @@ def test_happy_path_round4(game_service, five_player_game):
     assert game.find_player_by_id("C").get_HP() == 4
     assert len(game.find_player_by_id("B").spells) == 3
     assert len(game.ladder) == 2
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == -1
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # B施法6 AK列
     game_service.cast_spell(game_id, "B", "Magic 6")
@@ -66,12 +81,22 @@ def test_happy_path_round4(game_service, five_player_game):
     assert game.find_player_by_id("C").get_HP() == 3
     assert len(game.find_player_by_id("B").spells) == 2
     assert len(game.ladder) == 3
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == -1
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # B施法8 AL列
     game_service.cast_spell(game_id, "B", "Magic 8")
     game = game_service.game_repository.get_game_by_id(game_id)
     assert len(game.find_player_by_id("B").spells) == 1
     assert len(game.ladder) == 4
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 1
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
 
     # B施法8, 玩家將手牌用完, 系統自動結算 AM列
     game_service.cast_spell(game_id, "B", "Magic 8")
@@ -81,5 +106,10 @@ def test_happy_path_round4(game_service, five_player_game):
     assert game.find_player_by_id("C").score == 4
     assert game.find_player_by_id("D").score == 2
     assert game.find_player_by_id("E").score == 4
+    assert game.damage_info[0] == 0
+    assert game.damage_info[1] == 0
+    assert game.damage_info[2] == 0
+    assert game.damage_info[3] == 0
+    assert game.damage_info[4] == 0
     # 勝利者出現，遊戲結束
     assert game.active is False
