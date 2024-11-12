@@ -94,7 +94,7 @@ class GameService:
                 hp_damge = roll_dice() * -1
                 game.dice_result = hp_damge * -1
             else:
-                #game.event_name = "spelled_fail"
+                game.event_name = "damage_HP"
                 game.dice_result = 0
             player.update_HP(hp_damge)
             game.action_message = f"{player.player_id} 扣 {abs(hp_damge)} 滴血"
