@@ -170,6 +170,12 @@ export const useGameStore = defineStore('useGameStore', () => {
       } else if (status.event_name === 'spelled_fail') {
         updateTmpGameStatus(status)
         playFailAnimation()
+      } else if (status.event_name === 'damage_HP'){
+        setGameStatus(status)
+        processing.value = false
+        setTimeout(() => {
+          processGameStatus()
+        }, 1500)
       } else if (status.event_name === 'dice_rolled') {
         console.log('dice_rolled: ', status.dice_result)
         setPlayDice(status.dice_result)
@@ -207,7 +213,9 @@ export const useGameStore = defineStore('useGameStore', () => {
     processing.value = false
     
     restoreGameStatus()
-    processGameStatus()
+    setTimeout(() => {
+      processGameStatus()
+    }, 1500)
   }
   const selectSecretEnded = () => {
     updateShowSecretTable(false)
