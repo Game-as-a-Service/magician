@@ -159,6 +159,8 @@ export const useGameStore = defineStore('useGameStore', () => {
         setPlayDice(status.dice_result)
         setShowDice(true)
         updateTmpGameStatus(status)
+      } else if (status.event_name === 'round_started') {
+        spellFailed.value = false
       } else if (status.event_name === 'spell_owl') {
         console.log('select secret')
         if (myTurn.value){
@@ -200,8 +202,14 @@ export const useGameStore = defineStore('useGameStore', () => {
   const setSpellFailed = (value) => {
     spellFailed.value = value
   }
+  const roundStart = (() => {
+    if ((gameStatus.value.event_name === 'roundStart')) {
+      return true
+    }
+  })
   return {
     gameStatus,
+    roundStart,
     gameOver,
     playingId,
     playingIndex,
