@@ -80,12 +80,6 @@ export const useGameStore = defineStore('useGameStore', () => {
     // 把訊息放到廣播區
     gameStatus.value = status
     messages.value.push(status.action_message)
-    // if (status.action_message.includes('成功')){
-    //   const number = status.action_message.split(' ')[3]
-    //   if (gameStatus.value.players[gameStatus.value.current_player].player_id !== playingId.value){
-    //     playMagicVideo(Number(number))
-    //   }
-    // }
   }
   const hoverMagic = ref(0)
   const setHoverMagic = (magicNumber) => {
@@ -95,10 +89,11 @@ export const useGameStore = defineStore('useGameStore', () => {
     if (gameStatus.value.current_player === undefined) {
       return false
     }
-    return (
-      gameStatus.value.players[gameStatus.value.current_player].player_id ===
-      playingId.value
-    )
+    const isMyTurn = gameStatus.value.players[gameStatus.value.current_player].player_id === playingId.value
+    if (!isMyTurn){
+      spellFailed.value = false
+    }
+    return isMyTurn
   })
   const spellCountDownTimer = ref(30)
   const secretCountDownTimer = ref(20)
@@ -108,6 +103,7 @@ export const useGameStore = defineStore('useGameStore', () => {
   const videoNumber = ref(0)
   const messages = ref([])
   const gameStatusQueue = ref([])
+  const spellFailed = ref(false)
   const enqueueGameStatus = (status) => {
     gameStatusQueue.value.push(status)
   }
@@ -144,29 +140,11 @@ export const useGameStore = defineStore('useGameStore', () => {
     if (gameStatusQueue.value.length > 0) {
       const status = dequeueGameStatus()
       console.log('processGameStatus: ', status.action_message)
-      processing.value = true
-      // if (status.event_name === 'spell_success') {
-      //   const number = status.spell_cast_number
-      //   if (number == 1 || number == 3){
-      //     // dice_result
-      //     // event_name: "spell_success" // 施法成功
-      //     // event_name: "spell_fail" // 施法失敗
-      //     // event_name: "dice_rolled" // 擲骰子
-      //     // setPlayDice(newGameStatus.dice_result)
-      //   }
-      // } else 
-      
+      processing.value = true      
       if (status.event_name === 'spell_success'){
         const number = status.spell_cast_number
-        // if (status.players[status.current_player].player_id !== playingId.value){
         playMagicVideo(Number(number))
         updateTmpGameStatus(status)
-        
-        // } else {
-        //   processing.value = false
-        //   setGameStatus(status)
-        //   processGameStatus()
-        // }
       } else if (status.event_name === 'spelled_fail') {
         updateTmpGameStatus(status)
         playFailAnimation()
@@ -203,10 +181,6 @@ export const useGameStore = defineStore('useGameStore', () => {
     processing.value = false
     restoreGameStatus()
     processGameStatus()
-
-    // if (videoNumber.value == 1 || gameStore.videoNumber == 3){
-    //   gameStore.setShowDice(true)
-    // }
   }
   const diceEnded = () => {
     setShowDice(false)
@@ -222,6 +196,9 @@ export const useGameStore = defineStore('useGameStore', () => {
     processing.value = false
     restoreGameStatus()
     processGameStatus()
+  }
+  const setSpellFailed = (value) => {
+    spellFailed.value = value
   }
   return {
     gameStatus,
@@ -257,5 +234,7 @@ export const useGameStore = defineStore('useGameStore', () => {
     processing,
     diceEnded,
     selectSecretEnded,
+    spellFailed,
+    setSpellFailed,
   }
 })

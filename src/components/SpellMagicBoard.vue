@@ -115,6 +115,8 @@ const playStone = async (i) => {
       resetTimer()
     }
   } else {
+    // 施法失敗
+    gameStore.setSpellFailed(true)
     lastMagic.value = 0
   }
 }

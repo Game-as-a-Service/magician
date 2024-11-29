@@ -247,7 +247,7 @@ const handleUserConnect = () => {
       >
       </HintBar>
       <div
-        v-if="myTurn"
+        v-if="myTurn && !gameStore.spellFailed"
         class="bg-grey50 top-0 left-0 w-full h-full backgroundBlur absolute"
       >
         <SpellMagicBoard></SpellMagicBoard>
