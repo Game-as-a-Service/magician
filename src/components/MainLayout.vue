@@ -167,7 +167,6 @@ onMounted(() => {
 })
 const bgNumber = ref(Math.floor(Math.random() * 10))
 const handleUserConnect = () => {
-  handleConnect()
   if (route.query.gameRoomID) {
     router.push({
       path: route.path,
@@ -175,16 +174,19 @@ const handleUserConnect = () => {
         gameRoomID: route.query.gameRoomID,
         playerId: playerId.value,
       },
+    }).then(() => {
+      router.go(0)
     })
-  }
-  router.push({
-    path: route.path,
-    query: {
+  } else {
+    router.push({
+      path: route.path,
+      query: {
       // gameRoomID: gameId.value,
       // gameId暫時沒用
-      playerId: playerId.value,
-    },
-  })
+        playerId: playerId.value,
+      },
+    })
+  }
 }
 </script>
 
@@ -271,7 +273,7 @@ const handleUserConnect = () => {
           for="countries"
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >切換角色？</label>
-        <div class="flex pl-5 pb-5 gap-3">
+        <div class="flex pl-5 pb-5 gap-3 text-white">
           <select
             id="countries"
             v-model="playerId"
@@ -307,6 +309,8 @@ const handleUserConnect = () => {
             切換至當前玩家 (a.k.a.
             {{ playerIds[gameStore.gameStatus.current_player] }})
           </button>
+          
+          StateQueue: {{ gameStore.gameStatusQueue.length }} 
         </div>
       </div>
     </div>

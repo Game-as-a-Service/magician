@@ -155,14 +155,15 @@ export const useGameStore = defineStore('useGameStore', () => {
           processGameStatus()
         }, 1500)
       } else if (status.event_name === 'dice_rolled') {
-        console.log('dice_rolled: ', status.dice_result)
         setPlayDice(status.dice_result)
         setShowDice(true)
         updateTmpGameStatus(status)
       } else if (status.event_name === 'round_started') {
         spellFailed.value = false
+        setGameStatus(status)
+        processing.value = false
+        processGameStatus()
       } else if (status.event_name === 'spell_owl') {
-        console.log('select secret')
         if (myTurn.value){
           updateTmpGameStatus(status)
           updateShowSecretTable(true)
