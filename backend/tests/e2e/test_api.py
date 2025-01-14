@@ -131,3 +131,10 @@ def test_roomID_status(client):
     assert resp.status_code == 400
     resp_json = resp.json
     assert resp_json["message"] == "player_id not found"
+
+
+def test_health_check(client):
+    """Test the health check endpoint."""
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json == {"status": "healthy"}
