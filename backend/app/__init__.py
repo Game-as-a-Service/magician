@@ -3,6 +3,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from .services import GameService
 from .config import DevelopmentConfig, ProductionConfig
+from functools import wraps
+import jwt
+from jwt import PyJWKClient
+import requests
 
 app = Flask(__name__)
 CORS(app)
@@ -12,6 +16,51 @@ if app.config is None:
         app.config.from_object(DevelopmentConfig)
     else:
         app.config.from_object(ProductionConfig)
+
+
+def jwt_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        if "Authorization" in request.headers:
+            auth_header = request.headers["Authorization"]
+            try:
+                token = auth_header.split(" ")[1]
+            except IndexError:
+                return jsonify({"message": "Invalid token format"}), 401
+
+        if not token:
+            return jsonify({"message": "Token is missing"}), 401
+
+        try:
+            url = "https://dev-1l0ixjw8yohsluoi.us.auth0.com/.well-known/jwks.json"
+            jwks_client = PyJWKClient(url)
+            signing_key = jwks_client.get_signing_key_from_jwt(token)
+            payload_data = jwt.decode(
+                token,
+                signing_key,
+                audience="https://api.gaas.waterballsa.tw",
+                options={"verify_exp": True},
+                algorithms=["RS256"],
+            )
+
+            # Fetch user details from GaaS API
+            headers = {"Authorization": f"Bearer {token}"}
+            response = requests.get(
+                "https://api.gaas.waterballsa.tw/users/me", headers=headers
+            )
+            if response.status_code != 200:
+                return jsonify({"message": "Failed to fetch user details"}), 401
+
+            user_data = response.json()
+            current_user = user_data["id"]
+
+        except Exception as e:
+            return jsonify({"message": f"Invalid token: {e}"}), 401
+
+        return f(current_user, *args, **kwargs)
+
+    return decorated
 
 
 @app.route("/gameCreate", methods=["POST"])
@@ -102,3 +151,36 @@ def player_status():
 @app.route("/health", methods=["GET"])
 def health_check():
     return jsonify({"status": "healthy"}), 200
+
+
+@app.route("/games", methods=["POST"])
+@jwt_required
+def start_game(current_user):
+    data = request.json
+    room_id = data.get("roomId")
+    players = data.get("players")
+
+    if not room_id or not players:
+        return jsonify({"message": "Room ID and players are required"}), 400
+
+    if len(players) != 5:
+        return jsonify({"message": "Number of players must be 5"}), 400
+
+    player_ids = [player["id"] for player in players]
+
+    if current_user not in player_ids:
+        return jsonify({"message": "Unauthorized to start this game"}), 403
+
+    # result = GameService.start_game(room_id, player_ids, player_nicknames)
+    room_id = GameService.create_game(player_ids)
+    gameRoomID = str(room_id.game_id)
+    return (
+        jsonify(
+            {
+                "message": "Game created",
+                "gameRoomID": gameRoomID,
+                "url": f"https://game-as-a-service.github.io/magician/#/{gameRoomID}/",
+            }
+        ),
+        201,
+    )
