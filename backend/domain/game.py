@@ -30,8 +30,8 @@ class Game:
         self.action_message: str = ""
         self.dice_result: int = 0
         self.event_name: str = ""
-        self.spell_cast_number: int = 0 
-        self.damage_info : Optional[int] = None
+        self.spell_cast_number: int = 0
+        self.damage_info: Optional[int] = None
 
     def load_spells(self) -> Dict[str, Spell]:
         """載入遊戲中可能存在的魔法石"""
@@ -127,10 +127,10 @@ class Game:
             "players": [player.to_dict() for player in self.players],
             "active": self.active,
             "action_message": self.action_message,
-            "dice_result":self.dice_result,
-            "event_name":self.event_name,
-            "spell_cast_number":self.spell_cast_number,
-            "damage_info":self.damage_info,
+            "dice_result": self.dice_result,
+            "event_name": self.event_name,
+            "spell_cast_number": self.spell_cast_number,
+            "damage_info": self.damage_info,
         }
 
         if self.current_player is not None:
@@ -178,7 +178,7 @@ class Game:
             game.turn = data["turn"]
         if "dice_result" in data:
             game.dice_result = data["dice_result"]
-        
+
         if "event_name" in data:
             game.event_name = data["event_name"]
 
