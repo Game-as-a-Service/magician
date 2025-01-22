@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Optional, List
 from bson.objectid import ObjectId
 from repository.game_repository import GameRepository
 from domain.game import Game
@@ -9,12 +9,17 @@ class GameService:
     def __init__(self, game_repository: GameRepository):
         self.game_repository = game_repository
 
-    def create_game(self, player_ids: list[str]) -> Game:
+    def create_game(
+        self, player_ids: list[str], player_nickname: Optional[List[str]] = None
+    ) -> Game:
         game = Game(game_id=None, players=player_ids)
         game_id = self.game_repository.create_game(game)
         game.game_id = game_id  # 從資料取得的game_id
         game.action_message = "開始遊戲"
         game.event_name = "game_started"
+        if player_nickname and len(player_ids) == len(player_nickname):
+            for player, nickname in zip(game.players, player_nickname):
+                player.name = nickname
         self.game_repository.update_game(game)
         return game
 
