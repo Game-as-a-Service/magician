@@ -36,7 +36,7 @@ def jwt_required(f):
             url = "https://dev-1l0ixjw8yohsluoi.us.auth0.com/.well-known/jwks.json"
             jwks_client = PyJWKClient(url)
             signing_key = jwks_client.get_signing_key_from_jwt(token)
-            payload_data = jwt.decode(
+            jwt.decode(
                 token,
                 signing_key,
                 audience="https://api.gaas.waterballsa.tw",
