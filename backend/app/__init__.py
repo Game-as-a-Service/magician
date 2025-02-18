@@ -190,4 +190,4 @@ def start_game(current_user, nickname):
 @app.route("/me", methods=["GET"])
 @jwt_required
 def get_user_info(current_user, nickname):
-    return jsonify({"player_ids": current_user, "player_nickname": nickname}), 200
+    return jsonify({"player_id": current_user, "player_nickname": nickname}), 200
