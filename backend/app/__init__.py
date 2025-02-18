@@ -54,11 +54,12 @@ def jwt_required(f):
 
             user_data = response.json()
             current_user = user_data["id"]
+            nickname = user_data["nickname"]
 
         except Exception as e:
             return jsonify({"message": f"Invalid token: {e}"}), 401
 
-        return f(current_user, *args, **kwargs)
+        return f(current_user, nickname, *args, **kwargs)
 
     return decorated
 
@@ -155,7 +156,7 @@ def health_check():
 
 @app.route("/games", methods=["POST"])
 @jwt_required
-def start_game(current_user):
+def start_game(current_user, nickname):
     data = request.json
     room_id = data.get("roomId")
     players = data.get("players")
@@ -184,3 +185,9 @@ def start_game(current_user):
         ),
         201,
     )
+
+
+@app.route("/me", methods=["GET"])
+@jwt_required
+def get_user_info(current_user, nickname):
+    return jsonify({"player_ids": current_user, "player_nickname": nickname}), 200
