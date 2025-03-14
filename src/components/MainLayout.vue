@@ -23,13 +23,20 @@ import axios from 'axios'
 import {
   useRouter, useRoute 
 } from 'vue-router'
+const route = useRoute()
+const apiWithToken = axios.create({
+  baseURL: 'https://gaas-magician-backend.azurewebsites.net/',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + route.query.token,
+  },
+})
 const api = axios.create({
   baseURL: 'https://gaas-magician-backend.azurewebsites.net/',
   headers: {
     'Content-Type': 'application/json',
   },
 })
-const route = useRoute()
 const router = useRouter()
 const gameStore = useGameStore()
 const socket = ref(null)
@@ -39,6 +46,15 @@ const playerId = ref('Leave3310')
 const playerIds = [ 'Leave3310', 'Momo', 'Yock', 'Tux', 'Teds' ]
 const showHint1 = ref(false)
 const showHintStart = ref(false)
+
+console.log(route, 'route')
+console.log('gameId: ', route.params.gameId)
+console.log('user token: ', route.query.token)
+apiWithToken.get('/me').then((res) => {
+  console.log(res.data, 'me')
+  playerId.value = res.data.player_id
+})
+
 const gameOver = computed(() => gameStore.gameOver)
 const handleConnect = () => {
   socket.value = io(import.meta.env.VITE_SOCKET_IO_URL, {
@@ -109,8 +125,9 @@ const showWarehouse = computed(() => {
   return gameStore.hoverMagic === 4
 })
 const getGameStatus = async () => {
-  const gameRoomID = route.query.gameRoomID
-  const player_id = route.query.playerId || playerId.value
+  // const gameRoomID = route.query.gameRoomID
+  const gameRoomID = route.params.gameId
+  const player_id = playerId.value
   const params = {
     gameRoomID,
     player_id,
@@ -159,9 +176,11 @@ watch(
 )
 onMounted(() => {
   if (route.query.gameRoomID && route.query.playerId) {
-    playerId.value = route.query.playerId
-    handleConnect()
+    // playerId.value = route.query.playerId
+    // handleConnect()
   }
+  handleConnect()
+
   console.log('mounted')
   console.log(import.meta.env.VITE_SOCKET_IO_URL)
 })
