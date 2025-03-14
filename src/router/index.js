@@ -18,6 +18,11 @@ const router = createRouter({
       component: apiPanel
     },
     {
+      path: '/:gameId',
+      name: 'room',
+      component: Home
+    },
+    {
       path: '/:pathMatch(.*)*', redirect: { name: 'home' } 
     }
   ],

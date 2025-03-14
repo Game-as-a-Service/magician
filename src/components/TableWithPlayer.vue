@@ -14,7 +14,7 @@ const playerClasses = [
 const players = computed(() => {
   const damageInfo = gameStore.gameStatus.damage_info || [ 0, 0, 0, 0, 0 ]
   return gameStore.gameStatus.players.map((player, i) => ({
-    name: player.player_id,
+    name: player.name,
     hp: player.HP,
     score: player.score,
     holdStones: player.spells.length,

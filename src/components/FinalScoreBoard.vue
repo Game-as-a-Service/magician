@@ -6,7 +6,7 @@ const gameStore = useGameStore()
 
 const players = computed(() =>
   gameStore.gameStatus.players.map((player, i) => ({
-    name: player.player_id,
+    name: player.name,
     score: player.score,
     imgSrc: imgSrcs[i],
   })).sort((a, b) => b.score - a.score)
