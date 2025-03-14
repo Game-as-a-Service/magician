@@ -50,11 +50,6 @@ const showHintStart = ref(false)
 console.log(route, 'route')
 console.log('gameId: ', route.params.gameId)
 console.log('user token: ', route.query.token)
-apiWithToken.get('/me').then((res) => {
-  console.log(res.data, 'me')
-  playerId.value = res.data.player_id
-})
-
 const gameOver = computed(() => gameStore.gameOver)
 const handleConnect = () => {
   socket.value = io(import.meta.env.VITE_SOCKET_IO_URL, {
@@ -179,8 +174,11 @@ onMounted(() => {
     // playerId.value = route.query.playerId
     // handleConnect()
   }
-  handleConnect()
-
+  apiWithToken.get('/me').then((res) => {
+    console.log(res.data, 'me')
+    playerId.value = res.data.player_id
+    handleConnect()
+  })
   console.log('mounted')
   console.log(import.meta.env.VITE_SOCKET_IO_URL)
 })
