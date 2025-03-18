@@ -150,6 +150,40 @@ def player_status():
         return jsonify({"message": "gameRoomID does not exist"}), 400
 
 
+@app.route("/endgame", methods=["DELETE"])
+@jwt_required
+def end_game(current_user, nickname):
+    data = request.json
+    gameRoomID = data.get("gameRoomID")
+    if not gameRoomID:
+        return jsonify({"message": "gameRoomID is required"}), 400
+
+    token = None
+    if "Authorization" in request.headers:
+        auth_header = request.headers["Authorization"]
+        try:
+            token = auth_header.split(" ")[1]
+        except IndexError:
+            return jsonify({"message": "Invalid token format"}), 401
+
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.post(
+        f"https://api.gaas.waterballsa.tw/rooms/{gameRoomID}:endGame",
+        headers=headers,
+    )
+    if response.status_code != 204:
+        return (
+            jsonify(
+                {
+                    "message": f"Failed to end game on GaaS platform: {response.status_code}",
+                }
+            ),
+            400,
+        )
+    else:
+        return jsonify({"message": "Game ended successfully"}), 204
+
+
 @app.route("/health", methods=["GET"])
 def health_check():
     return jsonify({"status": "healthy"}), 200
