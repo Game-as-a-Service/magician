@@ -91,13 +91,14 @@ def player_join_game(player_id):
     if not room_id:
         return jsonify({"error": "Game room ID required"}), 400
 
-    if GameService.player_join_game(room_id, player_id):
+    result = GameService.player_join_game(room_id, player_id)
+    if result["success"]:
         return (
             jsonify({"message": "Player joined the game", "gameRoomID": room_id}),
             200,
         )
     else:
-        return jsonify({"message": "Unable to join game"}), 400
+        return jsonify({"error": result["message"]}), result["status_code"]
 
 
 @app.route("/stone", methods=["PATCH"])

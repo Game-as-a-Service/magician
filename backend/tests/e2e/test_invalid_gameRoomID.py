@@ -1,7 +1,7 @@
 def test_join_game_invalid_gameRoomID(client):
     game_id_data = {"gameRoomID": "invalid gameRoomID"}
     resp = client.put("/player/p1/join", json=game_id_data)
-    assert resp.status_code == 400
+    assert resp.status_code == 404
 
 
 def test_stone_invalid_gameRoomID(client):

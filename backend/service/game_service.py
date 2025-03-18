@@ -23,22 +23,47 @@ class GameService:
         self.game_repository.update_game(game)
         return game
 
-    def player_join_game(self, game_id: str, player_id: str) -> bool:
+    def player_join_game(self, game_id: str, player_id: str) -> dict:
         game = self.game_repository.get_game_by_id(game_id)
-        if not (game and game.is_active()):
-            # 從資料庫確認game_id存在，並且遊戲進行中
-            return False
-        player_joined_stat = False
-        if game:
-            player = next((p for p in game.players if p.player_id == player_id), None)
-            if player:
-                if player.joined:
-                    return False
-                player.joined = True
-                game.action_message = player.player_id + " 加入遊戲"
-                game.event_name = "game_joined"
-                self.game_repository.update_game(game)
-                player_joined_stat = True
+
+        # 遊戲不存在的情況
+        if not game:
+            return {
+                "success": False,
+                "message": "Game room does not exist",
+                "status_code": 404,
+            }
+
+        # 遊戲不在進行中的情況
+        if not game.is_active():
+            return {
+                "success": False,
+                "message": "Game is not active",
+                "status_code": 403,
+            }
+
+        # 檢查玩家是否存在於遊戲中
+        player = next((p for p in game.players if p.player_id == player_id), None)
+        if not player:
+            return {
+                "success": False,
+                "message": "Player not found in this game",
+                "status_code": 404,
+            }
+
+        # 檢查玩家是否已經加入遊戲
+        if player.joined:
+            return {
+                "success": False,
+                "message": "Player already joined this game",
+                "status_code": 409,  # Conflict
+            }
+
+        # 成功加入遊戲
+        player.joined = True
+        game.action_message = player.player_id + " 加入遊戲"
+        game.event_name = "game_joined"
+        self.game_repository.update_game(game)
 
         all_joined = all(p.joined for p in game.players)
 
@@ -47,8 +72,17 @@ class GameService:
             game.action_message = "回合開始"
             game.event_name = "turn_started"
             self.game_repository.update_game(game)
-
-        return player_joined_stat
+            return {
+                "success": True,
+                "message": "All player joined the game successfully",
+                "status_code": 200,
+            }
+        else:
+            return {
+                "success": True,
+                "message": "Player joined the game successfully",
+                "status_code": 200,
+            }
 
     def start_game(self, game: Game) -> Game:
         game = game.init_game_state(game)

@@ -330,7 +330,10 @@ def test_player_rejoined(game_service, five_player_game):
     game.round = 2
     game_service.game_repository.update_game(game)
 
-    assert not game_service.player_join_game(game_id, "Yock")
+    result = game_service.player_join_game(game_id, "Yock")
+    assert result["success"] is False
+    assert result["status_code"] == 409  # 檢查是否因為玩家已加入而失敗
+
     game2 = game_service.game_repository.get_game_by_id(game_id)
     assert game2.round == 2
 
