@@ -58,10 +58,14 @@ const handleConnect = () => {
   socket.value.on('connect', () => {
     console.log('socket connected')
     joinGame()
-    // handleJoinGame()
+    getGameStatus().then(() => {
+      console.log('getGameStatus')
+      if (!gameStore.me?.joined){
+        handleJoinGame()
+      }
+    })
     // 因為panel已經加入過玩家 這裡再加一次會失敗
     // 須考慮之後從大平台加入時要如何加入game
-    getGameStatus()
     // socket.value.emit({ player_id: 'Leave3310' })
   })
   socket.value.on('game_update', (data) => {
@@ -132,13 +136,13 @@ const getGameStatus = async () => {
   })
   gameStore.setGameStatus(res.data)
 }
-// const handleJoinGame = async () => {
-//   const gameRoomID = route.query.gameRoomID
-//   const playerId = route.query.playerId || playerId.value
-//   await api.put(`/player/${ playerId }/join`, {
-//     gameRoomID,
-//   })
-// }
+const handleJoinGame = async () => {
+  const gameRoomID = route.params.gameId
+  // const playerId = playerId.value
+  await api.put(`/player/${ playerId.value }/join`, {
+    gameRoomID,
+  })
+}
 watch(
   () => gameStore.gameStatus.current_player,
   (newVal, oldVal) => {
