@@ -208,6 +208,9 @@ export const useGameStore = defineStore('useGameStore', () => {
       return true
     }
   })
+  const me = computed(() => {
+    return gameStatus.value.players.find((player) => player.player_id === playingId.value)
+  })
   return {
     gameStatus,
     roundStart,
@@ -245,5 +248,6 @@ export const useGameStore = defineStore('useGameStore', () => {
     selectSecretEnded,
     spellFailed,
     setSpellFailed,
+    me,
   }
 })
