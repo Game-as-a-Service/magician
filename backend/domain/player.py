@@ -72,7 +72,7 @@ class Player:
             player_id = data
             data = {"player_id": player_id}
         player_id = data.get("player_id")
-        name = data.get("name")
+        name = data.get("name", "")
         joined = data.get("joined", False)
         score = data.get("score", 0)
         HP = data.get("HP", 6)
