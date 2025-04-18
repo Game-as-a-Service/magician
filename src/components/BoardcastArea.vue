@@ -8,12 +8,14 @@ const messages = computed(() => gameStore.messages.slice(-17))
 </script>
 
 <template>
-  <div class=" bg-grey50 w-[450px] h-[490px] px-[25px] pt-[10px] relative">
+  <div
+    class="bg-grey50 w-[450px] xl:h-[490px] px-[25px] pt-[10px] relative overflow-y-auto h-[200px]"
+  >
     <p
       v-for="(item, index) in messages"
       :key="`${item}-${index}`"
       class="text-left w-full text-white font-medium mb-1 last:bg-orange px-2"
-    > 
+    >
       {{ item }}
     </p>
     <!-- <div class="absolute bottom-4 left-0 h-4 bg-pink w-full"></div> -->

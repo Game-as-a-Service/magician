@@ -187,35 +187,35 @@ onMounted(() => {
   console.log(import.meta.env.VITE_SOCKET_IO_URL)
 })
 const bgNumber = ref(Math.floor(Math.random() * 10))
-const handleUserConnect = () => {
-  if (route.query.gameRoomID) {
-    router.push({
-      path: route.path,
-      query: {
-        gameRoomID: route.query.gameRoomID,
-        playerId: playerId.value,
-      },
-    }).then(() => {
-      router.go(0)
-    })
-  } else {
-    router.push({
-      path: route.path,
-      query: {
-      // gameRoomID: gameId.value,
-      // gameId暫時沒用
-        playerId: playerId.value,
-      },
-    })
-  }
-}
+// const handleUserConnect = () => {
+//   if (route.query.gameRoomID) {
+//     router.push({
+//       path: route.path,
+//       query: {
+//         gameRoomID: route.query.gameRoomID,
+//         playerId: playerId.value,
+//       },
+//     }).then(() => {
+//       router.go(0)
+//     })
+//   } else {
+//     router.push({
+//       path: route.path,
+//       query: {
+//       // gameRoomID: gameId.value,
+//       // gameId暫時沒用
+//         playerId: playerId.value,
+//       },
+//     })
+//   }
+// }
 </script>
 
 <template>
-  <div>
+  <div class="h-full">
     <div
       :class="`bg-[url('@/assets/images/background/bg0` + bgNumber + `.webp')]`"
-      class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
+      class="bg-no-repeat bg-center bg-cover p-8 relative w-full h-full"
     >
       <div class="flex gap-11 top-8 left-8 absolute">
         <PlayDice v-if="gameStore.showDice"></PlayDice>
@@ -282,7 +282,7 @@ const handleUserConnect = () => {
         <FinalScoreBoard></FinalScoreBoard>
       </div>
     </div>
-    <div>
+    <!-- <div>
       <div
         v-if="playingId"
         class="text-white p-2"
@@ -334,7 +334,7 @@ const handleUserConnect = () => {
           StateQueue: {{ gameStore.gameStatusQueue.length }} 
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

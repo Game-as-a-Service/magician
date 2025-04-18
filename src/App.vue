@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-full h-full">
     <!-- <HintBar
       :hint-text="'輪到你了！ 請選擇魔法！'"
       :change-color="'bg-purple text-white'"
@@ -19,5 +19,8 @@
 <style>
 body{
   background-color: black;
+}
+body{
+  height: 100dvh;
 }
 </style>
