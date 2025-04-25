@@ -17,11 +17,11 @@ import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import PlayDice from '@/components/PlayDice.vue'
 import {
-  ref, computed, watch, onMounted 
+  ref, computed, watch, onMounted
 } from 'vue'
 import axios from 'axios'
 import {
-  useRouter, useRoute 
+  useRouter, useRoute
 } from 'vue-router'
 const route = useRoute()
 const apiWithToken = axios.create({
@@ -59,8 +59,8 @@ const handleConnect = () => {
     console.log('socket connected')
     joinGame()
     getGameStatus().then(() => {
-      console.log('getGameStatus')
-      if (!gameStore.me?.joined){
+      console.log('getGameStatus', gameStore.me, gameStore.playingId)
+      if (!gameStore.me?.joined) {
         handleJoinGame()
       }
     })
@@ -89,7 +89,7 @@ const handleConnect = () => {
     // gameStore.updateTmpGameStatus(newGameStatus)
     gameStore.enqueueGameStatus(newGameStatus)
     console.log('gameStore.processing', gameStore.processing, newGameStatus.action_message)
-    if (gameStore.processing === false){
+    if (gameStore.processing === false) {
       gameStore.processGameStatus()
     }
     // gameStore.processGameStatus()
@@ -209,6 +209,13 @@ const bgNumber = ref(Math.floor(Math.random() * 10))
 //     })
 //   }
 // }
+const handleExit = () => {
+  apiWithToken.delete('/endgame', {
+    data: {
+      'gameRoomID': route.params.gameId,
+    },
+  })
+}
 </script>
 
 <template>
@@ -222,9 +229,7 @@ const bgNumber = ref(Math.floor(Math.random() * 10))
 
         <ScoreBoard></ScoreBoard>
         <WarehouseUnknown></WarehouseUnknown>
-        <WarehouseSecret
-          :class="{ 'show-warehouse': showWarehouse }"
-        ></WarehouseSecret>
+        <WarehouseSecret :class="{ 'show-warehouse': showWarehouse }"></WarehouseSecret>
       </div>
       <div class="absolute top-8 right-8">
         <OpponentTable></OpponentTable>
@@ -242,11 +247,11 @@ const bgNumber = ref(Math.floor(Math.random() * 10))
         <TableWithPlayer></TableWithPlayer>
       </div>
       <OpenedBook></OpenedBook>
-      
+
       <div v-if="gameStore.showVideo">
         <PlayVideo>
         </PlayVideo>
-      </div>      
+      </div>
       <div
         v-if="gameStore.showSecretTable"
         class="flex justify-center items-center bg-grey50 top-0 z-50 left-0 w-full h-full backgroundBlur absolute"
@@ -279,7 +284,7 @@ const bgNumber = ref(Math.floor(Math.random() * 10))
         v-if="gameOver"
         class="bg-grey50 z-50 top-1/4 left-0 w-full backgroundBlur absolute flex justify-center items-center"
       >
-        <FinalScoreBoard></FinalScoreBoard>
+        <FinalScoreBoard @exit="handleExit"></FinalScoreBoard>
       </div>
     </div>
     <!-- <div>
