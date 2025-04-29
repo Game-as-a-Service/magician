@@ -17,6 +17,7 @@ class Game:
 
     def __init__(self, game_id: str, players: List[dict], active: bool = True):
         self.game_id = game_id
+        self.room_id:str = ""
         # 房間中的玩家
         self.players = [Player.from_dict(player) for player in players]
         self.active = active  # 遊戲是否進行中
@@ -131,6 +132,7 @@ class Game:
             "event_name": self.event_name,
             "spell_cast_number": self.spell_cast_number,
             "damage_info": self.damage_info,
+            "room_id": self.room_id,
         }
 
         if self.current_player is not None:
@@ -168,6 +170,9 @@ class Game:
 
         if "action_message" in data:
             game.action_message = data["action_message"]
+
+        if "room_id" in data:
+            game.room_id = data["room_id"]
 
         if "current_player" in data:
             game.current_player = data["current_player"]

@@ -208,8 +208,8 @@ def start_game(current_user, nickname):
     if current_user not in player_ids:
         return jsonify({"message": "Unauthorized to start this game"}), 403
 
-    room_id = GameService.create_game(player_ids, player_nickname)
-    gameRoomID = str(room_id.game_id)
+    game = GameService.create_game(player_ids, room_id, player_nickname)
+    gameRoomID = str(game.game_id)
     return (
         jsonify(
             {

@@ -10,10 +10,12 @@ class GameService:
         self.game_repository = game_repository
 
     def create_game(
-        self, player_ids: list[str], player_nickname: Optional[List[str]] = None
+        self, player_ids: list[str] ,room_id:Optional[str] = "" ,player_nickname: Optional[List[str]] = None
     ) -> Game:
         game = Game(game_id=None, players=player_ids)
         game_id = self.game_repository.create_game(game)
+        if room_id:
+            game.room_id = room_id
         game.game_id = game_id  # 從資料取得的game_id
         game.action_message = "開始遊戲"
         game.event_name = "game_started"
