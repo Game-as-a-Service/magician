@@ -3,8 +3,6 @@ import PlayVideo from '@/components/PlayVideo.vue'
 import LadderBoard from '@/components/LadderBoard.vue'
 import ScoreBoard from '@/components/ScoreBoard.vue'
 import FinalScoreBoard from '@/components/FinalScoreBoard.vue'
-import WarehouseUnknown from '@/components/WarehouseUnknown.vue'
-import WarehouseSecret from '@/components/WarehouseSecret.vue'
 import TableWithPlayer from '@/components/TableWithPlayer.vue'
 import BoardcastArea from '@/components/BoardcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
@@ -13,6 +11,7 @@ import OpenedBook from './OpenedBook.vue'
 import SpellMagicBoard from './SpellMagicBoard.vue'
 import SecretSelectTable from './SecretSelectTable.vue'
 import HintBar from '@/components/common/HintBar.vue'
+import WarehouseMix from '@/components/WarehouseMix.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import PlayDice from '@/components/PlayDice.vue'
@@ -228,20 +227,22 @@ const handleExit = () => {
         <PlayDice v-if="gameStore.showDice"></PlayDice>
 
         <ScoreBoard></ScoreBoard>
-        <WarehouseUnknown></WarehouseUnknown>
-        <WarehouseSecret :class="{ 'show-warehouse': showWarehouse }"></WarehouseSecret>
       </div>
       <div class="absolute top-8 right-8">
-        <OpponentTable></OpponentTable>
       </div>
       <div class="absolute bottom-8 left-8">
         <LadderBoard></LadderBoard>
       </div>
-      <div class="absolute bottom-8 right-8">
-        <BoardcastArea></BoardcastArea>
-      </div>
-      <div class="absolute bottom-8 right-[520px]">
-        <MyState></MyState>
+      <!-- 右側排版 -->
+      <div class=" absolute right-0 top-0 p-4 h-[100dvh]">
+        <div class="h-full flex flex-col justify-between items-end"> 
+          <OpponentTable></OpponentTable>
+          <div class="flex w-full flex-row justify-between mb-4 ">
+            <WarehouseMix :class="{ 'show-warehouse': showWarehouse }"></WarehouseMix>
+            <MyState></MyState>
+          </div>
+          <BoardcastArea></BoardcastArea>
+        </div>
       </div>
       <div class="absolute z-40 top-[330px] left-[370px]">
         <TableWithPlayer></TableWithPlayer>
@@ -344,6 +345,7 @@ const handleExit = () => {
 </template>
 
 <style scope>
+
 .show-warehouse {
   z-index: 50;
   border: 5px solid #fff;
