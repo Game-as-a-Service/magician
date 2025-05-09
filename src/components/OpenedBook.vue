@@ -13,7 +13,7 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
 
 <template>
   <div
-    class="absolute top-[750px] left-[830px]  "
+    class="absolute bottom-[3vh] left-[50vw]  "
   >
     <div
       class="group cursor-pointer"

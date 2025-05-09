@@ -3,8 +3,6 @@ import PlayVideo from '@/components/PlayVideo.vue'
 import LadderBoard from '@/components/LadderBoard.vue'
 import ScoreBoard from '@/components/ScoreBoard.vue'
 import FinalScoreBoard from '@/components/FinalScoreBoard.vue'
-import WarehouseUnknown from '@/components/WarehouseUnknown.vue'
-import WarehouseSecret from '@/components/WarehouseSecret.vue'
 import TableWithPlayer from '@/components/TableWithPlayer.vue'
 import BoardcastArea from '@/components/BoardcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
@@ -13,15 +11,16 @@ import OpenedBook from './OpenedBook.vue'
 import SpellMagicBoard from './SpellMagicBoard.vue'
 import SecretSelectTable from './SecretSelectTable.vue'
 import HintBar from '@/components/common/HintBar.vue'
+import WarehouseMix from '@/components/WarehouseMix.vue'
 import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import PlayDice from '@/components/PlayDice.vue'
 import {
-  ref, computed, watch, onMounted 
+  ref, computed, watch, onMounted
 } from 'vue'
 import axios from 'axios'
 import {
-  useRouter, useRoute 
+  useRouter, useRoute
 } from 'vue-router'
 const route = useRoute()
 const apiWithToken = axios.create({
@@ -59,8 +58,8 @@ const handleConnect = () => {
     console.log('socket connected')
     joinGame()
     getGameStatus().then(() => {
-      console.log('getGameStatus')
-      if (!gameStore.me?.joined){
+      console.log('getGameStatus', gameStore.me, gameStore.playingId)
+      if (!gameStore.me?.joined) {
         handleJoinGame()
       }
     })
@@ -89,7 +88,7 @@ const handleConnect = () => {
     // gameStore.updateTmpGameStatus(newGameStatus)
     gameStore.enqueueGameStatus(newGameStatus)
     console.log('gameStore.processing', gameStore.processing, newGameStatus.action_message)
-    if (gameStore.processing === false){
+    if (gameStore.processing === false) {
       gameStore.processGameStatus()
     }
     // gameStore.processGameStatus()
@@ -187,66 +186,75 @@ onMounted(() => {
   console.log(import.meta.env.VITE_SOCKET_IO_URL)
 })
 const bgNumber = ref(Math.floor(Math.random() * 10))
-const handleUserConnect = () => {
-  if (route.query.gameRoomID) {
-    router.push({
-      path: route.path,
-      query: {
-        gameRoomID: route.query.gameRoomID,
-        playerId: playerId.value,
-      },
-    }).then(() => {
-      router.go(0)
-    })
-  } else {
-    router.push({
-      path: route.path,
-      query: {
-      // gameRoomID: gameId.value,
-      // gameId暫時沒用
-        playerId: playerId.value,
-      },
-    })
-  }
+// const handleUserConnect = () => {
+//   if (route.query.gameRoomID) {
+//     router.push({
+//       path: route.path,
+//       query: {
+//         gameRoomID: route.query.gameRoomID,
+//         playerId: playerId.value,
+//       },
+//     }).then(() => {
+//       router.go(0)
+//     })
+//   } else {
+//     router.push({
+//       path: route.path,
+//       query: {
+//       // gameRoomID: gameId.value,
+//       // gameId暫時沒用
+//         playerId: playerId.value,
+//       },
+//     })
+//   }
+// }
+const handleExit = () => {
+  apiWithToken.delete('/endgame', {
+    data: {
+      'gameRoomID': gameStore.gameStatus.room_id
+    },
+  })
 }
 </script>
 
 <template>
-  <div>
+  <div class="h-full">
     <div
       :class="`bg-[url('@/assets/images/background/bg0` + bgNumber + `.webp')]`"
-      class="bg-no-repeat bg-center bg-cover w-[1440px] h-[1024px] p-8 relative"
+      class="bg-no-repeat bg-center bg-cover p-8 relative w-full h-full"
     >
       <div class="flex gap-11 top-8 left-8 absolute">
         <PlayDice v-if="gameStore.showDice"></PlayDice>
 
         <ScoreBoard></ScoreBoard>
-        <WarehouseUnknown></WarehouseUnknown>
-        <WarehouseSecret
-          :class="{ 'show-warehouse': showWarehouse }"
-        ></WarehouseSecret>
       </div>
       <div class="absolute top-8 right-8">
-        <OpponentTable></OpponentTable>
       </div>
       <div class="absolute bottom-8 left-8">
         <LadderBoard></LadderBoard>
       </div>
-      <div class="absolute bottom-8 right-8">
-        <BoardcastArea></BoardcastArea>
-      </div>
-      <div class="absolute bottom-8 right-[520px]">
-        <MyState></MyState>
-      </div>
-      <div class="absolute z-40 top-[330px] left-[370px]">
-        <TableWithPlayer></TableWithPlayer>
+      <!-- 右側排版 -->
+      <div class=" absolute right-0 top-0 p-4 h-[100dvh]">
+        <div class="h-full flex flex-col justify-between items-end"> 
+          <div class="w-auto flex flex-row ">
+            <div class=" z-40 translate-x-4 translate-y-24 "> 
+              <TableWithPlayer></TableWithPlayer>
+            </div>
+            <OpponentTable></OpponentTable>
+          </div>
+          <div class="flex gap-8  max-w-[40vw] flex-row justify-end mb-4 ">
+            <WarehouseMix :class="{ 'show-warehouse': showWarehouse }"></WarehouseMix>
+            <MyState></MyState>
+          </div>
+          <BoardcastArea></BoardcastArea>
+        </div>
       </div>
       <OpenedBook></OpenedBook>
-      
+
       <div v-if="gameStore.showVideo">
         <PlayVideo>
         </PlayVideo>
-      </div>      
+      </div>
       <div
         v-if="gameStore.showSecretTable"
         class="flex justify-center items-center bg-grey50 top-0 z-50 left-0 w-full h-full backgroundBlur absolute"
@@ -279,10 +287,10 @@ const handleUserConnect = () => {
         v-if="gameOver"
         class="bg-grey50 z-50 top-1/4 left-0 w-full backgroundBlur absolute flex justify-center items-center"
       >
-        <FinalScoreBoard></FinalScoreBoard>
+        <FinalScoreBoard @exit="handleExit"></FinalScoreBoard>
       </div>
     </div>
-    <div>
+    <!-- <div>
       <div
         v-if="playingId"
         class="text-white p-2"
@@ -334,11 +342,12 @@ const handleUserConnect = () => {
           StateQueue: {{ gameStore.gameStatusQueue.length }} 
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <style scope>
+
 .show-warehouse {
   z-index: 50;
   border: 5px solid #fff;

@@ -12,6 +12,7 @@ const players = computed(() =>
   })).sort((a, b) => b.score - a.score)
 )
 const winner = computed(() => players.value[0].name)
+const emits = defineEmits([ 'exit' ])
 </script>
 
 <template>
@@ -36,7 +37,10 @@ const winner = computed(() => players.value[0].name)
         </h6>
       </div>
     </div>
-    <div class="flex justify-evenly pt-4">
+    <div
+      class="flex justify-evenly pt-4"
+      @click="emits('exit')"
+    >
       <img src="/src/assets/images/sundries/door-leave.svg"> 
     </div>
   </div>
