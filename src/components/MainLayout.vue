@@ -237,7 +237,7 @@ const handleExit = () => {
       <div class=" absolute right-0 top-0 p-4 h-[100dvh]">
         <div class="h-full flex flex-col justify-between items-end"> 
           <div class="w-auto flex flex-row ">
-            <div class=" z-40 translate-x-6 translate-y-24 "> 
+            <div class=" z-40 translate-x-4 translate-y-24 "> 
               <TableWithPlayer></TableWithPlayer>
             </div>
             <OpponentTable></OpponentTable>
