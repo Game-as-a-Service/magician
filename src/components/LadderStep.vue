@@ -17,7 +17,7 @@ const getMagicStoneUrl = (magicStone) => magicStones[`magic${ magicStone }`]
 
 <template>
   <div class="flex">
-    <div class="border border-grey70 bg-grey50 w-[60px] h-[76px] flex justify-center items-center">
+    <div class="border border-grey70 bg-grey50 w-[50px] h-[63px] flex justify-center items-center">
       <img
         class="opacity-50"
         :src="getMagicStoneUrl(magicNumber)"
@@ -26,7 +26,7 @@ const getMagicStoneUrl = (magicStone) => magicStones[`magic${ magicStone }`]
     <div
       v-for="number in magicNumber"
       :key="number"
-      class="border border-grey70 bg-grey50 w-[60px] h-[76px]"
+      class="border border-grey70 bg-grey50 w-[50px] h-[63px]"
     >
       <img
         v-if="used >= number"

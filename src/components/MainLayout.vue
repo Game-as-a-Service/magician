@@ -236,16 +236,18 @@ const handleExit = () => {
       <!-- 右側排版 -->
       <div class=" absolute right-0 top-0 p-4 h-[100dvh]">
         <div class="h-full flex flex-col justify-between items-end"> 
-          <OpponentTable></OpponentTable>
-          <div class="flex w-full flex-row justify-between mb-4 ">
+          <div class="w-auto flex flex-row ">
+            <div class=" z-40 translate-x-6 translate-y-24 "> 
+              <TableWithPlayer></TableWithPlayer>
+            </div>
+            <OpponentTable></OpponentTable>
+          </div>
+          <div class="flex gap-8  max-w-[40vw] flex-row justify-end mb-4 ">
             <WarehouseMix :class="{ 'show-warehouse': showWarehouse }"></WarehouseMix>
             <MyState></MyState>
           </div>
           <BoardcastArea></BoardcastArea>
         </div>
-      </div>
-      <div class="absolute z-40 top-[330px] left-[370px]">
-        <TableWithPlayer></TableWithPlayer>
       </div>
       <OpenedBook></OpenedBook>
 
