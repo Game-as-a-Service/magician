@@ -4,7 +4,7 @@ import LadderBoard from '@/components/LadderBoard.vue'
 import ScoreBoard from '@/components/ScoreBoard.vue'
 import FinalScoreBoard from '@/components/FinalScoreBoard.vue'
 import TableWithPlayer from '@/components/TableWithPlayer.vue'
-import BoardcastArea from '@/components/BoardcastArea.vue'
+import BroadcastArea from '@/components/BroadcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
 import OpenedBook from './OpenedBook.vue'
@@ -246,7 +246,7 @@ const handleExit = () => {
             <WarehouseMix :class="{ 'show-warehouse': showWarehouse }"></WarehouseMix>
             <MyState></MyState>
           </div>
-          <BoardcastArea></BoardcastArea>
+          <BroadcastArea></BroadcastArea>
         </div>
       </div>
       <OpenedBook></OpenedBook>

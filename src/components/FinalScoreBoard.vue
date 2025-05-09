@@ -38,7 +38,7 @@ const emits = defineEmits([ 'exit' ])
       </div>
     </div>
     <div
-      class="flex justify-evenly pt-4"
+      class="flex justify-evenly pt-4 cursor-pointer"
       @click="emits('exit')"
     >
       <img src="/src/assets/images/sundries/door-leave.svg"> 
