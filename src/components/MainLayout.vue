@@ -211,7 +211,7 @@ const bgNumber = ref(Math.floor(Math.random() * 10))
 const handleExit = () => {
   apiWithToken.delete('/endgame', {
     data: {
-      'gameRoomID': route.params.gameId,
+      'gameRoomID': gameStore.gameStatus.room_id
     },
   })
 }
