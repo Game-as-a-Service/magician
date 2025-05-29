@@ -138,14 +138,13 @@ watch(() => gameStore.showSecretTable, (showSecretTable) => {
 </script>
 
 <template>
-  <div class="relative">
+  <div>
     <div
-      class="w-[870px] h-[920px] grid grid-cols-3 absolute top-[190px] left-[270px]"
+      class="w-[500px] h-[300px] grid gap-4 grid-cols-4 absolute bottom-5 right-10 max-[1400px]:scale-75 max-[1400px]:right-[-32px]"
     >
       <div
-        v-for="i in 4"
+        v-for="i in 8"
         :key="i"
-        class="border border-grey70 w-[120px] h-[143px] flex justify-center items-center"
       >
         <img
           v-if="lastMagic <= i"
@@ -160,41 +159,22 @@ watch(() => gameStore.showSecretTable, (showSecretTable) => {
           src="/src/assets/images/stone/stone.png"
         >
       </div>
-      <div></div>
-      <div
-        v-for="i in 4"
-        :key="i"
-        class="border border-grey70 w-[120px] h-[143px] flex justify-center items-center"
-      >
-        <img
-          v-if="lastMagic <= i + 4"
-          class="cursor-pointer"
-          :src="getImageUrl(i + 4)"
-          @mouseenter="setHoverMagic(i + 4)"
-          @mouseleave="setHoverMagic(0)"
-          @click="playStone(i + 4)"
-        >
-        <img
-          v-else
-          src="/src/assets/images/stone/stone.png"
-        >
-      </div>
     </div>
-    <div class="absolute top-[450px] left-[980px]">
+    <div class="absolute bottom-5 right-[560px] max-[1400px]:scale-75 max-[1400px]:right-[360px]">
       <div class="parallelogram p-2">
         <p>{{ focusMagic.title }}</p>
         <p>{{ focusMagic.content }}</p>
       </div>
     </div>
-    <div class="absolute top-[666px] left-[1233px]">
+    <div class="absolute top-11 left-64 flex items-center gap-5 flex-col">
       <CountDown v-if="!gameStore.showSecretTable"></CountDown>
-    </div>
-    <div
-      v-if="lastMagic !== 0"
-      class="absolute top-[775px] rounded-lg left-[1233px] bg-white text-[#730000] text-3xl px-3 py-2 cursor-pointer"
-      @click="spellStop"
-    >
-      不施法
+      <!-- v-if="lastMagic !== 0" -->
+      <div
+        class="rounded-lg bg-white text-[#730000] text-3xl px-3 py-2 cursor-pointer hover:text-white hover:bg-[#730000] transition-colors"
+        @click="spellStop"
+      >
+        不施法
+      </div>
     </div>
   </div>
 </template>
@@ -222,7 +202,7 @@ watch(() => gameStore.showSecretTable, (showSecretTable) => {
   width: 400px;
   height: 150px;
   margin: 0px; /* 可根据需要调整位置 */
-  background-color: #730000;
+  background-color: rgba(115, 0, 0, 0.3);
   border-radius: 5px;
   transform: skew(-10deg);
 }

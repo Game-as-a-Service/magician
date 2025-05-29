@@ -233,13 +233,14 @@ const handleExit = () => {
       <div class="absolute bottom-8 left-8">
         <LadderBoard></LadderBoard>
       </div>
+      <div class="absolute left-[40%] top-1/2 translate-y-[-50%] translate-x-[-50%] z-40 max-[1400px]:scale-75">
+        <TableWithPlayer></TableWithPlayer>
+        <OpenedBook></OpenedBook>
+      </div>
       <!-- 右側排版 -->
-      <div class=" absolute right-0 top-0 p-4 h-[100dvh]">
+      <div class="absolute right-0 top-0 p-4 h-[100dvh]">
         <div class="h-full flex flex-col justify-between items-end"> 
           <div class="w-auto flex flex-row ">
-            <div class=" z-40 translate-x-4 translate-y-24 "> 
-              <TableWithPlayer></TableWithPlayer>
-            </div>
             <OpponentTable></OpponentTable>
           </div>
           <div class="flex gap-8  max-w-[40vw] flex-row justify-end mb-4 ">
@@ -249,7 +250,6 @@ const handleExit = () => {
           <BroadcastArea></BroadcastArea>
         </div>
       </div>
-      <OpenedBook></OpenedBook>
 
       <div v-if="gameStore.showVideo">
         <PlayVideo>
@@ -278,7 +278,7 @@ const handleExit = () => {
       >
       </HintBar>
       <div
-        v-if="myTurn && !gameStore.spellFailed && !gameOver"
+        v-if="myTurn && !gameStore.spellFailed && !gameOver"  
         class="bg-grey50 top-0 left-0 w-full h-full backgroundBlur absolute"
       >
         <SpellMagicBoard></SpellMagicBoard>
