@@ -17,7 +17,8 @@ import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import PlayDice from '@/components/PlayDice.vue'
 import {
-  ref, computed, watch, onMounted
+  ref, computed, watch, onMounted,
+  provide
 } from 'vue'
 import axios from 'axios'
 import {
@@ -143,6 +144,8 @@ const handleJoinGame = async () => {
     gameRoomID,
   })
 }
+const showOpenedBook = ref(false)
+provide('showOpenedBook', showOpenedBook)
 watch(
   () => gameStore.gameStatus.current_player,
   (newVal, oldVal) => {

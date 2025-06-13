@@ -1,39 +1,15 @@
 <script setup>
 import {
-  computed, ref 
+  computed, inject 
 } from 'vue'
 import CloseIcon from '@/assets/images/book/CloseIcon.vue'
-import MagicCircle from '@/assets/images/book/magic-circle.png'
-import Book2 from '@/assets/images/book/book2.png'
-const showBook = ref(false)
-const magicCircleClass = computed(() => showBook.value ? 'magic-circle' : 'hidden')
+const showBook = inject('showOpenedBook')
+// const showBook = ref(true)
 const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
 
 </script>
 
 <template>
-  <div>
-    <div
-      class="group flex justify-end [&>img]:cursor-pointer"
-      @click="showBook = true"
-    >
-      <img
-        class="w-[100px] mr-2 group-hover:hidden"
-        src="/src/assets/images/book/book1.png"
-      >
-      <img
-        :src="Book2"
-        class="hidden w-[100px] group-hover:block"
-      >
-    </div>
-    <div 
-      :class="magicCircleClass"
-    >
-      <img
-        :src="MagicCircle"
-      >
-    </div>
-  </div>
   <div
     class="font bg-grey50 inset-0 z-50 absolute backdrop-blur-sm magic-book"
     :class="magicBookClass"
@@ -102,7 +78,7 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
         ></div>
         <CloseIcon
           class="w-[80px] fill-[#F7F7F7] group-hover:fill-[#730000] transition-all group-hover:rotate-180 mr-[14px]"
-        ></CloseIcon>
+        />
         <div
           class="text-[28px] font-medium text-transparent group-hover:text-[#730000] shrink-0 transition-colors"
         >
@@ -112,7 +88,7 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
       <img
         class="w-full h-full top-0 left-0 absolute z-0"
         src="/src/assets/images/book/magicBookOpen.png"
-      >
+      />
     </div>
   </div>
 </template>
