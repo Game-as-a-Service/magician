@@ -12,11 +12,9 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
 </script>
 
 <template>
-  <div
-    class="absolute bottom-[3vh] left-[50vw]  "
-  >
+  <div>
     <div
-      class="group cursor-pointer"
+      class="group flex justify-end [&>img]:cursor-pointer"
       @click="showBook = true"
     >
       <img
@@ -37,7 +35,7 @@ const magicBookClass = computed(() => showBook.value ? 'magic-book' : 'hidden')
     </div>
   </div>
   <div
-    class="font bg-grey50 z-50 w-full h-full top-0 left-0 absolute backdrop-blur-sm magic-book"
+    class="font bg-grey50 inset-0 z-50 absolute backdrop-blur-sm magic-book"
     :class="magicBookClass"
   >
     <div
