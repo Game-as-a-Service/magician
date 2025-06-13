@@ -9,7 +9,7 @@
       :hint-text="'遊戲開始'"
       :change-color="'bg-skin'"
     ></HintBar> -->
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 

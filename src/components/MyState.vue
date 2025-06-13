@@ -59,7 +59,7 @@ const secretStones = computed(() => {
         <img
           class="stone-img"
           :src="getMagicStoneUrl(stone)"
-        >  
+        />  
       </div>
     </div>
     

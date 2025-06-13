@@ -35,8 +35,7 @@ const afterAction = computed(() => {
       :muted="afterAction"
       :loop="false"
       @ended="ended"
-    >
-    </VideoBackground>
+    />
   </div>
 </template>
 

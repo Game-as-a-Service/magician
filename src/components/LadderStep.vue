@@ -21,7 +21,7 @@ const getMagicStoneUrl = (magicStone) => magicStones[`magic${ magicStone }`]
       <img
         class="opacity-50"
         :src="getMagicStoneUrl(magicNumber)"
-      >
+      />
     </div>
     <div
       v-for="number in magicNumber"
@@ -31,7 +31,7 @@ const getMagicStoneUrl = (magicStone) => magicStones[`magic${ magicStone }`]
       <img
         v-if="used >= number"
         :src="getMagicStoneUrl(magicNumber)"
-      >
+      />
     </div>
     <div></div>
   </div>

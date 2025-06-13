@@ -153,11 +153,11 @@ watch(() => gameStore.showSecretTable, (showSecretTable) => {
           @mouseenter="setHoverMagic(i)"
           @mouseleave="setHoverMagic(0)"
           @click="playStone(i)"
-        >
+        />
         <img
           v-else
           src="/src/assets/images/stone/stone.png"
-        >
+        />
       </div>
     </div>
     <div class="absolute bottom-5 right-[560px] max-[1400px]:scale-75 max-[1400px]:right-[360px]">
@@ -167,7 +167,7 @@ watch(() => gameStore.showSecretTable, (showSecretTable) => {
       </div>
     </div>
     <div class="absolute top-11 left-64 flex items-center gap-5 flex-col">
-      <CountDown v-if="!gameStore.showSecretTable"></CountDown>
+      <CountDown v-if="!gameStore.showSecretTable" />
       <!-- v-if="lastMagic !== 0" -->
       <div
         class="rounded-lg bg-white text-[#730000] text-3xl px-3 py-2 cursor-pointer hover:text-white hover:bg-[#730000] transition-colors"
@@ -202,7 +202,7 @@ watch(() => gameStore.showSecretTable, (showSecretTable) => {
   width: 400px;
   height: 150px;
   margin: 0px; /* 可根据需要调整位置 */
-  background-color: rgba(115, 0, 0, 0.3);
+  background-color: rgba(115, 0, 0, .3);
   border-radius: 5px;
   transform: skew(-10deg);
 }

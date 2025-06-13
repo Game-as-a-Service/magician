@@ -105,7 +105,7 @@ const spells = [
       </div>
 
       <div class="w-[60px] mr-2">
-        <img :src="opponent.avatar">
+        <img :src="opponent.avatar" />
       </div>
       <div
         :class="
@@ -123,7 +123,7 @@ const spells = [
           :key="`${stone}-${i}`"
           :src="getMagicStoneUrl(stone)"
           class="px-0.5 w-[65px]"
-        >
+        />
       </div>
     </div>
   </div>
