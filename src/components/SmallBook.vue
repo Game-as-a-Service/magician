@@ -107,28 +107,28 @@ const magicCircleClass = computed(() => showBook.value ? 'magic-circle' : 'hidde
 
   45% {
     filter: blur(0px);
-    transform: translateX(-280%) translateY(-240%) rotate(343deg) scale(4);
+    transform: translateX(100%) translateY(150%) rotate(100deg) scale(4);
     /* transform-origin: (50%,50%); */
   }
 
   55% {
     filter: blur(1px);
-    transform: translateX(-280%) translateY(-240%) rotate(350deg) scale(4);
+    transform: translateX(197%) translateY(330%) rotate(350deg) scale(4);
   }
 
   65% {
     filter: blur(3px);
-    transform: translateX(-280%) translateY(-240%) rotate(343deg) scale(4);
+    transform: translateX(197%) translateY(330%) rotate(343deg) scale(4);
   }
 
   75% {
     filter: blur(1px);
-    transform: translateX(-280%) translateY(-240%) rotate(10deg) scale(4);
+    transform: translateX(197%) translateY(330%) rotate(10deg) scale(4);
   }
 
   100% {
     filter: blur(0px);
-    transform: translateX(36%) translateY(60%) rotate(15deg) scale(.6);
+    transform: translateX(197%) translateY(330%) rotate(15deg) scale(.6);
   }
 }
 
