@@ -233,7 +233,7 @@ const getTimeString = () => {
               v-model="autoJoinBaseTimer"
               type="radio"
               :value="value"
-            >
+            />
             {{ value < 0 ? '取消自動加入房間' : `${ value } 秒後自動加入房間` }}
           </label>
         </div>

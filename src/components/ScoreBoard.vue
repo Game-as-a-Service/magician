@@ -53,7 +53,7 @@ const players = computed(() =>
       class="flex items-center"
     >
       <div class="w-[30px] h-[40px] mr-[8px] py-[5px]">
-        <img :src="item.imgSrc">
+        <img :src="item.imgSrc" />
       </div>
       <h6 class="flex items-center">
         <div class="truncate w-[110px]">

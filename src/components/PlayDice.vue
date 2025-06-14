@@ -23,7 +23,7 @@ onMounted(() => {
     <input
       id="dice"
       type="checkbox"
-    >
+    />
     <label for="dice">
       <div
         class="box"

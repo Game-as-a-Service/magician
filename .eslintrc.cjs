@@ -130,12 +130,12 @@ module.exports = {
     'vue/html-self-closing': [
       'error', {
         html: {
-          void: 'never',
+          void: 'always',
           normal: 'never',
-          component: 'never'
+          component: 'always'
         },
-        svg: 'never',
-        math: 'never'
+        svg: 'always',
+        math: 'always'
       }
     ],
     'vue/component-name-in-template-casing': [ 'error', 'PascalCase', {

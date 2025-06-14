@@ -41,10 +41,10 @@ resetTimer()
         class="border border-grey70 w-[120px] h-[143px] flex justify-center items-center cursor-pointer"
         @click="clickSecretStone()"
       >
-        <img src="/src/assets/images/stone/stone.png">
+        <img src="/src/assets/images/stone/stone.png" />
       </div>
     </div>
-    <CountDown class="z-50"></CountDown>
+    <CountDown class="z-50" />
   </div>
 </template>
 

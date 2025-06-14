@@ -27,7 +27,7 @@ const emits = defineEmits([ 'exit' ])
         class="flex items-center w-[700px] p-2 border-b border-grey70"
       >
         <div class="w-[60px] h-[60px]">
-          <img :src="player.imgSrc">
+          <img :src="player.imgSrc" />
         </div>
         <h6 class="pl-3 flex items-center text-[28px] ">
           <div class="truncate w-[240px]">
@@ -41,7 +41,7 @@ const emits = defineEmits([ 'exit' ])
       class="flex justify-evenly pt-4 cursor-pointer"
       @click="emits('exit')"
     >
-      <img src="/src/assets/images/sundries/door-leave.svg"> 
+      <img src="/src/assets/images/sundries/door-leave.svg" /> 
     </div>
   </div>
 </template>

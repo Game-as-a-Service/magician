@@ -96,7 +96,7 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
       class="w-[100px] h-[100px] absolute hover-player"
       :class="player.playerClass"
     >
-      <img :src="player.imgSrc">
+      <img :src="player.imgSrc" />
       <div
         class="transition duration-500 ease-linear"
         :class="{ healable: player.healable,
@@ -106,13 +106,13 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
         v-if="player.isPlaying"
         class="w-[80px] h-[100px] absolute top-3 -left-8 -rotate-[18deg]"
       >
-        <img src="/src/assets/images/table/magicWand.svg">
+        <img src="/src/assets/images/table/magicWand.svg" />
       </div>
       <div
         v-if="player.isPlaying && gameStore.showFailAnimation"
         class="absolute -rotate-[18deg] spell-wrong"
       >
-        <img src="/src/assets/images/sundries/smoke.png">
+        <img src="/src/assets/images/sundries/smoke.png" />
       </div>
       <template v-if="player.hpChange<0">
         <div
@@ -121,7 +121,7 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
           class="absolute blood"
           :style="{ top: `${(i-1) * 30 + 60}px` }"
         >
-          <img src="/src/assets/images/sundries/blood.png">
+          <img src="/src/assets/images/sundries/blood.png" />
         </div>
       </template>
       <div class="info-box absolute">
@@ -150,7 +150,7 @@ const healable = (playerIndex, magicNumber, playingIndex) => {
         {{ item.hp }}
       </div>
     </div>
-    <TableDesk></TableDesk>
+    <TableDesk />
   </div>
 </template>
 

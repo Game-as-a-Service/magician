@@ -8,6 +8,7 @@ import BroadcastArea from '@/components/BroadcastArea.vue'
 import OpponentTable from '@/components/OpponentTable.vue'
 import MyState from '@/components/MyState.vue'
 import OpenedBook from './OpenedBook.vue'
+import SmallBook from './SmallBook.vue'
 import SpellMagicBoard from './SpellMagicBoard.vue'
 import SecretSelectTable from './SecretSelectTable.vue'
 import HintBar from '@/components/common/HintBar.vue'
@@ -16,7 +17,8 @@ import io from 'socket.io-client'
 import { useGameStore } from '@/stores/game'
 import PlayDice from '@/components/PlayDice.vue'
 import {
-  ref, computed, watch, onMounted
+  ref, computed, watch, onMounted,
+  provide
 } from 'vue'
 import axios from 'axios'
 import {
@@ -142,6 +144,8 @@ const handleJoinGame = async () => {
     gameRoomID,
   })
 }
+const showOpenedBook = ref(false)
+provide('showOpenedBook', showOpenedBook)
 watch(
   () => gameStore.gameStatus.current_player,
   (newVal, oldVal) => {
@@ -224,42 +228,48 @@ const handleExit = () => {
       class="bg-no-repeat bg-center bg-cover p-8 relative w-full h-full"
     >
       <div class="flex gap-11 top-8 left-8 absolute">
-        <PlayDice v-if="gameStore.showDice"></PlayDice>
+        <PlayDice v-if="gameStore.showDice" />
 
-        <ScoreBoard></ScoreBoard>
+        <div class="flex gap-4">
+          <ScoreBoard />
+          <SmallBook /> 
+        </div>
       </div>
       <div class="absolute top-8 right-8">
       </div>
       <div class="absolute bottom-8 left-8">
-        <LadderBoard></LadderBoard>
+        <LadderBoard />
       </div>
       <div class="absolute left-[40%] top-1/2 translate-y-[-50%] translate-x-[-50%] z-40 max-[1400px]:scale-75">
-        <TableWithPlayer></TableWithPlayer>
-        <OpenedBook></OpenedBook>
+        <TableWithPlayer />
       </div>
+      <OpenedBook />
+      <!-- <div class="absolute left-[40%] top-8 translate-y-[-50%] translate-x-[-50%] z-40 max-[1400px]:scale-75">
+        <OpenedBook></OpenedBook>
+      </div> -->
+      
       <!-- 右側排版 -->
       <div class="absolute right-0 top-0 p-4 h-[100dvh]">
         <div class="h-full flex flex-col justify-between items-end"> 
           <div class="w-auto flex flex-row ">
-            <OpponentTable></OpponentTable>
+            <OpponentTable />
           </div>
           <div class="flex gap-8  max-w-[40vw] flex-row justify-end mb-4 ">
-            <WarehouseMix :class="{ 'show-warehouse': showWarehouse }"></WarehouseMix>
-            <MyState></MyState>
+            <WarehouseMix :class="{ 'show-warehouse': showWarehouse }" />
+            <MyState />
           </div>
-          <BroadcastArea></BroadcastArea>
+          <BroadcastArea />
         </div>
       </div>
 
       <div v-if="gameStore.showVideo">
-        <PlayVideo>
-        </PlayVideo>
+        <PlayVideo />
       </div>
       <div
         v-if="gameStore.showSecretTable"
         class="flex justify-center items-center bg-grey50 top-0 z-50 left-0 w-full h-full backgroundBlur absolute"
       >
-        <SecretSelectTable></SecretSelectTable>
+        <SecretSelectTable />
       </div>
 
       <HintBar
@@ -267,27 +277,25 @@ const handleExit = () => {
         :hint-text="'輪到你了！ 請選擇魔法！'"
         :change-color="'bg-purple text-white'"
         class="z-50"
-      >
-      </HintBar>
+      />
       <HintBar
         v-if="showHintStart"
         :hint-text="'按一下，成為魔法師吧！'"
         :change-color="'bg-purple text-white'"
         class="z-50 cursor-pointer"
         @click="clickEvent"
-      >
-      </HintBar>
+      />
       <div
         v-if="myTurn && !gameStore.spellFailed && !gameOver"  
         class="bg-grey50 top-0 left-0 w-full h-full backgroundBlur absolute"
       >
-        <SpellMagicBoard></SpellMagicBoard>
+        <SpellMagicBoard />
       </div>
       <div
         v-if="gameOver"
         class="bg-grey50 z-50 top-1/4 left-0 w-full backgroundBlur absolute flex justify-center items-center"
       >
-        <FinalScoreBoard @exit="handleExit"></FinalScoreBoard>
+        <FinalScoreBoard @exit="handleExit" />
       </div>
     </div>
     <!-- <div>

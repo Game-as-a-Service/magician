@@ -21,6 +21,6 @@ const usedMagic = computed(() => {
       :key="number"
       :magic-number="number"
       :used="usedMagic[number - 1]"
-    ></LadderStep>
+    />
   </div>
 </template>
