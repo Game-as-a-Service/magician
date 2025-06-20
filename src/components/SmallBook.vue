@@ -123,7 +123,7 @@ const magicCircleClass = computed(() => showBook.value ? 'magic-circle' : 'hidde
 
   75% {
     filter: blur(1px);
-    opacity: 0.9;
+    opacity: .9;
     transform: translateX(197%) translateY(330%) rotate(10deg) scale(4);
   }
 
